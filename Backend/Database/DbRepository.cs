@@ -1,7 +1,7 @@
 ﻿using Project_ZLAGODA.Backend.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Project_ZLAGODA.Backend.Database
 {
     internal static class DbRepository
     {
-        private static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ZlagodaDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private static string connectionString = "Data Source=C:\\uni\\2 kyrs\\AIC\\Project_ZLAGODA\\MainDatabase.db;Version=3;";
 
         public static void AddSampleProducts()
         {
@@ -31,20 +31,18 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<ProductModel> products = new List<ProductModel>();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM Products", connection);
-                SqlDataReader reader = command.ExecuteReader();
-
+                SQLiteCommand command = new SQLiteCommand("SELECT * FROM Product", connection);
+                SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ProductModel product = new ProductModel();
-                    product.Id = (int)reader["Id"];
-                    product.CategoryNumber = (int)reader["CategoryNumber"];
-                    product.ProductName = (string)reader["ProductName"];
-                    product.ProductCharacteristics = (string)reader["ProductCharacteristics"];
-                    products.Add(product);
+                    int id = int.Parse(reader["id_product"].ToString());
+                    int categoryNumber = int.Parse(reader["category_number"].ToString());
+                    string productName = reader["product_name"].ToString();
+                    string productCharacteristics = reader["characteristics"].ToString();
+                    products.Add(new ProductModel(id, categoryNumber, productName, productCharacteristics));
                 }
             }
 
@@ -53,10 +51,10 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool AddProduct(ProductModel product)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("INSERT INTO Products (Id, CategoryNumber, ProductName, ProductCharacteristics) VALUES (@Id, @CategoryNumber, @ProductName, @ProductCharacteristics)", connection);
+                SQLiteCommand command = new SQLiteCommand("INSERT INTO Product (id_product, category_number, product_name, characteristics) VALUES (@Id, @CategoryNumber, @ProductName, @ProductCharacteristics)", connection);
                 command.Parameters.AddWithValue("@Id", product.Id);
                 command.Parameters.AddWithValue("@CategoryNumber", product.CategoryNumber);
                 command.Parameters.AddWithValue("@ProductName", product.ProductName);
@@ -76,10 +74,10 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool UpdateProduct(ProductModel product)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("UPDATE Products SET CategoryNumber = @CategoryNumber, ProductName = @ProductName, ProductCharacteristics = @ProductCharacteristics WHERE Id = @Id", connection);
+                SQLiteCommand command = new SQLiteCommand("UPDATE Product SET category_number = @CategoryNumber, product_name = @ProductName, characteristics = @ProductCharacteristics WHERE id_product = @Id", connection);
                 command.Parameters.AddWithValue("@Id", product.Id);
                 command.Parameters.AddWithValue("@CategoryNumber", product.CategoryNumber);
                 command.Parameters.AddWithValue("@ProductName", product.ProductName);
@@ -99,10 +97,10 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteProduct(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("DELETE FROM Products WHERE Id = @Id", connection);
+                SQLiteCommand command = new SQLiteCommand("DELETE FROM Product WHERE id_product = @Id", connection);
                 command.Parameters.AddWithValue("@Id", id);
                 int rowsAffected = command.ExecuteNonQuery();
 
