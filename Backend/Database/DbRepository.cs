@@ -10,7 +10,7 @@ namespace Project_ZLAGODA.Backend.Database
 {
     internal static class DbRepository
     {
-        private static string connectionString = "Data Source=C:\\uni\\2 kyrs\\AIC\\Project_ZLAGODA\\MainDatabase.db;Version=3;";
+        private static string connectionString = "Data Source=../../../MainDatabase.db;Version=3;";
 
         public static void AddSampleProducts()
         {
@@ -26,7 +26,7 @@ namespace Project_ZLAGODA.Backend.Database
                 AddProduct(new ProductModel(id, id, "Product " + id, "Product Description " + id));
             }
         }
-        
+
         public static List<ProductModel> GetProducts()
         {
             List<ProductModel> products = new List<ProductModel>();
