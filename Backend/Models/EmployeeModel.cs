@@ -54,13 +54,6 @@ namespace Project_ZLAGODA.Backend.Models
         public EmployeeModel()
         {
         }
-        
-
-        internal bool CheckPassword(string password,byte[] passwordHash, byte[] passwordSalt)
-        {
-            return VerifyPasswordHash(password, passwordHash, passwordSalt);
-        }
-
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

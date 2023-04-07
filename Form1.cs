@@ -14,11 +14,12 @@ namespace Project_ZLAGODA
         {
             List<ProductModel> products = DbRepository.GetProducts();
             ProductsTextBox.Text = "";
-
+            //DbRepository.GetEmployee("kovalenko_mariia", "12345");
             foreach (ProductModel product in products)
             {
                 ProductsTextBox.Text += product.ToString() + Environment.NewLine;
             }
+            
         }
 
         private void AddSamplesBtn_Click(object sender, EventArgs e)
@@ -63,7 +64,38 @@ namespace Project_ZLAGODA
         private void DeleteProductsBtn_Click(object sender, EventArgs e)
         {
             DbRepository.DeleteProduct(int.Parse(idTextBox.Text));
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string login = textBox1.Text;
+            string password = textBox2.Text;
+
+            EmployeeModel employee = DbRepository.GetEmployee(login, password);
+            if (employee != null)
+            {
+                if (employee.Role == "Manager")
+                {
+                    MessageBox.Show("Manager");
+                }
+                else if (employee.Role == "Cashier")
+                {
+                    MessageBox.Show("Cashier");
+                }               
+            }
+            else
+            {
+                MessageBox.Show("Wrong login or password");
+            }
+        }
+
+        private void BtnGetProductsSorted_Click(object sender, EventArgs e)
+        {
+            ProductsTextBox.Text = "";
+            foreach(ProductModel product in DbRepository.GetProductsSorted())
+            {
+                ProductsTextBox.Text += product.ToString() + Environment.NewLine;
+            }
         }
     }
 }

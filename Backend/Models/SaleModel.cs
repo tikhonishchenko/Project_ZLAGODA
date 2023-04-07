@@ -9,20 +9,16 @@ namespace Project_ZLAGODA.Backend.Models
     internal class SaleModel
     {
         public string UPC { get; set; }
-        public string EmployeeId { get; set; }
-        public string CardNumber { get; set; }
-        public DateTime Date { get; set; }
-        public decimal Total { get; set; }
-        public decimal VAT { get; set; }
+        public string CheckNumber { get; set; }
+        public int ProductNumber { get; set; }
+        public decimal Price { get; set; }
 
-        public SaleModel(string uPC, string employeeId, string cardNumber, DateTime date, decimal total, decimal vAT)
+        public SaleModel(string uPC, string checkNumber, int productNumber, decimal price)
         {
             UPC = uPC;
-            EmployeeId = employeeId;
-            CardNumber = cardNumber;
-            Date = date;
-            Total = total;
-            VAT = vAT;
+            CheckNumber = checkNumber;
+            ProductNumber = productNumber;
+            Price = price;
         }
 
         public SaleModel()
@@ -31,8 +27,7 @@ namespace Project_ZLAGODA.Backend.Models
 
         public override string ToString()
         {
-            return $"{UPC} {EmployeeId} {CardNumber} {Date} {Total} {VAT}";
+            return $"{UPC} {CheckNumber} {ProductNumber} {Price}";
         }
-
     }
 }

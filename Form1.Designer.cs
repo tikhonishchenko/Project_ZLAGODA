@@ -42,6 +42,10 @@
             this.DeleteProductsBtn = new System.Windows.Forms.Button();
             this.GetProductsBtn = new System.Windows.Forms.Button();
             this.AddSamplesBtn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.BtnGetProductsSorted = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProductsTextBox
@@ -151,7 +155,7 @@
             // 
             this.GetProductsBtn.Location = new System.Drawing.Point(1253, 883);
             this.GetProductsBtn.Name = "GetProductsBtn";
-            this.GetProductsBtn.Size = new System.Drawing.Size(644, 72);
+            this.GetProductsBtn.Size = new System.Drawing.Size(335, 72);
             this.GetProductsBtn.TabIndex = 12;
             this.GetProductsBtn.Text = "get products";
             this.GetProductsBtn.UseVisualStyleBackColor = true;
@@ -167,11 +171,49 @@
             this.AddSamplesBtn.UseVisualStyleBackColor = true;
             this.AddSamplesBtn.Click += new System.EventHandler(this.AddSamplesBtn_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(10, 592);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(314, 46);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Add";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(10, 511);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(314, 39);
+            this.textBox1.TabIndex = 15;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(10, 556);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(314, 39);
+            this.textBox2.TabIndex = 16;
+            // 
+            // BtnGetProductsSorted
+            // 
+            this.BtnGetProductsSorted.Location = new System.Drawing.Point(1594, 883);
+            this.BtnGetProductsSorted.Name = "BtnGetProductsSorted";
+            this.BtnGetProductsSorted.Size = new System.Drawing.Size(303, 72);
+            this.BtnGetProductsSorted.TabIndex = 17;
+            this.BtnGetProductsSorted.Text = "get products sorted";
+            this.BtnGetProductsSorted.UseVisualStyleBackColor = true;
+            this.BtnGetProductsSorted.Click += new System.EventHandler(this.BtnGetProductsSorted_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1909, 967);
+            this.Controls.Add(this.BtnGetProductsSorted);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.AddSamplesBtn);
             this.Controls.Add(this.GetProductsBtn);
             this.Controls.Add(this.DeleteProductsBtn);
@@ -209,5 +251,9 @@
         private Button DeleteProductsBtn;
         private Button GetProductsBtn;
         private Button AddSamplesBtn;
+        private Button button1;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private Button BtnGetProductsSorted;
     }
 }
