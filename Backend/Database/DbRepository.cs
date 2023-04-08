@@ -749,9 +749,9 @@ namespace Project_ZLAGODA.Backend.Database
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
                     int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
-                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
+                    DateTime expiryDate = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, expiryDate));
                 }
             }
 
