@@ -1,4 +1,5 @@
 ﻿using Project_ZLAGODA.Backend.Models;
+using Project_ZLAGODA.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -141,7 +142,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     var salt = (byte[])reader["password_salt"];
                     var passwordHash = (byte[])reader["password_hash"];
-                    var computedHash = ComputePasswordHash(password, salt);
+                    var computedHash = ViewModel.ComputePasswordHash(password, salt);
                     if (computedHash.SequenceEqual(passwordHash))
                     {
                         return new EmployeeModel
@@ -235,13 +236,6 @@ namespace Project_ZLAGODA.Backend.Database
                 }
                 return null;
 
-            }
-        }
-        private static byte[] ComputePasswordHash(string password, byte[] salt)
-        {
-            using (var hmac = new HMACSHA512(salt))
-            {
-                return hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
         public static void AddEmployee(EmployeeModel employee)
