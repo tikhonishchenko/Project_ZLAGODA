@@ -547,7 +547,7 @@ namespace Project_ZLAGODA.Backend.Database
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new SQLiteCommand("SELECT * FROM StoreProduct", connection);
+                SQLiteCommand command = new SQLiteCommand("SELECT * FROM Store_Product", connection);
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
