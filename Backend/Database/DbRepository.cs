@@ -551,7 +551,7 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
@@ -736,6 +736,7 @@ namespace Project_ZLAGODA.Backend.Database
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime dateTime = DateTime.Now;
 
                     storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
                 }
@@ -772,8 +773,8 @@ namespace Project_ZLAGODA.Backend.Database
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new SQLiteCommand("UPDATE Store_Product SET UPC_prom = @UPC_prom, selling_price = @SellingPrice, promotional_product = @PromotionalProduct WHERE CheckNumber = @CheckNumber", connection);
-                command.Parameters.AddWithValue("@CheckNumber", storeProduct.UPC);
+                SQLiteCommand command = new SQLiteCommand("UPDATE Store_Product SET UPC_prom = @UPC_prom, selling_price = @SellingPrice, promotional_product = @PromotionalProduct WHERE UPC = @UPC", connection);
+                command.Parameters.AddWithValue("@UPC", storeProduct.UPC);
                 command.Parameters.AddWithValue("@UPC_prom", storeProduct.UPC_Prom);
                 command.Parameters.AddWithValue("@SellingPrice", storeProduct.Price);
                 command.Parameters.AddWithValue("@PromotionalProduct", storeProduct.IsPromotion);
