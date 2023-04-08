@@ -555,9 +555,11 @@ namespace Project_ZLAGODA.Backend.Database
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price,quantity, promotional_product,date));
                 }
             }
 
@@ -578,13 +580,15 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -605,13 +609,15 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -632,13 +638,15 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -659,13 +667,15 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -686,13 +696,15 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -735,10 +747,11 @@ namespace Project_ZLAGODA.Backend.Database
                     string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = Int32.Parse(reader["id_product"].ToString());
                     int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    int quantity = Int32.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
-                    DateTime dateTime = DateTime.Now;
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
