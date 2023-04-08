@@ -13,6 +13,7 @@ namespace Project_ZLAGODA.Backend.Models
         public int ProductId { get; set; }
         public decimal Price { get; set; }
         public bool IsPromotion { get; set; }
+        public DateTime ExpiryDate { get; set; }
 
         public StoreProductModel(string uPC, string uPC_Prom, int productId, decimal price, bool isPromotion)
         {

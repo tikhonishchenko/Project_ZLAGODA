@@ -12,6 +12,7 @@ namespace Project_ZLAGODA
 
         private void GetProductsBtn_Click(object sender, EventArgs e)
         {
+            /*
             List<ProductModel> products = DbRepository.GetProducts();
             ProductsTextBox.Text = "";
             //DbRepository.GetEmployee("kovalenko_mariia", "12345");
@@ -19,7 +20,13 @@ namespace Project_ZLAGODA
             {
                 ProductsTextBox.Text += product.ToString() + Environment.NewLine;
             }
-            
+            */
+            List<StoreProductModel> storeProducts = DbRepository.GetStoreProductsToDate(new DateTime(2023,4,20));
+            ProductsTextBox.Text = "";
+            foreach (StoreProductModel storeProduct in storeProducts)
+            {
+                ProductsTextBox.Text += storeProduct.ToString() + Environment.NewLine;
+            }
         }
 
         private void AddSamplesBtn_Click(object sender, EventArgs e)

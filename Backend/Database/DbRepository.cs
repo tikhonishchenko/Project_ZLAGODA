@@ -719,7 +719,30 @@ namespace Project_ZLAGODA.Backend.Database
 
             return products;
         }
+        public static List<StoreProductModel> GetStoreProductsToDate(DateTime date)
+        {
+            List<StoreProductModel> storeProducts = new List<StoreProductModel>();
 
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand("SELECT * FROM Store_Product WHERE expiry_date < @date", connection);
+                command.Parameters.AddWithValue("@date", date);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string UPC = reader["UPC"].ToString();
+                    string UPC_prom = reader["UPC_prom"].ToString();
+                    int id_product = Int32.Parse(reader["id_product"].ToString());
+                    int selling_price = Int32.Parse(reader["selling_price"].ToString());
+                    bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+
+                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, promotional_product));
+                }
+            }
+
+            return storeProducts;
+        }
         public static bool AddStoreProduct(StoreProductModel storeProduct)
         {
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
