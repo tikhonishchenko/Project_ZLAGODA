@@ -16,6 +16,7 @@ namespace Project_ZLAGODA
     public partial class Form3 : Form
     {
         string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)" };
+        SearchForm searchForm = null;
         public Form3()
         {
             InitializeComponent();
@@ -79,6 +80,7 @@ namespace Project_ZLAGODA
                 dataTable.Rows.Add(new Object[] { product.Id, product.CategoryNumber, product.ProductName, product.ProductCharacteristics });
             }
             dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         private void ShowStoreProductsByQuantity()
@@ -150,6 +152,20 @@ namespace Project_ZLAGODA
                     DbRepository.DeleteProduct(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
                     ShowProductsByName();
                 }
+            }
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SearchBtn_Click(object sender, EventArgs e)
+        {
+            if (searchForm == null || searchForm.IsDisposed)
+            {
+                searchForm = new SearchForm();
+                searchForm.Show();
             }
         }
     }

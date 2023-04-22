@@ -15,6 +15,7 @@ namespace Project_ZLAGODA
         public AuthorizationForm()
         {
             InitializeComponent();
+            flowLayoutPanel1.Location = new Point(this.ClientSize.Width / 2 - flowLayoutPanel1.Size.Width / 2, this.ClientSize.Height / 2 - flowLayoutPanel1.Size.Height / 2);
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -32,6 +33,11 @@ namespace Project_ZLAGODA
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void UsernameLabel_Click(object sender, EventArgs e)
         {
 
         }

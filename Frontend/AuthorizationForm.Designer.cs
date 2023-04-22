@@ -45,7 +45,7 @@
             LoginBtn.Name = "LoginBtn";
             LoginBtn.Size = new Size(164, 52);
             LoginBtn.TabIndex = 0;
-            LoginBtn.Text = "Login";
+            LoginBtn.Text = "Log in";
             LoginBtn.UseVisualStyleBackColor = true;
             LoginBtn.Click += LoginBtn_Click;
             // 
@@ -59,6 +59,7 @@
             UsernameLabel.Size = new Size(99, 28);
             UsernameLabel.TabIndex = 1;
             UsernameLabel.Text = "Username";
+            UsernameLabel.Click += UsernameLabel_Click;
             // 
             // PasswordLabel
             // 
@@ -89,7 +90,7 @@
             PasswordTextbox.MaxLength = 16;
             PasswordTextbox.Name = "PasswordTextbox";
             PasswordTextbox.PasswordChar = '*';
-            PasswordTextbox.Size = new Size(186, 34);
+            PasswordTextbox.Size = new Size(185, 34);
             PasswordTextbox.TabIndex = 4;
             // 
             // flowLayoutPanel1
@@ -117,7 +118,7 @@
             Controls.Add(flowLayoutPanel1);
             Name = "AuthorizationForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form2";
+            Text = "Authorization";
             Load += Form2_Load;
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
