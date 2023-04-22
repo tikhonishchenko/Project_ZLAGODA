@@ -123,6 +123,7 @@
             AddEditBtn.TabIndex = 7;
             AddEditBtn.Text = "Add/Edit";
             AddEditBtn.UseVisualStyleBackColor = true;
+            AddEditBtn.Click += AddEditBtn_Click;
             // 
             // AddEditProduct
             // 
@@ -136,6 +137,11 @@
             flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+        }
+
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

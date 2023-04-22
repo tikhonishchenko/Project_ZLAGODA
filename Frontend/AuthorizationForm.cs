@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Project_ZLAGODA.Backend.Database;
+using Project_ZLAGODA.Backend.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Project_ZLAGODA
 {
@@ -26,10 +29,20 @@ namespace Project_ZLAGODA
         private void LoginBtn_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Unknown username or password!", "Error");
-            this.Hide();
-            Form1 f = new Form1();
-            f.ShowDialog();
-            this.Close();
+            EmployeeModel model = DbRepository.GetEmployee(UsernameTextbox.Text, PasswordTextbox.Text);//"kovalchuk_olena", "12345"
+            if (model == null)
+            {
+                MessageBox.Show("Unknown username or password!", "Error");
+                return;
+            }
+            if (model.Role == "Manager")
+            {
+                this.Hide();
+                ManagerMainForm form = new ManagerMainForm();
+                form.managerId = model.Id;
+                form.ShowDialog();
+                this.Close();
+            }
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)

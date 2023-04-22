@@ -44,7 +44,7 @@
             flowLayoutPanel1.Controls.Add(NameTextBox);
             flowLayoutPanel1.Controls.Add(AddEditBtn);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(58, 171);
+            flowLayoutPanel1.Location = new Point(58, 31);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(151, 88);
             flowLayoutPanel1.TabIndex = 7;
@@ -76,12 +76,13 @@
             AddEditBtn.TabIndex = 7;
             AddEditBtn.Text = "Add/Edit";
             AddEditBtn.UseVisualStyleBackColor = true;
+            AddEditBtn.Click += AddEditBtn_Click;
             // 
             // AddEditCategory
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(265, 450);
+            ClientSize = new Size(265, 170);
             Controls.Add(flowLayoutPanel1);
             Name = "AddEditCategory";
             Text = "AddEditCategory";

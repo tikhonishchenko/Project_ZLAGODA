@@ -1,6 +1,6 @@
 ﻿namespace Project_ZLAGODA
 {
-    partial class Form3
+    partial class ManagerMainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -65,7 +65,7 @@
             TableComboBox.FormattingEnabled = true;
             TableComboBox.Location = new Point(0, 0);
             TableComboBox.Name = "TableComboBox";
-            TableComboBox.Size = new Size(403, 28);
+            TableComboBox.Size = new Size(385, 28);
             TableComboBox.TabIndex = 0;
             // 
             // dataGridView1
@@ -119,7 +119,7 @@
             ShowBtn.Dock = DockStyle.Fill;
             ShowBtn.Location = new Point(0, 0);
             ShowBtn.Name = "ShowBtn";
-            ShowBtn.Size = new Size(167, 28);
+            ShowBtn.Size = new Size(185, 28);
             ShowBtn.TabIndex = 5;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(ShowBtn);
             splitContainer1.Size = new Size(580, 28);
-            splitContainer1.SplitterDistance = 403;
+            splitContainer1.SplitterDistance = 385;
             splitContainer1.SplitterWidth = 10;
             splitContainer1.TabIndex = 6;
             // 
@@ -178,6 +178,7 @@
             AboutMeBtn.TabIndex = 6;
             AboutMeBtn.Text = "About me";
             AboutMeBtn.UseVisualStyleBackColor = true;
+            AboutMeBtn.Click += AboutMeBtn_Click;
             // 
             // PrintBtn
             // 
@@ -196,6 +197,7 @@
             ExitBtn.TabIndex = 5;
             ExitBtn.Text = "Exit";
             ExitBtn.UseVisualStyleBackColor = true;
+            ExitBtn.Click += ExitBtn_Click;
             // 
             // splitContainer2
             // 
@@ -236,14 +238,14 @@
             splitContainer3.SplitterWidth = 10;
             splitContainer3.TabIndex = 9;
             // 
-            // Form3
+            // ManagerMainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(733, 490);
             Controls.Add(splitContainer3);
-            Name = "Form3";
-            Text = "Form3";
+            Name = "ManagerMainForm";
+            Text = "ZLAGODA";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
