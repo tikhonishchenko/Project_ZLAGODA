@@ -14,8 +14,7 @@ namespace Project_ZLAGODA
 
         private void GetProductsBtn_Click(object sender, EventArgs e)
         {
-            /*
-            List<ProductModel> products = DbRepository.GetProducts();
+            /*List<ProductModel> products = DbRepository.GetProducts();
             ProductsTextBox.Text = "";
             //DbRepository.GetEmployee("kovalenko_mariia", "12345");
             foreach (ProductModel product in products)
@@ -23,12 +22,14 @@ namespace Project_ZLAGODA
                 ProductsTextBox.Text += product.ToString() + Environment.NewLine;
             }
             */
+            ViewModels.ViewModel.ResetPromotion();
             List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
             ProductsTextBox.Text = "";
             foreach (StoreProductModel storeProduct in storeProducts)
             {
                 ProductsTextBox.Text += storeProduct.ToString() + Environment.NewLine;
             }
+            
         }
 
         private void AddSamplesBtn_Click(object sender, EventArgs e)
@@ -101,10 +102,12 @@ namespace Project_ZLAGODA
 
         private void BtnGetProductsSorted_Click(object sender, EventArgs e)
         {
+            ViewModels.ViewModel.UpdateProducts();
+            List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
             ProductsTextBox.Text = "";
-            foreach (ProductModel product in DbRepository.GetProductsSorted())
+            foreach (StoreProductModel storeProduct in storeProducts)
             {
-                ProductsTextBox.Text += product.ToString() + Environment.NewLine;
+                ProductsTextBox.Text += storeProduct.ToString() + Environment.NewLine;
             }
         }
 

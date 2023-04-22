@@ -30,6 +30,33 @@ namespace Project_ZLAGODA.ViewModels
             }
         }
 
+        public static void UpdateProducts()
+        {
+            var date = DateTime.Now.AddDays(3.0);
+            var products = DbRepository.GetStoreProductsToDate(date);
+            foreach(var product in products)
+            {
+                if (product.IsPromotion || product.Quantity < 5)
+                {
+                    continue;
+                }
+                product.IsPromotion = true;
+                product.Price *= 0.8m;
+                DbRepository.UpdateStoreProduct(product);
+            }
+        }
+
+        public static void ResetPromotion()
+        {
+            var date = DateTime.Now.AddDays(3.0);
+            var products = DbRepository.GetStoreProductsToDate(date);
+            foreach (var product in products)
+            {
+                product.IsPromotion = false;
+                DbRepository.UpdateStoreProduct(product);
+            }
+        }
+
         public static void TestRepository()
         {
             //test every method in dbrepository
