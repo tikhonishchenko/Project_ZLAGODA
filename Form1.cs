@@ -1,5 +1,7 @@
+using Microsoft.VisualBasic.Logging;
 using Project_ZLAGODA.Backend.Database;
 using Project_ZLAGODA.Backend.Models;
+using Project_ZLAGODA.ViewModels;
 
 namespace Project_ZLAGODA
 {
@@ -21,7 +23,7 @@ namespace Project_ZLAGODA
                 ProductsTextBox.Text += product.ToString() + Environment.NewLine;
             }
             */
-            List<StoreProductModel> storeProducts = DbRepository.GetStoreProductsToDate(new DateTime(2023,4,20));
+            List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
             ProductsTextBox.Text = "";
             foreach (StoreProductModel storeProduct in storeProducts)
             {
@@ -88,7 +90,8 @@ namespace Project_ZLAGODA
                 else if (employee.Role == "Cashier")
                 {
                     MessageBox.Show("Cashier");
-                }               
+                }
+                ViewModel.currentEmployee = employee;
             }
             else
             {
@@ -99,9 +102,62 @@ namespace Project_ZLAGODA
         private void BtnGetProductsSorted_Click(object sender, EventArgs e)
         {
             ProductsTextBox.Text = "";
-            foreach(ProductModel product in DbRepository.GetProductsSorted())
+            foreach (ProductModel product in DbRepository.GetProductsSorted())
             {
                 ProductsTextBox.Text += product.ToString() + Environment.NewLine;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ViewModel.TestRepository();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+
+        {
+            string UPC = textBox6.Text;
+            int quantity = int.Parse(textBox4.Text);
+            if (ViewModel.SaleIsLegal(UPC, quantity))
+            {
+                ViewModel.AddItem(new SaleModel
+                {
+                    UPC = UPC,
+                    CheckNumber = 0,
+                    ProductNumber = DbRepository.GetStoreProductProductId(UPC),
+                    Quantity = quantity,
+                    Price = DbRepository.GetStoreProductPrice(UPC)
+                });
+            }
+            else
+            {
+                MessageBox.Show("Not enough products in store");
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ViewModel.GenerateCheck();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            EmployeeModel employee = DbRepository.GetEmployee("kovalchuk_olena", "12345");
+            if (employee != null)
+            {
+                if (employee.Role == "Manager")
+                {
+                    MessageBox.Show("Manager");
+                }
+                else if (employee.Role == "Cashier")
+                {
+                    MessageBox.Show("Cashier");
+                }
+                ViewModel.currentEmployee = employee;
+            }
+            else
+            {
+                MessageBox.Show("Wrong login or password");
             }
         }
     }

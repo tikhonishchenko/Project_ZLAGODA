@@ -9,15 +9,17 @@ namespace Project_ZLAGODA.Backend.Models
     internal class SaleModel
     {
         public string UPC { get; set; }
-        public string CheckNumber { get; set; }
+        public int CheckNumber { get; set; }
         public int ProductNumber { get; set; }
+        public int Quantity { get; set; }
         public decimal Price { get; set; }
 
-        public SaleModel(string uPC, string checkNumber, int productNumber, decimal price)
+        public SaleModel(string uPC, int checkNumber, int productNumber, int quantity, decimal price)
         {
             UPC = uPC;
             CheckNumber = checkNumber;
             ProductNumber = productNumber;
+            Quantity = quantity;
             Price = price;
         }
 
@@ -27,7 +29,7 @@ namespace Project_ZLAGODA.Backend.Models
 
         public override string ToString()
         {
-            return $"{UPC} {CheckNumber} {ProductNumber} {Price}";
+            return $"{UPC} {CheckNumber} {Quantity} {Price}";
         }
     }
 }
