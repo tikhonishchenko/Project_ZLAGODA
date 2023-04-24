@@ -374,6 +374,50 @@ namespace Project_ZLAGODA.Backend.Database
 
             return rowsAffected > 0;
         }
+
+        //get sorted products by category
+        public static List<ProductModel> GetProductsByCategory(string categoryName)
+        {
+            List<ProductModel> products = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Product WHERE category_number = (SELECT category_number FROM Category WHERE category_name = @categoryName)", connection);
+                _ = command.Parameters.AddWithValue("@categoryName", categoryName);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = int.Parse(reader["id_product"].ToString());
+                    int categoryNumber = int.Parse(reader["category_number"].ToString());
+                    string productName = reader["product_name"].ToString();
+                    string productCharacteristics = reader["characteristics"].ToString();
+                    products.Add(new ProductModel(id, categoryNumber, productName, productCharacteristics));
+                }
+            }
+            return products;
+        }
+
+        //get products by name in lowercase and if it contains search string
+        public static List<ProductModel> GetProductsByName(string productName)
+        {
+            List<ProductModel> products = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Product WHERE lower(product_name) LIKE @productName", connection);
+                _ = command.Parameters.AddWithValue("@productName", "%" + productName.ToLower() + "%");
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = int.Parse(reader["id_product"].ToString());
+                    int categoryNumber = int.Parse(reader["category_number"].ToString());
+                    string productName = reader["product_name"].ToString();
+                    string productCharacteristics = reader["characteristics"].ToString();
+                    products.Add(new ProductModel(id, categoryNumber, productName, productCharacteristics));
+                }
+            }
+            return products;
+        }
         #endregion
 
         #region Category
@@ -470,14 +514,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -495,13 +538,12 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
-                    storeProduct = new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date);
+                    storeProduct = new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date);
                 }
             }
             return storeProduct;
@@ -590,14 +632,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC,id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -619,14 +660,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -648,14 +688,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC,  id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -677,14 +716,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -706,14 +744,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, date));
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
                 }
             }
 
@@ -732,14 +769,13 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
-                    string UPC_prom = reader["UPC_prom"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
                     int selling_price = int.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime expiryDate = DateTime.Parse(reader["expiry_date"].ToString());
 
-                    storeProducts.Add(new StoreProductModel(UPC, UPC_prom, id_product, selling_price, quantity, promotional_product, expiryDate));
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, expiryDate));
                 }
             }
 
@@ -749,9 +785,8 @@ namespace Project_ZLAGODA.Backend.Database
         {
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Store_Product (UPC, UPC_prom, id_product, selling_price, promotional_product, products_number, expiry_date) VALUES (@UPC, @UPC_prom, @Id, @SellingPrice, @PromotionalProduct, @Quantity, @ExpiryDate)", connection);
+            SQLiteCommand command = new("INSERT INTO Store_Product (UPC,  id_product, selling_price, promotional_product, products_number, expiry_date) VALUES (@UPC,  @Id, @SellingPrice, @PromotionalProduct, @Quantity, @ExpiryDate)", connection);
             _ = command.Parameters.AddWithValue("@UPC", storeProduct.UPC);
-            _ = command.Parameters.AddWithValue("@UPC_prom", storeProduct.UPC_Prom);
             _ = command.Parameters.AddWithValue("@Id", storeProduct.ProductId);
             _ = command.Parameters.AddWithValue("@SellingPrice", storeProduct.Price);
             _ = command.Parameters.AddWithValue("@PromotionalProduct", storeProduct.IsPromotion);
@@ -766,12 +801,12 @@ namespace Project_ZLAGODA.Backend.Database
         {
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Store_Product SET UPC_prom = @UPC_prom, selling_price = @SellingPrice, promotional_product = @PromotionalProduct, products_number = @Quantity, expiry_date = @ExpiryDate WHERE UPC = @UPC", connection);
+            SQLiteCommand command = new("UPDATE Store_Product SET selling_price = @SellingPrice, promotional_product = @PromotionalProduct, products_number = @Quantity, id_product = @productId, expiry_date = @ExpiryDate WHERE UPC = @UPC", connection);
             _ = command.Parameters.AddWithValue("@UPC", storeProduct.UPC);
-            _ = command.Parameters.AddWithValue("@UPC_prom", storeProduct.UPC_Prom);
             _ = command.Parameters.AddWithValue("@SellingPrice", storeProduct.Price);
             _ = command.Parameters.AddWithValue("@PromotionalProduct", storeProduct.IsPromotion);
             _ = command.Parameters.AddWithValue("@Quantity", storeProduct.Quantity);
+            _ = command.Parameters.AddWithValue("@productId", storeProduct.ProductId);
             _ = command.Parameters.AddWithValue("@ExpiryDate", storeProduct.ExpiryDate);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -931,6 +966,32 @@ namespace Project_ZLAGODA.Backend.Database
 
             return rowsAffected > 0;
         }
+        //get customers where surname contains search string
+        public static List<CustomerModel> GetCustomersBySurname(string surnameSearch)
+        {
+            List<CustomerModel> customers = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Customer_Card WHERE cust_surname LIKE @Surname", connection);
+                _ = command.Parameters.AddWithValue("@Surname", "%" + surnameSearch + "%");
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string card_number = reader["card_number"].ToString();
+                    string cust_surname = reader["cust_surname"].ToString();
+                    string cust_name = reader["cust_name"].ToString();
+                    string cust_patronymic = reader["cust_patronymic"].ToString();
+                    string phone_number = reader["phone_number"].ToString();
+                    string city = reader["city"].ToString();
+                    string street = reader["street"].ToString();
+                    string zip_code = reader["zip_code"].ToString();
+                    int percent = int.Parse(reader["percent"].ToString());
+                    customers.Add(new CustomerModel(card_number, cust_name, cust_surname, cust_patronymic, phone_number, street, city, zip_code, percent));
+                }
+            }
+            return customers;
+        }
         #endregion
 
         #region Sale
@@ -1085,9 +1146,159 @@ namespace Project_ZLAGODA.Backend.Database
             return rowsAffected > 0;
         }
 
+        //get all sale checks with sales by employee id and 2 dates
+        public static List<SaleCheckModel> GetSaleChecksByEmployeeIdAndDates(string employeeId, DateTime startDate, DateTime endDate)
+        {
+            List<SaleCheckModel> saleChecks = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
+                _ = command.Parameters.AddWithValue("@StartDate", startDate);
+                _ = command.Parameters.AddWithValue("@EndDate", endDate);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int check_number = int.Parse(reader["check_number"].ToString());
+                    string id_employee = reader["id_employee"].ToString();
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(check_number);
+                    saleChecks.Add(new SaleCheckModel(check_number, id_employee, card_number, print_date, sum_total, vat, sales));
+                }
+            }
+            return saleChecks;
+        }
 
+        //get all sale checks with sales by 2 dates
+        public static List<SaleCheckModel> GetSaleChecksByDates(DateTime startDate, DateTime endDate)
+        {
+            List<SaleCheckModel> saleChecks = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@StartDate", startDate);
+                _ = command.Parameters.AddWithValue("@EndDate", endDate);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int check_number = int.Parse(reader["check_number"].ToString());
+                    string id_employee = reader["id_employee"].ToString();
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(check_number);
+                    saleChecks.Add(new SaleCheckModel(check_number, id_employee, card_number, print_date, sum_total, vat, sales));
+                }
+            }
+            return saleChecks;
+        }
+
+        //get sum of all sales by employee id and 2 dates
+        public static decimal GetSumOfSalesByEmployeeIdAndDates(string employeeId, DateTime startDate, DateTime endDate)
+        {
+            decimal sum = 0;
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
+                _ = command.Parameters.AddWithValue("@StartDate", startDate);
+                _ = command.Parameters.AddWithValue("@EndDate", endDate);
+                SQLiteDataReader reader = command.ExecuteReader();
+                sum = decimal.Parse(reader["sum(sum_total)"].ToString());
+            }
+            return sum;
+        }
+
+        //get sum of all sales by 2 dates
+        public static decimal GetSumOfSalesByDates(DateTime startDate, DateTime endDate)
+        {
+            decimal sum = 0;
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@StartDate", startDate);
+                _ = command.Parameters.AddWithValue("@EndDate", endDate);
+                SQLiteDataReader reader = command.ExecuteReader();
+                sum = decimal.Parse(reader["sum(sum_total)"].ToString());
+            }
+            return sum;
+        }
+
+        //count quantity of all sold products by product name
+        public static int GetQuantityOfSoldProductsByProductName(string productName)
+        {
+            int quantity = 0;
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number WHERE p.product_name = @ProductName", connection);
+                _ = command.Parameters.AddWithValue("@ProductName", productName);
+                SQLiteDataReader reader = command.ExecuteReader();
+                quantity = int.Parse(reader["sum(quantity)"].ToString());
+            }
+            return quantity;
+        }
+
+        //get checks by employee id today
+        public static List<SaleCheckModel> GetSaleChecksByEmployeeIdToday(string employeeId)
+        {
+            List<SaleCheckModel> saleChecks = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
+                _ = command.Parameters.AddWithValue("@StartDate", DateTime.Today);
+                _ = command.Parameters.AddWithValue("@EndDate", DateTime.Today.AddDays(1));
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int check_number = int.Parse(reader["check_number"].ToString());
+                    string id_employee = reader["id_employee"].ToString();
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(check_number);
+                    saleChecks.Add(new SaleCheckModel(check_number, id_employee, card_number, print_date, sum_total, vat, sales));
+                }
+            }
+            return saleChecks;
+        }
+
+        //get check by check number
+        public static SaleCheckModel GetSaleCheckByCheckNumber(int checkNumber)
+        {
+            SaleCheckModel saleCheck = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
+                _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int check_number = int.Parse(reader["check_number"].ToString());
+                    string id_employee = reader["id_employee"].ToString();
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(check_number);
+                    saleCheck = new SaleCheckModel(check_number, id_employee, card_number, print_date, sum_total, vat, sales);
+                }
+            }
+            return saleCheck;
+        }
 
         #endregion
-
     }
 }
