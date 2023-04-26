@@ -36,13 +36,13 @@
             ShowBtn = new Button();
             splitContainer1 = new SplitContainer();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            ShowProductsBtn = new Button();
             SearchBtn = new Button();
             AboutMeBtn = new Button();
             PrintBtn = new Button();
             ExitBtn = new Button();
             splitContainer2 = new SplitContainer();
             splitContainer3 = new SplitContainer();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -66,7 +66,7 @@
             TableComboBox.FormattingEnabled = true;
             TableComboBox.Location = new Point(0, 0);
             TableComboBox.Name = "TableComboBox";
-            TableComboBox.Size = new Size(373, 28);
+            TableComboBox.Size = new Size(367, 28);
             TableComboBox.TabIndex = 0;
             // 
             // dataGridView1
@@ -120,7 +120,7 @@
             ShowBtn.Dock = DockStyle.Fill;
             ShowBtn.Location = new Point(0, 0);
             ShowBtn.Name = "ShowBtn";
-            ShowBtn.Size = new Size(197, 28);
+            ShowBtn.Size = new Size(203, 28);
             ShowBtn.TabIndex = 5;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
@@ -141,7 +141,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(ShowBtn);
             splitContainer1.Size = new Size(580, 28);
-            splitContainer1.SplitterDistance = 373;
+            splitContainer1.SplitterDistance = 367;
             splitContainer1.SplitterWidth = 10;
             splitContainer1.TabIndex = 6;
             // 
@@ -149,7 +149,7 @@
             // 
             flowLayoutPanel1.Controls.Add(AddBtn);
             flowLayoutPanel1.Controls.Add(EditBtn);
-            flowLayoutPanel1.Controls.Add(button1);
+            flowLayoutPanel1.Controls.Add(ShowProductsBtn);
             flowLayoutPanel1.Controls.Add(DeleteBtn);
             flowLayoutPanel1.Controls.Add(SearchBtn);
             flowLayoutPanel1.Controls.Add(AboutMeBtn);
@@ -161,6 +161,16 @@
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(143, 490);
             flowLayoutPanel1.TabIndex = 7;
+            // 
+            // ShowProductsBtn
+            // 
+            ShowProductsBtn.Location = new Point(3, 73);
+            ShowProductsBtn.Name = "ShowProductsBtn";
+            ShowProductsBtn.Size = new Size(137, 29);
+            ShowProductsBtn.TabIndex = 9;
+            ShowProductsBtn.Text = "Show products";
+            ShowProductsBtn.UseVisualStyleBackColor = true;
+            ShowProductsBtn.Click += button1_Click;
             // 
             // SearchBtn
             // 
@@ -240,16 +250,6 @@
             splitContainer3.SplitterWidth = 10;
             splitContainer3.TabIndex = 9;
             // 
-            // button1
-            // 
-            button1.Location = new Point(3, 73);
-            button1.Name = "button1";
-            button1.Size = new Size(137, 29);
-            button1.TabIndex = 9;
-            button1.Text = "Show products";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // ManagerMainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -291,6 +291,6 @@
         private Button AboutMeBtn;
         private Button PrintBtn;
         private Button ExitBtn;
-        private Button button1;
+        private Button ShowProductsBtn;
     }
 }

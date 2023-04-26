@@ -21,5 +21,7 @@ namespace Project_ZLAGODA.Frontend
         public void ShowProducts();
 
         public void ShowStoreProducts();
+
+        public void ShowSaleChecks();
     }
 }

@@ -121,7 +121,6 @@ namespace Project_ZLAGODA
                 StoreProductModel model = new StoreProductModel
                 {
                     UPC = UPCTextBox.Text,
-                    UPC_Prom = null,
                     ProductId = products[ProductComboBox.SelectedIndex].Id,
                     Price = decimal.Parse(PriceTextBox.Text),
                     IsPromotion = TypeComboBox.SelectedIndex == 1 ? true : false,
@@ -138,7 +137,6 @@ namespace Project_ZLAGODA
                 StoreProductModel model = new StoreProductModel
                 {
                     UPC = UPCTextBox.Text,
-                    UPC_Prom = null,
                     ProductId = products[ProductComboBox.SelectedIndex].Id,
                     Price = decimal.Parse(PriceTextBox.Text),
                     IsPromotion = TypeComboBox.SelectedIndex == 1 ? true : false,

@@ -32,6 +32,10 @@ namespace Project_ZLAGODA.Frontend
         SaleCheckByPeriod,
         SumStoreProductByCashierByPeriod,
         SumStoreProductByPeriod,
-        QuantityStoreProductByPeriod
+        QuantityStoreProductByPeriod,
+        ProductsByName,
+        CustomersBySurname,
+        SaleCheckByCashierToday,
+        SaleCheckByCheckNumber
     }
 }

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 
 namespace Project_ZLAGODA.Frontend
@@ -15,6 +16,8 @@ namespace Project_ZLAGODA.Frontend
     public partial class SearchResultForm : Form, ShowForm
     {
         Query query;
+        public string Surname { get; set; }
+        public string ProductName { get; set; }
         public int CashierId { get; set; }
         public int quantity { get; set; }
         public int discount { get; set; }
@@ -31,6 +34,11 @@ namespace Project_ZLAGODA.Frontend
         {
             InitializeComponent();
             this.query = query;
+        }
+
+        public void Show()
+        {
+            base.Show();
             switch (query)
             {
                 case Query.PhoneAddressEmployeeBySurname:
@@ -58,8 +66,10 @@ namespace Project_ZLAGODA.Frontend
                     ShowStoreProducts();
                     break;
                 case Query.SaleCheckByCashierByPeriod:
+                    ShowSaleChecks();
                     break;
                 case Query.SaleCheckByPeriod:
+                    ShowSaleChecks();
                     break;
                 default:
                     break;
@@ -85,7 +95,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("Id"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Phone number"), new DataColumn("Address"), new DataColumn("City") };
             dataTable.Columns.AddRange(columns);
-            List<EmployeeModel> employees = DbRepository.GetEmployeesSortedBySurname();
+            List<EmployeeModel> employees = DbRepository.GetEmployeeDataBySurname(Surname);
             foreach (EmployeeModel employee in employees)
             {
                 dataTable.Rows.Add(new Object[] { employee.Id, employee.Name, employee.Surname, employee.Patronymic, employee.Phone, employee.Street, employee.City });
@@ -111,7 +121,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("Card number"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Phone number"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Discount") };
             dataTable.Columns.AddRange(columns);
-            List<CustomerModel> customers = DbRepository.GetCustomersSorted();
+            List<CustomerModel> customers = DbRepository.GetCustomersWithPercentSortedBySurname(discount);
             foreach (CustomerModel customer in customers)
             {
                 dataTable.Rows.Add(new Object[] { customer.CardNumber, customer.Name, customer.LastName, customer.Patronymic, customer.PhoneNumber, customer.Street, customer.City, customer.ZipCode, customer.Percent });
@@ -139,7 +149,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Category Id"), new DataColumn("Name"), new DataColumn("Characteristics") };
             dataTable.Columns.AddRange(columns);
-            List<ProductModel> products = DbRepository.GetProductsSorted();
+            List<ProductModel> products = DbRepository.GetProductsByCategory(categotyId.ToString());
             foreach (ProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.Id, product.CategoryNumber, product.ProductName, product.ProductCharacteristics });
@@ -178,11 +188,13 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
-            foreach (StoreProductModel product in products)
+            StoreProductModel product = DbRepository.GetStoreProduct(upc);
+            if (product == null)
             {
-                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+                MessageBox.Show("No such product!", "Error");
+                this.Close();
             }
+            dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
@@ -192,7 +204,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            List<StoreProductModel> products = DbRepository.GetStoreProductsDiscountSortedByQuantity();
             foreach (StoreProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
@@ -206,7 +218,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            List<StoreProductModel> products = DbRepository.GetStoreProductsDiscountSortedByName();
             foreach (StoreProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
@@ -220,7 +232,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            List<StoreProductModel> products = DbRepository.GetStoreProductsNotDiscountSortedByQuantity();
             foreach (StoreProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
@@ -234,7 +246,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            List<StoreProductModel> products = DbRepository.GetStoreProductsNotDiscountSortedByName();
             foreach (StoreProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
@@ -242,6 +254,52 @@ namespace Project_ZLAGODA.Frontend
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
+
+        public void ShowSaleChecks()
+        {
+            switch (query)
+            {
+                case Query.SaleCheckByCashierByPeriod:
+                    ShowSaleCheckByCashierByPeriod();
+                    break;
+                case Query.SaleCheckByPeriod:
+                    ShowSaleCheckByPeriod();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ShowSaleCheckByCashierByPeriod()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
+            dataTable.Columns.AddRange(columns);
+            List<SaleCheckModel> checks = DbRepository.GetSaleChecksByEmployeeIdAndDates(CashierId.ToString(), startTime, endTime);
+            foreach (SaleCheckModel check in checks)
+            {
+                EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
+                dataTable.Rows.Add(new Object[] { check.CheckNumber, employee.Surname + " " + employee.Name + " " + employee.Patronymic, check.CardNumber, check.PrintDate.ToString(), check.SumTotal, check.VAT });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
+        private void ShowSaleCheckByPeriod()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
+            dataTable.Columns.AddRange(columns);
+            List<SaleCheckModel> checks = DbRepository.GetSaleChecksByDates(startTime, endTime);
+            foreach (SaleCheckModel check in checks)
+            {
+                EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
+                dataTable.Rows.Add(new Object[] { check.CheckNumber, employee.Surname + " " + employee.Name + " " + employee.Patronymic, check.CardNumber, check.PrintDate.ToString(), check.SumTotal, check.VAT });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
         #endregion
 
 

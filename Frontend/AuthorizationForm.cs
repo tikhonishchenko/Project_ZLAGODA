@@ -38,8 +38,14 @@ namespace Project_ZLAGODA
             if (model.Role == "Manager")
             {
                 this.Hide();
-                ManagerMainForm form = new ManagerMainForm();
-                form.managerId = model.Id;
+                ManagerMainForm form = new ManagerMainForm(model.Id, true);
+                form.ShowDialog();
+                this.Close();
+            }
+            else if (model.Role == "Cashier")
+            {
+                this.Hide();
+                ManagerMainForm form = new ManagerMainForm(model.Id, false);
                 form.ShowDialog();
                 this.Close();
             }

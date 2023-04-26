@@ -16,57 +16,158 @@ namespace Project_ZLAGODA
 {
     public partial class ManagerMainForm : Form, ShowForm
     {
-        string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)", "Чеки" };
+        string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)", "Чеки", "Товари у магазині (за назвою)" };
         SearchForm searchForm = null;
-        public string managerId { get; set; }
+        public string employeeId { get; set; }
+        public bool isManager { get; set; }
         public ManagerMainForm()
         {
             InitializeComponent();
             TableComboBox.Items.AddRange(tables);
-            managerId = "1";
+            employeeId = "1";
+        }
+
+        public ManagerMainForm(string employeeId, bool isManager)
+        {
+            InitializeComponent();
+            //TableComboBox.Items.AddRange(tables);
+            //employeeId = "1";
+            this.employeeId = employeeId;
+            this.isManager = isManager;
+            if (isManager)
+            {
+                string[] table = new string[] { tables[0], tables[1], tables[2], tables[3], tables[4], tables[5], tables[6] };
+                TableComboBox.Items.AddRange(table);
+            }
+            else
+            {
+                string[] table = new string[] { tables[4], tables[7], tables[2], tables[6] };
+                TableComboBox.Items.AddRange(table);
+            }
+            hideAll();
         }
 
         #region Show
 
+        private void showAll()
+        {
+            AddBtn.Show();
+            EditBtn.Show();
+            DeleteBtn.Show();
+            ShowProductsBtn.Show();
+        }
+
+        private void hideAll()
+        {
+            AddBtn.Hide();
+            EditBtn.Hide();
+            DeleteBtn.Hide();
+            ShowProductsBtn.Hide();
+        }
+
         private void ShowBtn_Click(object sender, EventArgs e)
         {
-            if (TableComboBox.Text == tables[0])
+            showAll();
+            if (TableComboBox.Text.Equals(tables[0]))
             {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
                 ShowEmployees();
             }
-            else if (TableComboBox.Text == tables[1])
+            else if (TableComboBox.Text.Equals(tables[1]))
             {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
                 ShowEmployees();
             }
-            else if (TableComboBox.Text == tables[2])
+            else if (TableComboBox.Text.Equals(tables[2]))
             {
+                
+                ShowProductsBtn.Hide();
                 ShowCustomers();
             }
-            else if (TableComboBox.Text == tables[3])
+            else if (TableComboBox.Text.Equals(tables[3]))
             {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
                 ShowCategories();
             }
-            else if (TableComboBox.Text == tables[4])
+            else if (TableComboBox.Text.Equals(tables[4]))
             {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
                 ShowProducts();
             }
-            else if (TableComboBox.Text == tables[5])
+            else if (TableComboBox.Text.Equals(tables[5]))
             {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
                 ShowStoreProducts();
             }
             else if (TableComboBox.Text.Equals(tables[6]))
             {
+                if (isManager)
+                {
+                    EditBtn.Hide();
+                }
+                else
+                {
+                    EditBtn.Hide();
+                    DeleteBtn.Hide();
+                }
                 ShowSaleChecks();
+            }
+            else if (TableComboBox.Text.Equals(tables[7]))
+            {
+                if (isManager)
+                {
+                    ShowProductsBtn.Hide();
+                }
+                else
+                {
+                    hideAll();
+                }
+                ShowStoreProducts();
             }
         }
 
         public void ShowEmployees()
         {
-            if (TableComboBox.Text == tables[0])
+            if (TableComboBox.Text.Equals(tables[0]))
             {
                 ShowEployeesBySurname();
             }
-            else if (TableComboBox.Text == tables[1])
+            else if (TableComboBox.Text.Equals(tables[1]))
             {
                 ShowCashiersBySurname();
             }
@@ -74,7 +175,7 @@ namespace Project_ZLAGODA
 
         public void ShowCustomers()
         {
-            if (TableComboBox.Text == tables[2])
+            if (TableComboBox.Text.Equals(tables[2]))
             {
                 ShowCustomersBySurname();
             }
@@ -82,7 +183,7 @@ namespace Project_ZLAGODA
 
         public void ShowCategories()
         {
-            if (TableComboBox.Text == tables[3])
+            if (TableComboBox.Text.Equals(tables[3]))
             {
                 ShowCategoriesByName();
             }
@@ -90,7 +191,7 @@ namespace Project_ZLAGODA
 
         public void ShowProducts()
         {
-            if (TableComboBox.Text == tables[4])
+            if (TableComboBox.Text.Equals(tables[4]))
             {
                 ShowProductsByName();
             }
@@ -98,9 +199,13 @@ namespace Project_ZLAGODA
 
         public void ShowStoreProducts()
         {
-            if (TableComboBox.Text == tables[5])
+            if (TableComboBox.Text.Equals(tables[5]))
             {
                 ShowStoreProductsByQuantity();
+            }
+            else if (TableComboBox.Text.Equals(tables[7]))
+            {
+                ShowStoreProductsByName();
             }
         }
 
@@ -176,6 +281,20 @@ namespace Project_ZLAGODA
         }
 
         public void ShowStoreProductsByQuantity()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
+            dataTable.Columns.AddRange(columns);
+            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            foreach (StoreProductModel product in products)
+            {
+                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
+        public void ShowStoreProductsByName()
         {
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
@@ -290,7 +409,7 @@ namespace Project_ZLAGODA
         private void AddSaleChecks()
         {
             AddSaleCheckForm addCheck = new AddSaleCheckForm();
-            addCheck.setEmployee(int.Parse(this.managerId));
+            addCheck.setEmployee(int.Parse(this.employeeId));
         }
 
         #endregion
@@ -514,7 +633,7 @@ namespace Project_ZLAGODA
         {
             if (searchForm == null || searchForm.IsDisposed)
             {
-                searchForm = new SearchForm();
+                searchForm = new SearchForm(employeeId, isManager);
                 searchForm.Show();
             }
         }
@@ -529,7 +648,7 @@ namespace Project_ZLAGODA
 
         private void AboutMeBtn_Click(object sender, EventArgs e)
         {
-            EmployeeModel employee = DbRepository.GetEmployeeById(managerId);
+            EmployeeModel employee = DbRepository.GetEmployeeById(employeeId);
             if (employee == null)
             {
                 MessageBox.Show("Unknown user", "Error");

@@ -36,6 +36,8 @@
             DiscountTextBox = new TextBox();
             CategoryLabel = new Label();
             CategoryComboBox = new ComboBox();
+            ProductNameLabel = new Label();
+            ProductNameComboBox = new ComboBox();
             UPCLabel = new Label();
             UPCTextBox = new TextBox();
             CashierLabel = new Label();
@@ -45,6 +47,8 @@
             EndDateLabel = new Label();
             EndDateTimePicker = new DateTimePicker();
             ShowBtn = new Button();
+            CheckNumberLabel = new Label();
+            CheckNumberTextBox = new TextBox();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -60,8 +64,12 @@
             flowLayoutPanel1.Controls.Add(DiscountTextBox);
             flowLayoutPanel1.Controls.Add(CategoryLabel);
             flowLayoutPanel1.Controls.Add(CategoryComboBox);
+            flowLayoutPanel1.Controls.Add(ProductNameLabel);
+            flowLayoutPanel1.Controls.Add(ProductNameComboBox);
             flowLayoutPanel1.Controls.Add(UPCLabel);
             flowLayoutPanel1.Controls.Add(UPCTextBox);
+            flowLayoutPanel1.Controls.Add(CheckNumberLabel);
+            flowLayoutPanel1.Controls.Add(CheckNumberTextBox);
             flowLayoutPanel1.Controls.Add(CashierLabel);
             flowLayoutPanel1.Controls.Add(CashierComboBox);
             flowLayoutPanel1.Controls.Add(StartDateLabel);
@@ -70,9 +78,9 @@
             flowLayoutPanel1.Controls.Add(EndDateTimePicker);
             flowLayoutPanel1.Controls.Add(ShowBtn);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(215, 31);
+            flowLayoutPanel1.Location = new Point(206, 15);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(405, 443);
+            flowLayoutPanel1.Size = new Size(405, 550);
             flowLayoutPanel1.TabIndex = 7;
             flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
             // 
@@ -81,7 +89,6 @@
             QueryComboBox.Anchor = AnchorStyles.None;
             QueryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             QueryComboBox.FormattingEnabled = true;
-            QueryComboBox.Items.AddRange(new object[] { "телефон та адреса працівників за прізвищем", "постійні клієнти із певним відсотком (за прізвищем)", "товарів за категорією (за назвою)", "товар за UPC", "акційні товари (за кількістю)", "акційні товари (за назвою)", "не акційні товари (за кількістю)", "не акційні товари (за назвою)", "чеки за касиром, за період часу", "чеки за період часу", "сума проданих товарів за касиром, за період часу", "сума проданих товарів за період часу", "кількість проданого певного товару за період часу" });
             QueryComboBox.Location = new Point(3, 3);
             QueryComboBox.Name = "QueryComboBox";
             QueryComboBox.Size = new Size(399, 28);
@@ -146,11 +153,31 @@
             CategoryComboBox.Size = new Size(399, 28);
             CategoryComboBox.TabIndex = 9;
             // 
+            // ProductNameLabel
+            // 
+            ProductNameLabel.Anchor = AnchorStyles.None;
+            ProductNameLabel.AutoSize = true;
+            ProductNameLabel.Location = new Point(152, 195);
+            ProductNameLabel.Name = "ProductNameLabel";
+            ProductNameLabel.Size = new Size(101, 20);
+            ProductNameLabel.TabIndex = 10;
+            ProductNameLabel.Text = "Product name";
+            // 
+            // ProductNameComboBox
+            // 
+            ProductNameComboBox.Anchor = AnchorStyles.None;
+            ProductNameComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            ProductNameComboBox.FormattingEnabled = true;
+            ProductNameComboBox.Location = new Point(3, 218);
+            ProductNameComboBox.Name = "ProductNameComboBox";
+            ProductNameComboBox.Size = new Size(399, 28);
+            ProductNameComboBox.TabIndex = 11;
+            // 
             // UPCLabel
             // 
             UPCLabel.Anchor = AnchorStyles.None;
             UPCLabel.AutoSize = true;
-            UPCLabel.Location = new Point(184, 195);
+            UPCLabel.Location = new Point(184, 249);
             UPCLabel.Name = "UPCLabel";
             UPCLabel.Size = new Size(36, 20);
             UPCLabel.TabIndex = 10;
@@ -159,7 +186,7 @@
             // UPCTextBox
             // 
             UPCTextBox.Anchor = AnchorStyles.None;
-            UPCTextBox.Location = new Point(3, 218);
+            UPCTextBox.Location = new Point(3, 272);
             UPCTextBox.Name = "UPCTextBox";
             UPCTextBox.Size = new Size(399, 27);
             UPCTextBox.TabIndex = 11;
@@ -168,7 +195,7 @@
             // 
             CashierLabel.Anchor = AnchorStyles.None;
             CashierLabel.AutoSize = true;
-            CashierLabel.Location = new Point(174, 248);
+            CashierLabel.Location = new Point(174, 355);
             CashierLabel.Name = "CashierLabel";
             CashierLabel.Size = new Size(57, 20);
             CashierLabel.TabIndex = 10;
@@ -179,7 +206,7 @@
             CashierComboBox.Anchor = AnchorStyles.None;
             CashierComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             CashierComboBox.FormattingEnabled = true;
-            CashierComboBox.Location = new Point(3, 271);
+            CashierComboBox.Location = new Point(3, 378);
             CashierComboBox.Name = "CashierComboBox";
             CashierComboBox.Size = new Size(399, 28);
             CashierComboBox.TabIndex = 11;
@@ -188,7 +215,7 @@
             // 
             StartDateLabel.Anchor = AnchorStyles.None;
             StartDateLabel.AutoSize = true;
-            StartDateLabel.Location = new Point(165, 302);
+            StartDateLabel.Location = new Point(165, 409);
             StartDateLabel.Name = "StartDateLabel";
             StartDateLabel.Size = new Size(74, 20);
             StartDateLabel.TabIndex = 21;
@@ -197,7 +224,7 @@
             // StartDateTimePicker
             // 
             StartDateTimePicker.Anchor = AnchorStyles.None;
-            StartDateTimePicker.Location = new Point(3, 325);
+            StartDateTimePicker.Location = new Point(3, 432);
             StartDateTimePicker.Name = "StartDateTimePicker";
             StartDateTimePicker.Size = new Size(399, 27);
             StartDateTimePicker.TabIndex = 22;
@@ -206,7 +233,7 @@
             // 
             EndDateLabel.Anchor = AnchorStyles.None;
             EndDateLabel.AutoSize = true;
-            EndDateLabel.Location = new Point(168, 355);
+            EndDateLabel.Location = new Point(168, 462);
             EndDateLabel.Name = "EndDateLabel";
             EndDateLabel.Size = new Size(68, 20);
             EndDateLabel.TabIndex = 21;
@@ -215,7 +242,7 @@
             // EndDateTimePicker
             // 
             EndDateTimePicker.Anchor = AnchorStyles.None;
-            EndDateTimePicker.Location = new Point(3, 378);
+            EndDateTimePicker.Location = new Point(3, 485);
             EndDateTimePicker.Name = "EndDateTimePicker";
             EndDateTimePicker.Size = new Size(399, 27);
             EndDateTimePicker.TabIndex = 22;
@@ -223,18 +250,37 @@
             // ShowBtn
             // 
             ShowBtn.Anchor = AnchorStyles.None;
-            ShowBtn.Location = new Point(155, 411);
+            ShowBtn.Location = new Point(155, 518);
             ShowBtn.Name = "ShowBtn";
             ShowBtn.Size = new Size(94, 29);
             ShowBtn.TabIndex = 7;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
+            ShowBtn.Click += ShowBtn_Click;
+            // 
+            // CheckNumberLabel
+            // 
+            CheckNumberLabel.Anchor = AnchorStyles.None;
+            CheckNumberLabel.AutoSize = true;
+            CheckNumberLabel.Location = new Point(151, 302);
+            CheckNumberLabel.Name = "CheckNumberLabel";
+            CheckNumberLabel.Size = new Size(103, 20);
+            CheckNumberLabel.TabIndex = 12;
+            CheckNumberLabel.Text = "Check number";
+            // 
+            // CheckNumberTextBox
+            // 
+            CheckNumberTextBox.Anchor = AnchorStyles.None;
+            CheckNumberTextBox.Location = new Point(3, 325);
+            CheckNumberTextBox.Name = "CheckNumberTextBox";
+            CheckNumberTextBox.Size = new Size(399, 27);
+            CheckNumberTextBox.TabIndex = 13;
             // 
             // SearchForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(842, 497);
+            ClientSize = new Size(842, 577);
             Controls.Add(flowLayoutPanel1);
             Name = "SearchForm";
             Text = "SearchForm";
@@ -263,5 +309,9 @@
         private DateTimePicker StartDateTimePicker;
         private Label EndDateLabel;
         private DateTimePicker EndDateTimePicker;
+        private Label ProductNameLabel;
+        private ComboBox ProductNameComboBox;
+        private Label CheckNumberLabel;
+        private TextBox CheckNumberTextBox;
     }
 }
