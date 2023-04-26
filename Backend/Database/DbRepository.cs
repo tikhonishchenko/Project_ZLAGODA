@@ -551,7 +551,27 @@ namespace Project_ZLAGODA.Backend.Database
         #endregion
 
         #region Store Product
-
+        public static List<StoreProductModel> GetStoreProductsSortedByName()
+        {
+            List<StoreProductModel> storeProducts = new();
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT sp.* FROM Store_Product as sp JOIN Product as p on p.id_product = sp.id_product ORDER BY p.product_name", connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string UPC = reader["UPC"].ToString();
+                    int id_product = int.Parse(reader["id_product"].ToString());
+                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    int quantity = int.Parse(reader["products_number"].ToString());
+                    bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
+                }
+            }
+            return storeProducts;
+        }
         public static List<StoreProductModel> GetStoreProducts()
         {
             List<StoreProductModel> storeProducts = new();
@@ -576,6 +596,7 @@ namespace Project_ZLAGODA.Backend.Database
 
             return storeProducts;
         }
+        //get 
         public static StoreProductModel GetStoreProductById(string uPC)
         {
             StoreProductModel storeProduct = new();
@@ -1121,23 +1142,7 @@ namespace Project_ZLAGODA.Backend.Database
 
                 _ = AddSale(sale);
             }
-        }
-
-        private static int GetLastSaleCheckId()
-        {
-            int lastSaleCheckId = 0;
-            using (SqliteConnection connection = new(connectionString))
-            {
-                connection.Open();
-                SqliteCommand command = new("SELECT MAX(check_number) FROM Sales_Check", connection);
-                SqliteDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    lastSaleCheckId = int.Parse(reader["MAX(check_number)"].ToString());
-                }
-            }
-            return lastSaleCheckId;
-        }
+        }     
 
         public static bool AddSale(SaleModel sale)
         {
@@ -1380,7 +1385,7 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number JOIN Sales_Check as sc on sc.check_number = sale_check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT sum(product_number) FROM Sale  as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product JOIN Sales_Check as sc on sc.check_number = s.check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
@@ -1395,6 +1400,31 @@ namespace Project_ZLAGODA.Backend.Database
                 }
             }
             return quantity;
+        }
+
+        //get check by employee id
+        public static List<SaleCheckModel> GetSaleChecksByEmployeeId(string employeeId)
+        {
+            List<SaleCheckModel> saleChecks = new();
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee", connection);
+                _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int check_number = int.Parse(reader["check_number"].ToString());
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(check_number);
+                    saleChecks.Add(new SaleCheckModel(check_number, id_employee, card_number, print_date, sum_total, vat, sales));
+                }
+            }
+            return saleChecks;
         }
 
         //get checks by employee id today
