@@ -297,50 +297,59 @@ namespace Project_ZLAGODA
             if (QueryComboBox.Text.Equals(tables[0]))
             {
                 result = new SearchResultForm(Query.PhoneAddressEmployeeBySurname);
+                result.isManager = isManager;
                 result.Surname = SecondNameComboBox.Text;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[1]))
             {
                 result = new SearchResultForm(Query.CustomersByDiscountSortedSurname);
+                result.isManager = isManager;
                 result.discount = int.Parse(DiscountTextBox.Text);
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[2]))
             {
                 result = new SearchResultForm(Query.ProductByCategorySortedName);
+                result.isManager = isManager;
                 result.categotyId = categories[CategoryComboBox.SelectedIndex].Id;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[3]))
             {
                 result = new SearchResultForm(Query.StoreProductByUPC);
+                result.isManager = isManager;
                 result.upc = UPCTextBox.Text;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[4]))
             {
                 result = new SearchResultForm(Query.PromotionalStoreProductSortedQuantity);
+                result.isManager = isManager;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[5]))
             {
                 result = new SearchResultForm(Query.PromotionalStoreProductSortedName);
+                result.isManager = isManager;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[6]))
             {
                 result = new SearchResultForm(Query.OrdinaryStoreProductSortedQuantity);
+                result.isManager = isManager;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[7]))
             {
                 result = new SearchResultForm(Query.OrdinaryStoreProductSortedName);
+                result.isManager = isManager;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[8]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
+                result.isManager = isManager;
                 result.CashierId = employees[CashierComboBox.SelectedIndex].Id;
                 result.startTime = StartDateTimePicker.Value;
                 result.endTime = EndDateTimePicker.Value;
@@ -348,10 +357,23 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[9]))
             {
-                result = new SearchResultForm(Query.SaleCheckByPeriod);
-                result.startTime = StartDateTimePicker.Value;
-                result.endTime = EndDateTimePicker.Value;
-                result.Show();
+                if (isManager)
+                {
+                    result = new SearchResultForm(Query.SaleCheckByPeriod);
+                    result.isManager = isManager;
+                    result.startTime = StartDateTimePicker.Value;
+                    result.endTime = EndDateTimePicker.Value;
+                    result.Show();
+                }
+                else
+                {
+                    result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
+                    result.isManager = isManager;
+                    result.CashierId = employeeId;
+                    result.startTime = StartDateTimePicker.Value;
+                    result.endTime = EndDateTimePicker.Value;
+                    result.Show();
+                }
             }
             else if (QueryComboBox.Text.Equals(tables[10]))
             {
@@ -373,6 +395,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[13]))
             {
                 result = new SearchResultForm(Query.ProductsByName);
+                result.isManager = isManager;
                 result.ProductName = ProductNameComboBox.Text;
                 result.Show();
                 //DbRepository.GetProductsByName
@@ -380,6 +403,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[14]))
             {
                 result = new SearchResultForm(Query.CustomersBySurname);
+                result.isManager = isManager;
                 result.Surname = SecondNameComboBox.Text;
                 result.Show();
                 //DbRepository.GetCustomersBySurname();
@@ -387,6 +411,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[15]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
+                result.isManager = isManager;
                 result.CashierId = employeeId;
                 result.startTime = StartDateTimePicker.Value;
                 result.endTime = EndDateTimePicker.Value;
@@ -396,6 +421,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[16]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierToday);
+                result.isManager = isManager;
                 result.CashierId = employeeId;
                 result.Show();
             }

@@ -31,6 +31,7 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             EditBtn = new Button();
             DeleteBtn = new Button();
+            ShowProductsBtn = new Button();
             PrintBtn = new Button();
             splitContainer3 = new SplitContainer();
             dataGridView1 = new DataGridView();
@@ -46,6 +47,7 @@
             // 
             flowLayoutPanel1.Controls.Add(EditBtn);
             flowLayoutPanel1.Controls.Add(DeleteBtn);
+            flowLayoutPanel1.Controls.Add(ShowProductsBtn);
             flowLayoutPanel1.Controls.Add(PrintBtn);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
@@ -74,9 +76,19 @@
             DeleteBtn.UseVisualStyleBackColor = true;
             DeleteBtn.Click += DeleteBtn_Click;
             // 
+            // ShowProductsBtn
+            // 
+            ShowProductsBtn.Location = new Point(3, 73);
+            ShowProductsBtn.Name = "ShowProductsBtn";
+            ShowProductsBtn.Size = new Size(137, 29);
+            ShowProductsBtn.TabIndex = 11;
+            ShowProductsBtn.Text = "Show products";
+            ShowProductsBtn.UseVisualStyleBackColor = true;
+            ShowProductsBtn.Click += ShowProductsBtn_Click;
+            // 
             // PrintBtn
             // 
-            PrintBtn.Location = new Point(3, 73);
+            PrintBtn.Location = new Point(3, 108);
             PrintBtn.Name = "PrintBtn";
             PrintBtn.Size = new Size(137, 29);
             PrintBtn.TabIndex = 7;
@@ -143,5 +155,6 @@
         private Button PrintBtn;
         private SplitContainer splitContainer3;
         private DataGridView dataGridView1;
+        private Button ShowProductsBtn;
     }
 }
