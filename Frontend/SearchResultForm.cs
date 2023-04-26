@@ -25,9 +25,12 @@ namespace Project_ZLAGODA.Frontend
         public int categotyId { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
+
+        public bool isManager { get; set; }
         public SearchResultForm()
         {
             InitializeComponent();
+            isManager = true;
         }
 
         public SearchResultForm(Query query)
@@ -39,6 +42,12 @@ namespace Project_ZLAGODA.Frontend
         public void Show()
         {
             base.Show();
+            ShowProductsBtn.Hide();
+            if (!isManager)
+            {
+                EditBtn.Hide();
+                DeleteBtn.Hide();
+            }
             switch (query)
             {
                 case Query.PhoneAddressEmployeeBySurname:
@@ -67,8 +76,20 @@ namespace Project_ZLAGODA.Frontend
                     break;
                 case Query.SaleCheckByCashierByPeriod:
                     ShowSaleChecks();
+                    ShowProductsBtn.Show();
                     break;
                 case Query.SaleCheckByPeriod:
+                    ShowSaleChecks();
+                    ShowProductsBtn.Show();
+                    break;
+                case Query.ProductsByName:
+                    ShowStoreProducts();
+                    break;
+                case Query.CustomersBySurname:
+                    ShowCustomers();
+                    break;
+                case Query.SaleCheckByCashierToday:
+                    ShowProductsBtn.Show();
                     ShowSaleChecks();
                     break;
                 default:
@@ -106,10 +127,15 @@ namespace Project_ZLAGODA.Frontend
 
         public void ShowCustomers()
         {
+            EditBtn.Show();
+            DeleteBtn.Show();
             switch (query)
             {
                 case Query.CustomersByDiscountSortedSurname:
                     ShowCustomersByDiscountSortedSurname();
+                    break;
+                case Query.CustomersBySurname:
+                    ShowCustomersBySurname();
                     break;
                 default:
                     break;
@@ -122,6 +148,20 @@ namespace Project_ZLAGODA.Frontend
             DataColumn[] columns = { new DataColumn("Card number"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Phone number"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Discount") };
             dataTable.Columns.AddRange(columns);
             List<CustomerModel> customers = DbRepository.GetCustomersWithPercentSortedBySurname(discount);
+            foreach (CustomerModel customer in customers)
+            {
+                dataTable.Rows.Add(new Object[] { customer.CardNumber, customer.Name, customer.LastName, customer.Patronymic, customer.PhoneNumber, customer.Street, customer.City, customer.ZipCode, customer.Percent });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
+        public void ShowCustomersBySurname()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Card number"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Phone number"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Discount") };
+            dataTable.Columns.AddRange(columns);
+            List<CustomerModel> customers = DbRepository.GetCustomersBySurname(Surname);
             foreach (CustomerModel customer in customers)
             {
                 dataTable.Rows.Add(new Object[] { customer.CardNumber, customer.Name, customer.LastName, customer.Patronymic, customer.PhoneNumber, customer.Street, customer.City, customer.ZipCode, customer.Percent });
@@ -149,7 +189,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Category Id"), new DataColumn("Name"), new DataColumn("Characteristics") };
             dataTable.Columns.AddRange(columns);
-            List<ProductModel> products = DbRepository.GetProductsByCategory(categotyId.ToString());
+            List<ProductModel> products = DbRepository.GetProductsByCategory(DbRepository.GetCategoryById(categotyId).CategoryName);
             foreach (ProductModel product in products)
             {
                 dataTable.Rows.Add(new Object[] { product.Id, product.CategoryNumber, product.ProductName, product.ProductCharacteristics });
@@ -177,6 +217,9 @@ namespace Project_ZLAGODA.Frontend
                     break;
                 case Query.OrdinaryStoreProductSortedName:
                     ShowOrdinaryStoreProductSortedName();
+                    break;
+                case Query.ProductsByName:
+                    ShowStoreProductsByName();
                     break;
                 default:
                     break;
@@ -255,6 +298,21 @@ namespace Project_ZLAGODA.Frontend
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
+        public void ShowStoreProductsByName()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
+            dataTable.Columns.AddRange(columns);
+            List<StoreProductModel> products = DbRepository.GetStoreProductsByProductName(ProductName);
+            foreach (StoreProductModel product in products)
+            {
+                //ProductModel p = DbRepository.GetProductById(product.ProductId);
+                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
         public void ShowSaleChecks()
         {
             switch (query)
@@ -264,6 +322,9 @@ namespace Project_ZLAGODA.Frontend
                     break;
                 case Query.SaleCheckByPeriod:
                     ShowSaleCheckByPeriod();
+                    break;
+                case Query.SaleCheckByCashierToday:
+                    ShowSaleCheckByCashierToday();
                     break;
                 default:
                     break;
@@ -291,6 +352,21 @@ namespace Project_ZLAGODA.Frontend
             DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
             dataTable.Columns.AddRange(columns);
             List<SaleCheckModel> checks = DbRepository.GetSaleChecksByDates(startTime, endTime);
+            foreach (SaleCheckModel check in checks)
+            {
+                EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
+                dataTable.Rows.Add(new Object[] { check.CheckNumber, employee.Surname + " " + employee.Name + " " + employee.Patronymic, check.CardNumber, check.PrintDate.ToString(), check.SumTotal, check.VAT });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
+        private void ShowSaleCheckByCashierToday()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
+            dataTable.Columns.AddRange(columns);
+            List<SaleCheckModel> checks = DbRepository.GetSaleChecksByEmployeeIdToday(CashierId.ToString());
             foreach (SaleCheckModel check in checks)
             {
                 EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
@@ -512,6 +588,17 @@ namespace Project_ZLAGODA.Frontend
                 DbRepository.DeleteStoreProduct(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
                 ShowStoreProducts();
             }
+        }
+
+        private void ShowProductsBtn_Click(object sender, EventArgs e)
+        {
+            //Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            //DataTable dataTable = dataGridView1.DataSource as DataTable;
+            //if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            //{
+            //    CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleChecks()[dataGridView1.SelectedRows[0].Index]);
+            //    checkInfo.Show();
+            //}
         }
     }
 }
