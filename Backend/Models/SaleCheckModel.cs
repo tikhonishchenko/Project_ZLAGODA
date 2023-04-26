@@ -12,7 +12,7 @@ namespace Project_ZLAGODA.Backend.Models
         [DisplayName("Номер чеку")]
         public int CheckNumber { get; set; }
         [DisplayName("Id працівника")]
-        public string EmployeeId { get; set; }
+        public int EmployeeId { get; set; }
         [DisplayName("Номер картки")]
         public string CardNumber { get; set; }
         [DisplayName("Дата")]
@@ -24,7 +24,7 @@ namespace Project_ZLAGODA.Backend.Models
         [DisplayName("Товари")]
         public List<SaleModel> CheckItems { get; set; }
 
-        public SaleCheckModel(int uPC, string employeeId, string cardNumber, DateTime date, decimal total, decimal vAT, List<SaleModel> checkItems)
+        public SaleCheckModel(int uPC, int employeeId, string cardNumber, DateTime date, decimal total, decimal vAT, List<SaleModel> checkItems)
         {
             CheckNumber = uPC;
             EmployeeId = employeeId;

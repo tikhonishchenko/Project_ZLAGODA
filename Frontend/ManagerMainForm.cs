@@ -18,12 +18,12 @@ namespace Project_ZLAGODA
     {
         string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)" };
         SearchForm searchForm = null;
-        public string managerId { get; set; }
+        public int managerId { get; set; }
         public ManagerMainForm()
         {
             InitializeComponent();
             TableComboBox.Items.AddRange(tables);
-            managerId = "1";
+            managerId = 1;
         }
 
         #region Show
