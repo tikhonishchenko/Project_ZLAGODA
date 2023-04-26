@@ -1318,27 +1318,27 @@ namespace Project_ZLAGODA.Backend.Database
         }
 
         //get sum of all sales by employee id and 2 dates
-        public static decimal GetSumOfSalesByEmployeeIdAndDates(string employeeId, DateTime startDate, DateTime endDate)
+        public static decimal GetSumOfSalesByEmployeeIdAndDates(int employeeId, DateTime startDate, DateTime endDate)
         {
             decimal sum = 0;
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
-                _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
-                _ = command.Parameters.AddWithValue("@StartDate", startDate);
-                _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SqliteDataReader reader = command.ExecuteReader();
-                try { 
-                    sum = decimal.Parse(reader["sum(sum_total)"].ToString());
-                }
-                catch (Exception e)
+                SqliteCommand command = new("SELECT SUM(sum_total) FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                command.Parameters.AddWithValue("@IdEmployee", employeeId);
+                command.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                command.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                using (SqliteDataReader reader = command.ExecuteReader())
                 {
-                    sum = 0;
+                    if (reader.Read())
+                    {
+                        sum = reader.IsDBNull(0) ? 0 : reader.GetDecimal(0);
+                    }
                 }
             }
             return sum;
         }
+
 
         //get sum of all sales by 2 dates
         public static decimal GetSumOfSalesByDates(DateTime startDate, DateTime endDate)
@@ -1347,14 +1347,20 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
-                _ = command.Parameters.AddWithValue("@StartDate", startDate);
-                _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SqliteDataReader reader = command.ExecuteReader();
-                sum = decimal.Parse(reader["sum(sum_total)"].ToString());
+                SqliteCommand command = new("SELECT SUM(sum_total) FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
+                command.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                command.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                using (SqliteDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        sum = reader.IsDBNull(0) ? 0 : reader.GetDecimal(0);
+                    }
+                }
             }
             return sum;
         }
+
 
         //count quantity of all sold products by product name
         public static int GetQuantityOfSoldProductsByProductName(string productName)
@@ -1363,20 +1369,19 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT sum(product_number) FROM Sale as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product WHERE p.product_name = @ProductName", connection);
-                _ = command.Parameters.AddWithValue("@ProductName", productName);
-                SqliteDataReader reader = command.ExecuteReader();
-                try
+                SqliteCommand command = new("SELECT SUM(product_number) FROM Sale s JOIN Store_Product sp ON sp.UPC = s.UPC JOIN Product p ON p.id_product = sp.id_product WHERE p.product_name = @ProductName", connection);
+                command.Parameters.AddWithValue("@ProductName", productName);
+                using (SqliteDataReader reader = command.ExecuteReader())
                 {
-                    quantity = int.Parse(reader["sum(quantity)"].ToString());
-                }
-                catch (Exception e)
-                {
-                    quantity = 0;
+                    if (reader.Read())
+                    {
+                        quantity = reader.IsDBNull(0) ? 0 : Convert.ToInt32(reader.GetFieldValue<long>(0));
+                    }
                 }
             }
             return quantity;
         }
+
 
         //count quantity of all sold products by product name and 2 dates
         public static int GetQuantityOfSoldProductsByProductNameAndDates(string productName, DateTime startDate, DateTime endDate)
@@ -1385,22 +1390,21 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT sum(product_number) FROM Sale  as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product JOIN Sales_Check as sc on sc.check_number = s.check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
-                _ = command.Parameters.AddWithValue("@ProductName", productName);
-                _ = command.Parameters.AddWithValue("@StartDate", startDate);
-                _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SqliteDataReader reader = command.ExecuteReader();
-                try
+                SqliteCommand command = new("SELECT SUM(product_number) AS quantity FROM Sale s JOIN Store_Product sp ON sp.UPC = s.UPC JOIN Product p ON p.id_product = sp.id_product JOIN Sales_Check sc ON sc.check_number = s.check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
+                command.Parameters.AddWithValue("@ProductName", productName);
+                command.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                command.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                using (SqliteDataReader reader = command.ExecuteReader())
                 {
-                    quantity = int.Parse(reader["sum(quantity)"].ToString());
-                }
-                catch (Exception e)
-                {
-                    quantity = 0;
+                    if (reader.Read())
+                    {
+                        quantity = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    }
                 }
             }
             return quantity;
         }
+
 
         //get check by employee id
         public static List<SaleCheckModel> GetSaleChecksByEmployeeId(string employeeId)
