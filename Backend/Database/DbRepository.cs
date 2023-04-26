@@ -20,7 +20,7 @@ namespace Project_ZLAGODA.Backend.Database
             {
                 employees.Add(new EmployeeModel
                 {
-                    Id = reader["id_employee"].ToString(),
+                    Id = int.Parse(reader["id_employee"].ToString()),
                     Surname = reader["empl_surname"].ToString(),
                     Name = reader["empl_name"].ToString(),
                     Patronymic = reader["empl_patronymic"].ToString(),
@@ -55,7 +55,7 @@ namespace Project_ZLAGODA.Backend.Database
             {
                 employees.Add(new EmployeeModel
                 {
-                    Id = reader["id_employee"].ToString(),
+                    Id = int.Parse(reader["id_employee"].ToString()),
                     Surname = reader["empl_surname"].ToString(),
                     Name = reader["empl_name"].ToString(),
                     Patronymic = reader["empl_patronymic"].ToString(),
@@ -91,7 +91,7 @@ namespace Project_ZLAGODA.Backend.Database
             {
                 employees.Add(new EmployeeModel
                 {
-                    Id = reader["id_employee"].ToString(),
+                    Id = int.Parse(reader["id_employee"].ToString()),
                     Surname = reader["empl_surname"].ToString(),
                     Name = reader["empl_name"].ToString(),
                     Patronymic = reader["empl_patronymic"].ToString(),
@@ -132,7 +132,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     return new EmployeeModel
                     {
-                        Id = reader.GetString(reader.GetOrdinal("id_employee")),
+                        Id = reader.GetOrdinal("id_employee"),
                         Surname = reader.GetString(reader.GetOrdinal("empl_surname")),
                         Name = reader.GetString(reader.GetOrdinal("empl_name")),
                         Patronymic = reader.IsDBNull(reader.GetOrdinal("empl_patronymic")) ? null : reader.GetString(reader.GetOrdinal("empl_patronymic")),
@@ -159,36 +159,25 @@ namespace Project_ZLAGODA.Backend.Database
         /// </summary>
         /// <param name="surname"></param>
         /// <returns></returns>
-        public static List<EmployeeModel> GetEmployeeDataBySurname(string surname)
+        public static EmployeeModel? GetEmployeeDataBySurname(string surname)
         {
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee WHERE empl_surname = @surname", connection);
+            SQLiteCommand command = new("SELECT phone_number, city, street, zip_code FROM Employee WHERE empl_surname = @surname", connection);
             _ = command.Parameters.AddWithValue("@surname", surname);
             SQLiteDataReader reader = command.ExecuteReader();
-            List<EmployeeModel> employees = new();
             while (reader.Read())
             {
-                employees.Add(new EmployeeModel
+                return new EmployeeModel
                 {
-                    Id = reader["id_employee"].ToString(),
-                    Surname = reader["empl_surname"].ToString(),
-                    Name = reader["empl_name"].ToString(),
-                    Patronymic = reader["empl_patronymic"].ToString(),
-                    Username = reader["username"].ToString(),
-                    PasswordHash = (byte[])reader["password_hash"],
-                    Salt = (byte[])reader["password_salt"],
-                    Role = reader["empl_role"].ToString(),
                     Phone = reader["phone_number"].ToString(),
-                    Salary = decimal.Parse(reader["salary"].ToString()),
-                    DateOfEmployment = DateTime.Parse(reader["date_of_start"].ToString()),
-                    DateOfBirth = DateTime.Parse(reader["date_of_birth"].ToString()),
                     City = reader["city"].ToString(),
                     Street = reader["street"].ToString(),
                     Zip = reader["zip_code"].ToString()
-                });
+                };
+
             }
-            return employees;
+            return null;
         }
 
         /// <summary>
@@ -196,7 +185,7 @@ namespace Project_ZLAGODA.Backend.Database
         /// </summary>
         /// <param name="idEmployee"></param>
         /// <returns></returns>
-        public static EmployeeModel? GetEmployeeById(string idEmployee)
+        public static EmployeeModel? GetEmployeeById(int idEmployee)
         {
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
@@ -207,7 +196,7 @@ namespace Project_ZLAGODA.Backend.Database
             {
                 return new EmployeeModel
                 {
-                    Id = reader["id_employee"].ToString(),
+                    Id = int.Parse(reader["id_employee"].ToString()),
                     Surname = reader["empl_surname"].ToString(),
                     Name = reader["empl_name"].ToString(),
                     Patronymic = reader["empl_patronymic"].ToString(),
@@ -321,6 +310,26 @@ namespace Project_ZLAGODA.Backend.Database
             return products;
         }
 
+        public static ProductModel GetProductById(int id)
+        {
+            ProductModel product = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Product WHERE id_product = @id_product", connection);
+                _ = command.Parameters.AddWithValue("@id_product", id);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int categoryNumber = int.Parse(reader["category_number"].ToString());
+                    string productName = reader["product_name"].ToString();
+                    string productCharacteristics = reader["characteristics"].ToString();
+                    product = new ProductModel(id, categoryNumber, productName, productCharacteristics);
+                }
+            }
+            return product;
+        }
+
         /// <summary>
         /// Отримати інформацію про усі товари, відсортовані за назвою;
         /// </summary>
@@ -422,9 +431,9 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     int id = int.Parse(reader["id_product"].ToString());
                     int categoryNumber = int.Parse(reader["category_number"].ToString());
-                    string prName = reader["product_name"].ToString();
+                    string ProductName = reader["product_name"].ToString();
                     string productCharacteristics = reader["characteristics"].ToString();
-                    products.Add(new ProductModel(id, categoryNumber, prName, productCharacteristics));
+                    products.Add(new ProductModel(id, categoryNumber, ProductName, productCharacteristics));
                 }
             }
             return products;
@@ -450,6 +459,25 @@ namespace Project_ZLAGODA.Backend.Database
                 }
             }
             return categories;
+        }
+
+        public static CategoryModel GetCategoryById(int id)
+        {
+            CategoryModel category = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Category WHERE category_number = @Id", connection);
+                _ = command.Parameters.AddWithValue("@Id", id);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int categoryId = int.Parse(reader["category_number"].ToString());
+                    string categoryName = reader["category_name"].ToString(); ;
+                    category = new CategoryModel(categoryId, categoryName);
+                }
+            }
+            return category;
         }
 
         /// <summary>
@@ -537,7 +565,7 @@ namespace Project_ZLAGODA.Backend.Database
 
             return storeProducts;
         }
-        public static StoreProductModel GetStoreProduct(string uPC)
+        public static StoreProductModel GetStoreProductById(string uPC)
         {
             StoreProductModel storeProduct = new();
             using (SQLiteConnection connection = new(connectionString))
@@ -558,6 +586,29 @@ namespace Project_ZLAGODA.Backend.Database
                 }
             }
             return storeProduct;
+        }
+        //get store products by product name 
+        public static List<StoreProductModel> GetStoreProductsByProductName(string productName)
+        {
+            List<StoreProductModel> storeProducts = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Store_Product WHERE id_product = (SELECT product_number FROM Product WHERE product_name = @ProductName)", connection);
+                _ = command.Parameters.AddWithValue("@ProductName", productName);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string UPC = reader["UPC"].ToString();
+                    int id_product = int.Parse(reader["id_product"].ToString());
+                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    int quantity = int.Parse(reader["products_number"].ToString());
+                    bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
+                    DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
+                    storeProducts.Add(new StoreProductModel(UPC, id_product, selling_price, quantity, promotional_product, date));
+                }
+            }
+            return storeProducts;
         }
         public static decimal GetStoreProductPrice(string UPC)
         {
@@ -610,7 +661,7 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static void SellStoreProduct(string UPC, int quantity)
         {
-            StoreProductModel storeProduct = GetStoreProduct(UPC);
+            StoreProductModel storeProduct = GetStoreProductById(UPC);
             storeProduct.Quantity -= quantity;
             if (storeProduct.Quantity < 0)
             {
@@ -865,6 +916,32 @@ namespace Project_ZLAGODA.Backend.Database
 
             return customers;
         }
+
+        public static CustomerModel GetCustomerById(int id)
+        {
+            CustomerModel customer = new CustomerModel();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Customer_Card WHERE id = @id", connection);
+                _ = command.Parameters.AddWithValue("@id", id);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string card_number = reader["card_number"].ToString();
+                    string cust_surname = reader["cust_surname"].ToString();
+                    string cust_name = reader["cust_name"].ToString();
+                    string cust_patronymic = reader["cust_patronymic"].ToString();
+                    string phone_number = reader["phone_number"].ToString();
+                    string city = reader["city"].ToString();
+                    string street = reader["street"].ToString();
+                    string zip_code = reader["zip_code"].ToString();
+                    int percent = int.Parse(reader["percent"].ToString());
+                    customer = new CustomerModel(card_number, cust_name, cust_surname, cust_patronymic, phone_number, street, city, zip_code, percent);
+                }
+            }
+            return customer;
+        }
         /// <summary>
         /// Отримати інформацію про усіх постійних клієнтів, відсортованих за прізвищем;
         /// </summary>
@@ -1109,7 +1186,7 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
-                    string id_employee = reader["id_employee"].ToString();
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
                     string card_number = reader["card_number"].ToString();
                     DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
                     decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
@@ -1120,6 +1197,29 @@ namespace Project_ZLAGODA.Backend.Database
             }
 
             return saleChecks;
+        }
+
+        public static SaleCheckModel GetSaleCheckById(int checkNumber)
+        {
+            SaleCheckModel saleCheck = new();
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
+                _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
+                    string card_number = reader["card_number"].ToString();
+                    DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
+                    decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
+                    decimal vat = decimal.Parse(reader["vat"].ToString());
+                    List<SaleModel> sales = GetSalesBySaleCheckId(checkNumber);
+                    saleCheck = new SaleCheckModel(checkNumber, id_employee, card_number, print_date, sum_total, vat, sales);
+                }
+            }
+            return saleCheck;
         }
 
         public static bool AddSaleCheck(SaleCheckModel saleCheck)
@@ -1143,7 +1243,6 @@ namespace Project_ZLAGODA.Backend.Database
                 return false;
             }
         }
-
 
         public static bool DeleteSaleCheck(string checkNumber)
         {
@@ -1172,7 +1271,7 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
-                    string id_employee = reader["id_employee"].ToString();
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
                     string card_number = reader["card_number"].ToString();
                     DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
                     decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
@@ -1198,7 +1297,7 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
-                    string id_employee = reader["id_employee"].ToString();
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
                     string card_number = reader["card_number"].ToString();
                     DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
                     decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
@@ -1222,7 +1321,13 @@ namespace Project_ZLAGODA.Backend.Database
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
                 SQLiteDataReader reader = command.ExecuteReader();
-                sum = decimal.Parse(reader["sum(sum_total)"].ToString());
+                try { 
+                    sum = decimal.Parse(reader["sum(sum_total)"].ToString());
+                }
+                catch (Exception e)
+                {
+                    sum = 0;
+                }
             }
             return sum;
         }
@@ -1253,7 +1358,38 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number WHERE p.product_name = @ProductName", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
                 SQLiteDataReader reader = command.ExecuteReader();
-                quantity = int.Parse(reader["sum(quantity)"].ToString());
+                try
+                {
+                    quantity = int.Parse(reader["sum(quantity)"].ToString());
+                }
+                catch (Exception e)
+                {
+                    quantity = 0;
+                }
+            }
+            return quantity;
+        }
+
+        //count quantity of all sold products by product name and 2 dates
+        public static int GetQuantityOfSoldProductsByProductNameAndDates(string productName, DateTime startDate, DateTime endDate)
+        {
+            int quantity = 0;
+            using (SQLiteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number JOIN Sales_Check as sc on sc.check_number = sale_check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
+                _ = command.Parameters.AddWithValue("@ProductName", productName);
+                _ = command.Parameters.AddWithValue("@StartDate", startDate);
+                _ = command.Parameters.AddWithValue("@EndDate", endDate);
+                SQLiteDataReader reader = command.ExecuteReader();
+                try
+                {
+                    quantity = int.Parse(reader["sum(quantity)"].ToString());
+                }
+                catch (Exception e)
+                {
+                    quantity = 0;
+                }
             }
             return quantity;
         }
@@ -1273,7 +1409,7 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
-                    string id_employee = reader["id_employee"].ToString();
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
                     string card_number = reader["card_number"].ToString();
                     DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
                     decimal sum_total = decimal.Parse(reader["sum_total"].ToString());
@@ -1298,7 +1434,7 @@ namespace Project_ZLAGODA.Backend.Database
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
-                    string id_employee = reader["id_employee"].ToString();
+                    int id_employee = int.Parse(reader["id_employee"].ToString());
                     string card_number = reader["card_number"].ToString();
                     DateTime print_date = DateTime.Parse(reader["print_date"].ToString());
                     decimal sum_total = decimal.Parse(reader["sum_total"].ToString());

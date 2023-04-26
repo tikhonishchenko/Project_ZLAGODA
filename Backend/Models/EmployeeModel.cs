@@ -6,7 +6,7 @@ namespace Project_ZLAGODA.Backend.Models
     internal class EmployeeModel
     {
         [DisplayName("Id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [DisplayName("Ім'я")]
         public string Name { get; set; }
         [DisplayName("Прізвище")]
@@ -37,7 +37,7 @@ namespace Project_ZLAGODA.Backend.Models
         public byte[] Salt { get; set; }
 
 
-        public EmployeeModel(string id, string name, string surname, string patronymic, string role, string phone, decimal salary, DateTime dateOfEmployment, DateTime dateOfBirth, string city, string street, string zip, string password, string username)
+        public EmployeeModel(int id, string name, string surname, string patronymic, string role, string phone, decimal salary, DateTime dateOfEmployment, DateTime dateOfBirth, string city, string street, string zip, string password, string username)
         {
             ViewModel.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
             Id = id;
