@@ -18,6 +18,7 @@ namespace Project_ZLAGODA.Frontend
         EmployeeModel employee;
         ShowForm main;
         List<SaleModel> sales = new List<SaleModel>();
+        int discount = 0;
 
         public AddSaleCheckForm()
         {
@@ -54,7 +55,8 @@ namespace Project_ZLAGODA.Frontend
             dataTable.Columns.AddRange(columns);
             foreach (SaleModel sale in sales)
             {
-                dataTable.Rows.Add(new Object[] { sale.UPC, "not realized", sale.ProductNumber, sale.Price });
+                ProductModel productModel = DbRepository.GetProductById(DbRepository.GetStoreProductById(sale.UPC).ProductId );
+                dataTable.Rows.Add(new Object[] { sale.UPC, productModel.ProductName, sale.ProductNumber, sale.Price });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -80,6 +82,7 @@ namespace Project_ZLAGODA.Frontend
             {
                 total += model.Price;
             }
+            total = total * (1.0M - Decimal.Parse(discount.ToString())/100.0M);
             TotalLabel.Text = "Total: " + total;
             VATLabel.Text = "VAT: " + (total * 0.2M);
         }
@@ -120,6 +123,7 @@ namespace Project_ZLAGODA.Frontend
             {
                 total += m.Price;
             }
+            total = total * (1.0M - Decimal.Parse(discount.ToString()) / 100.0M);
             SaleCheckModel model = new SaleCheckModel
             {
                 EmployeeId = this.employee.Id,
@@ -165,6 +169,17 @@ namespace Project_ZLAGODA.Frontend
                     CardNumberTextBox.SelectionLength = 0;
                     return;
                 }
+            }
+            CustomerModel customerModel = DbRepository.GetCustomerById(CardNumberTextBox.Text);
+            if (customerModel != null && customerModel.CardNumber != null)
+            {
+                discount = customerModel.Percent;
+                update();
+            }
+            else
+            {
+                discount = 0;
+                update();
             }
         }
     }
