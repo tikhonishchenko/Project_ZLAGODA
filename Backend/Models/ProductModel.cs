@@ -9,10 +9,13 @@ namespace Project_ZLAGODA.Backend.Models
 {
     internal class ProductModel
     {
-        [DisplayName("First Name")]
+        [DisplayName("Id")]
         public int Id { get; set; }
+        [DisplayName("Категорія")]
         public int CategoryNumber { get; set; }
+        [DisplayName("Назва товару")]
         public string ProductName { get; set; }
+        [DisplayName("Характеристики")]
         public string ProductCharacteristics { get; set; }
 
         public ProductModel(int id, int categoryNumber, string productName, string productCharacteristics)
