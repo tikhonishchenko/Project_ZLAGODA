@@ -99,10 +99,11 @@
             // 
             CardNumberTextBox.Anchor = AnchorStyles.None;
             CardNumberTextBox.Location = new Point(305, 63);
-            CardNumberTextBox.MaxLength = 16;
+            CardNumberTextBox.MaxLength = 13;
             CardNumberTextBox.Name = "CardNumberTextBox";
             CardNumberTextBox.Size = new Size(195, 27);
             CardNumberTextBox.TabIndex = 13;
+            CardNumberTextBox.TextChanged += CardNumberTextBox_TextChanged;
             // 
             // TotalLabel
             // 

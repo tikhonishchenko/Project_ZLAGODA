@@ -943,7 +943,7 @@ namespace Project_ZLAGODA.Backend.Database
             return customers;
         }
 
-        public static CustomerModel GetCustomerById(int id)
+        public static CustomerModel GetCustomerById(string id)
         {
             CustomerModel customer = new CustomerModel();
             using (SqliteConnection connection = new(connectionString))

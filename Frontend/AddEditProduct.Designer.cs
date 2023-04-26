@@ -92,6 +92,7 @@
             // 
             NameTextBox.Anchor = AnchorStyles.None;
             NameTextBox.Location = new Point(6, 77);
+            NameTextBox.MaxLength = 50;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(145, 27);
             NameTextBox.TabIndex = 9;
@@ -110,6 +111,7 @@
             // 
             CharacteristicsTextBox.Anchor = AnchorStyles.None;
             CharacteristicsTextBox.Location = new Point(4, 130);
+            CharacteristicsTextBox.MaxLength = 100;
             CharacteristicsTextBox.Name = "CharacteristicsTextBox";
             CharacteristicsTextBox.Size = new Size(149, 27);
             CharacteristicsTextBox.TabIndex = 10;

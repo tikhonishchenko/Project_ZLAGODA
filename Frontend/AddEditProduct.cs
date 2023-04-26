@@ -96,8 +96,9 @@ namespace Project_ZLAGODA
             if (mode == Mode.Add)
             {
                 List<ProductModel> products = DbRepository.GetProducts();
-                ProductModel model = new ProductModel {
-                    Id = products[products.Count()-1].Id + 1,
+                ProductModel model = new ProductModel
+                {
+                    Id = products[products.Count() - 1].Id + 1,
                     CategoryNumber = categories[CategoryComboBox.SelectedIndex].Id,
                     ProductName = NameTextBox.Text,
                     ProductCharacteristics = CharacteristicsTextBox.Text

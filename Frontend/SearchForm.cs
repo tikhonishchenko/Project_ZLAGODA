@@ -385,7 +385,7 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[12]))
             {
-                MessageBox.Show("Total sum: " + DbRepository.GetQuantityOfSoldProductsByProductNameAndDates(ProductNameComboBox.Text, StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
+                MessageBox.Show("Total quantity: " + DbRepository.GetQuantityOfSoldProductsByProductNameAndDates(ProductNameComboBox.Text, StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
             }
             //"товари у магазині за назвою",13
             //"клієнти за прізвищем",14

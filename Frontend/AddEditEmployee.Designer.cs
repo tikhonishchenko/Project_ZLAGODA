@@ -117,6 +117,7 @@
             // 
             FirstNameTextBox.Anchor = AnchorStyles.None;
             FirstNameTextBox.Location = new Point(6, 23);
+            FirstNameTextBox.MaxLength = 50;
             FirstNameTextBox.Name = "FirstNameTextBox";
             FirstNameTextBox.Size = new Size(145, 27);
             FirstNameTextBox.TabIndex = 9;
@@ -135,6 +136,7 @@
             // 
             SecondNameTextBox.Anchor = AnchorStyles.None;
             SecondNameTextBox.Location = new Point(6, 76);
+            SecondNameTextBox.MaxLength = 50;
             SecondNameTextBox.Name = "SecondNameTextBox";
             SecondNameTextBox.Size = new Size(145, 27);
             SecondNameTextBox.TabIndex = 11;
@@ -153,6 +155,7 @@
             // 
             PatronymicTextBox.Anchor = AnchorStyles.None;
             PatronymicTextBox.Location = new Point(6, 129);
+            PatronymicTextBox.MaxLength = 50;
             PatronymicTextBox.Name = "PatronymicTextBox";
             PatronymicTextBox.Size = new Size(145, 27);
             PatronymicTextBox.TabIndex = 11;
@@ -192,9 +195,11 @@
             // 
             PhoneNumberTextBox.Anchor = AnchorStyles.None;
             PhoneNumberTextBox.Location = new Point(6, 236);
+            PhoneNumberTextBox.MaxLength = 13;
             PhoneNumberTextBox.Name = "PhoneNumberTextBox";
             PhoneNumberTextBox.Size = new Size(145, 27);
             PhoneNumberTextBox.TabIndex = 15;
+            PhoneNumberTextBox.TextChanged += PhoneNumberTextBox_TextChanged;
             // 
             // SalaryLabel
             // 
@@ -210,9 +215,11 @@
             // 
             SalaryTextBox.Anchor = AnchorStyles.None;
             SalaryTextBox.Location = new Point(6, 289);
+            SalaryTextBox.MaxLength = 10;
             SalaryTextBox.Name = "SalaryTextBox";
             SalaryTextBox.Size = new Size(145, 27);
             SalaryTextBox.TabIndex = 17;
+            SalaryTextBox.TextChanged += SalaryTextBox_TextChanged;
             // 
             // EmploymentDateLabel
             // 
@@ -264,6 +271,7 @@
             // 
             AddressTextBox.Anchor = AnchorStyles.None;
             AddressTextBox.Location = new Point(6, 448);
+            AddressTextBox.MaxLength = 50;
             AddressTextBox.Name = "AddressTextBox";
             AddressTextBox.Size = new Size(145, 27);
             AddressTextBox.TabIndex = 19;
@@ -282,6 +290,7 @@
             // 
             CityTextBox.Anchor = AnchorStyles.None;
             CityTextBox.Location = new Point(6, 501);
+            CityTextBox.MaxLength = 50;
             CityTextBox.Name = "CityTextBox";
             CityTextBox.Size = new Size(145, 27);
             CityTextBox.TabIndex = 17;
@@ -300,9 +309,11 @@
             // 
             ZipCodeTextBox.Anchor = AnchorStyles.None;
             ZipCodeTextBox.Location = new Point(6, 554);
+            ZipCodeTextBox.MaxLength = 9;
             ZipCodeTextBox.Name = "ZipCodeTextBox";
             ZipCodeTextBox.Size = new Size(145, 27);
             ZipCodeTextBox.TabIndex = 15;
+            ZipCodeTextBox.TextChanged += ZipCodeTextBox_TextChanged;
             // 
             // UsernameLabel
             // 
@@ -320,7 +331,7 @@
             UsernameTextbox.Anchor = AnchorStyles.None;
             UsernameTextbox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             UsernameTextbox.Location = new Point(7, 607);
-            UsernameTextbox.MaxLength = 16;
+            UsernameTextbox.MaxLength = 50;
             UsernameTextbox.Name = "UsernameTextbox";
             UsernameTextbox.Size = new Size(143, 27);
             UsernameTextbox.TabIndex = 11;

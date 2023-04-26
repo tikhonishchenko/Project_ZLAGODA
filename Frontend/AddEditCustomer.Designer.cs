@@ -46,9 +46,10 @@
             ZipCodeLabel = new Label();
             ZipCodeTextBox = new TextBox();
             DiscountLabel = new Label();
-            DiscountTextBox = new TextBox();
+            DiscountTextBox = new NumericUpDown();
             AddEditBtn = new Button();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DiscountTextBox).BeginInit();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -78,14 +79,14 @@
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(173, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(151, 512);
+            flowLayoutPanel1.Size = new Size(156, 512);
             flowLayoutPanel1.TabIndex = 7;
             // 
             // CardNumberLabel
             // 
             CardNumberLabel.Anchor = AnchorStyles.None;
             CardNumberLabel.AutoSize = true;
-            CardNumberLabel.Location = new Point(28, 0);
+            CardNumberLabel.Location = new Point(30, 0);
             CardNumberLabel.Name = "CardNumberLabel";
             CardNumberLabel.Size = new Size(95, 20);
             CardNumberLabel.TabIndex = 10;
@@ -94,17 +95,18 @@
             // CardNumberTextBox
             // 
             CardNumberTextBox.Anchor = AnchorStyles.None;
-            CardNumberTextBox.Location = new Point(3, 23);
-            CardNumberTextBox.MaxLength = 16;
+            CardNumberTextBox.Location = new Point(5, 23);
+            CardNumberTextBox.MaxLength = 13;
             CardNumberTextBox.Name = "CardNumberTextBox";
             CardNumberTextBox.Size = new Size(145, 27);
             CardNumberTextBox.TabIndex = 11;
+            CardNumberTextBox.TextChanged += CardNumberTextBox_TextChanged;
             // 
             // NameLabel
             // 
             NameLabel.Anchor = AnchorStyles.None;
             NameLabel.AutoSize = true;
-            NameLabel.Location = new Point(37, 53);
+            NameLabel.Location = new Point(39, 53);
             NameLabel.Name = "NameLabel";
             NameLabel.Size = new Size(77, 20);
             NameLabel.TabIndex = 7;
@@ -113,7 +115,8 @@
             // FirstNameTextBox
             // 
             FirstNameTextBox.Anchor = AnchorStyles.None;
-            FirstNameTextBox.Location = new Point(3, 76);
+            FirstNameTextBox.Location = new Point(5, 76);
+            FirstNameTextBox.MaxLength = 50;
             FirstNameTextBox.Name = "FirstNameTextBox";
             FirstNameTextBox.Size = new Size(145, 27);
             FirstNameTextBox.TabIndex = 9;
@@ -122,7 +125,7 @@
             // 
             LastNameLabel.Anchor = AnchorStyles.None;
             LastNameLabel.AutoSize = true;
-            LastNameLabel.Location = new Point(37, 106);
+            LastNameLabel.Location = new Point(40, 106);
             LastNameLabel.Name = "LastNameLabel";
             LastNameLabel.Size = new Size(76, 20);
             LastNameLabel.TabIndex = 10;
@@ -131,7 +134,8 @@
             // SecondNameTextBox
             // 
             SecondNameTextBox.Anchor = AnchorStyles.None;
-            SecondNameTextBox.Location = new Point(3, 129);
+            SecondNameTextBox.Location = new Point(5, 129);
+            SecondNameTextBox.MaxLength = 50;
             SecondNameTextBox.Name = "SecondNameTextBox";
             SecondNameTextBox.Size = new Size(145, 27);
             SecondNameTextBox.TabIndex = 11;
@@ -140,7 +144,7 @@
             // 
             PatronymicLabel.Anchor = AnchorStyles.None;
             PatronymicLabel.AutoSize = true;
-            PatronymicLabel.Location = new Point(34, 159);
+            PatronymicLabel.Location = new Point(37, 159);
             PatronymicLabel.Name = "PatronymicLabel";
             PatronymicLabel.Size = new Size(82, 20);
             PatronymicLabel.TabIndex = 10;
@@ -149,7 +153,8 @@
             // PatronymicTextBox
             // 
             PatronymicTextBox.Anchor = AnchorStyles.None;
-            PatronymicTextBox.Location = new Point(3, 182);
+            PatronymicTextBox.Location = new Point(5, 182);
+            PatronymicTextBox.MaxLength = 50;
             PatronymicTextBox.Name = "PatronymicTextBox";
             PatronymicTextBox.Size = new Size(145, 27);
             PatronymicTextBox.TabIndex = 11;
@@ -158,7 +163,7 @@
             // 
             PhoneNumberLabel.Anchor = AnchorStyles.None;
             PhoneNumberLabel.AutoSize = true;
-            PhoneNumberLabel.Location = new Point(23, 212);
+            PhoneNumberLabel.Location = new Point(25, 212);
             PhoneNumberLabel.Name = "PhoneNumberLabel";
             PhoneNumberLabel.Size = new Size(105, 20);
             PhoneNumberLabel.TabIndex = 12;
@@ -167,16 +172,18 @@
             // PhoneNumberTextBox
             // 
             PhoneNumberTextBox.Anchor = AnchorStyles.None;
-            PhoneNumberTextBox.Location = new Point(3, 235);
+            PhoneNumberTextBox.Location = new Point(5, 235);
+            PhoneNumberTextBox.MaxLength = 13;
             PhoneNumberTextBox.Name = "PhoneNumberTextBox";
             PhoneNumberTextBox.Size = new Size(145, 27);
             PhoneNumberTextBox.TabIndex = 13;
+            PhoneNumberTextBox.TextChanged += PhoneNumberTextBox_TextChanged;
             // 
             // AddressLabel
             // 
             AddressLabel.Anchor = AnchorStyles.None;
             AddressLabel.AutoSize = true;
-            AddressLabel.Location = new Point(44, 265);
+            AddressLabel.Location = new Point(47, 265);
             AddressLabel.Name = "AddressLabel";
             AddressLabel.Size = new Size(62, 20);
             AddressLabel.TabIndex = 18;
@@ -185,7 +192,8 @@
             // AddressTextBox
             // 
             AddressTextBox.Anchor = AnchorStyles.None;
-            AddressTextBox.Location = new Point(3, 288);
+            AddressTextBox.Location = new Point(5, 288);
+            AddressTextBox.MaxLength = 50;
             AddressTextBox.Name = "AddressTextBox";
             AddressTextBox.Size = new Size(145, 27);
             AddressTextBox.TabIndex = 19;
@@ -194,7 +202,7 @@
             // 
             CityLabel.Anchor = AnchorStyles.None;
             CityLabel.AutoSize = true;
-            CityLabel.Location = new Point(58, 318);
+            CityLabel.Location = new Point(61, 318);
             CityLabel.Name = "CityLabel";
             CityLabel.Size = new Size(34, 20);
             CityLabel.TabIndex = 16;
@@ -203,7 +211,8 @@
             // CityTextBox
             // 
             CityTextBox.Anchor = AnchorStyles.None;
-            CityTextBox.Location = new Point(3, 341);
+            CityTextBox.Location = new Point(5, 341);
+            CityTextBox.MaxLength = 50;
             CityTextBox.Name = "CityTextBox";
             CityTextBox.Size = new Size(145, 27);
             CityTextBox.TabIndex = 17;
@@ -212,7 +221,7 @@
             // 
             ZipCodeLabel.Anchor = AnchorStyles.None;
             ZipCodeLabel.AutoSize = true;
-            ZipCodeLabel.Location = new Point(41, 371);
+            ZipCodeLabel.Location = new Point(44, 371);
             ZipCodeLabel.Name = "ZipCodeLabel";
             ZipCodeLabel.Size = new Size(68, 20);
             ZipCodeLabel.TabIndex = 14;
@@ -221,16 +230,18 @@
             // ZipCodeTextBox
             // 
             ZipCodeTextBox.Anchor = AnchorStyles.None;
-            ZipCodeTextBox.Location = new Point(3, 394);
+            ZipCodeTextBox.Location = new Point(5, 394);
+            ZipCodeTextBox.MaxLength = 9;
             ZipCodeTextBox.Name = "ZipCodeTextBox";
             ZipCodeTextBox.Size = new Size(145, 27);
             ZipCodeTextBox.TabIndex = 15;
+            ZipCodeTextBox.TextChanged += ZipCodeTextBox_TextChanged;
             // 
             // DiscountLabel
             // 
             DiscountLabel.Anchor = AnchorStyles.None;
             DiscountLabel.AutoSize = true;
-            DiscountLabel.Location = new Point(42, 424);
+            DiscountLabel.Location = new Point(44, 424);
             DiscountLabel.Name = "DiscountLabel";
             DiscountLabel.Size = new Size(67, 20);
             DiscountLabel.TabIndex = 12;
@@ -238,16 +249,15 @@
             // 
             // DiscountTextBox
             // 
-            DiscountTextBox.Anchor = AnchorStyles.None;
             DiscountTextBox.Location = new Point(3, 447);
             DiscountTextBox.Name = "DiscountTextBox";
-            DiscountTextBox.Size = new Size(145, 27);
-            DiscountTextBox.TabIndex = 13;
+            DiscountTextBox.Size = new Size(150, 27);
+            DiscountTextBox.TabIndex = 8;
             // 
             // AddEditBtn
             // 
             AddEditBtn.Anchor = AnchorStyles.None;
-            AddEditBtn.Location = new Point(28, 480);
+            AddEditBtn.Location = new Point(31, 480);
             AddEditBtn.Name = "AddEditBtn";
             AddEditBtn.Size = new Size(94, 29);
             AddEditBtn.TabIndex = 7;
@@ -265,6 +275,7 @@
             Text = "AddEditCustomer";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DiscountTextBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -287,9 +298,9 @@
         private Label ZipCodeLabel;
         private TextBox ZipCodeTextBox;
         private Label DiscountLabel;
-        private TextBox DiscountTextBox;
         private Button AddEditBtn;
         private Label PhoneNumberLabel;
         private TextBox PhoneNumberTextBox;
+        private NumericUpDown DiscountTextBox;
     }
 }

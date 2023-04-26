@@ -115,6 +115,24 @@ namespace Project_ZLAGODA
 
         private void AddEditBtn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                decimal.Parse(PriceTextBox.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Price is incorrect!", "Error");
+                return;
+            }
+            try
+            {
+                int.Parse(QuantityTextBox.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Quantity is incorrect!", "Error");
+                return;
+            }
             if (mode == Mode.Add)
             {
                 //List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
@@ -147,6 +165,48 @@ namespace Project_ZLAGODA
                 DbRepository.UpdateStoreProduct(model);
                 main.ShowStoreProducts();
                 this.Close();
+            }
+        }
+
+        private void UPCTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in UPCTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    UPCTextBox.Text = UPCTextBox.Text.Remove(UPCTextBox.Text.Length - 1);
+                    UPCTextBox.SelectionStart = UPCTextBox.Text.Length;
+                    UPCTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void PriceTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in PriceTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9' || a == '.' || a == ','))
+                {
+                    PriceTextBox.Text = PriceTextBox.Text.Remove(PriceTextBox.Text.Length - 1);
+                    PriceTextBox.SelectionStart = PriceTextBox.Text.Length;
+                    PriceTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void QuantityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in QuantityTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    QuantityTextBox.Text = QuantityTextBox.Text.Remove(QuantityTextBox.Text.Length - 1);
+                    QuantityTextBox.SelectionStart = QuantityTextBox.Text.Length;
+                    QuantityTextBox.SelectionLength = 0;
+                    return;
+                }
             }
         }
     }

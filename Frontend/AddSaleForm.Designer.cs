@@ -70,6 +70,7 @@
             UPCTextBox.Name = "UPCTextBox";
             UPCTextBox.Size = new Size(145, 27);
             UPCTextBox.TabIndex = 9;
+            UPCTextBox.TextChanged += UPCTextBox_TextChanged;
             // 
             // QuantityLabel
             // 
@@ -88,6 +89,7 @@
             QuantityTextBox.Name = "QuantityTextBox";
             QuantityTextBox.Size = new Size(149, 27);
             QuantityTextBox.TabIndex = 10;
+            QuantityTextBox.TextChanged += QuantityTextBox_TextChanged;
             // 
             // AddBtn
             // 

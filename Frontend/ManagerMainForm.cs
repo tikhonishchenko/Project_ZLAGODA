@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Project_ZLAGODA.Backend.Database;
 using Project_ZLAGODA.Backend.Models;
 using Project_ZLAGODA.Frontend;
+using Project_ZLAGODA.ViewModels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Project_ZLAGODA
@@ -199,6 +200,7 @@ namespace Project_ZLAGODA
 
         public void ShowStoreProducts()
         {
+            ViewModel.UpdateProducts();
             if (TableComboBox.Text.Equals(tables[5]))
             {
                 ShowStoreProductsByQuantity();
@@ -268,12 +270,13 @@ namespace Project_ZLAGODA
         public void ShowProductsByName()
         {
             DataTable dataTable = new DataTable();
-            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Category Id"), new DataColumn("Name"), new DataColumn("Characteristics") };
+            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Category"), new DataColumn("Name"), new DataColumn("Characteristics") };
             dataTable.Columns.AddRange(columns);
             List<ProductModel> products = DbRepository.GetProductsSorted();
             foreach (ProductModel product in products)
             {
-                dataTable.Rows.Add(new Object[] { product.Id, product.CategoryNumber, product.ProductName, product.ProductCharacteristics });
+                CategoryModel category = DbRepository.GetCategoryById(product.CategoryNumber);
+                dataTable.Rows.Add(new Object[] { product.Id, category.CategoryName, product.ProductName, product.ProductCharacteristics });
             }
             //PersonList.ItemsSource = ViewModel.Persons;PersonList.Items.Refresh();
             dataGridView1.DataSource = dataTable;
@@ -283,12 +286,13 @@ namespace Project_ZLAGODA
         public void ShowStoreProductsByQuantity()
         {
             DataTable dataTable = new DataTable();
-            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
+            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product name"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
             List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
             foreach (StoreProductModel product in products)
             {
-                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+                ProductModel p = DbRepository.GetProductById(product.ProductId);
+                dataTable.Rows.Add(new Object[] { product.UPC, p.ProductName, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -297,12 +301,13 @@ namespace Project_ZLAGODA
         public void ShowStoreProductsByName()
         {
             DataTable dataTable = new DataTable();
-            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
+            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product name"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByName();
             foreach (StoreProductModel product in products)
             {
-                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+                ProductModel p = DbRepository.GetProductById(product.ProductId);
+                dataTable.Rows.Add(new Object[] { product.UPC, p.ProductName, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -515,10 +520,11 @@ namespace Project_ZLAGODA
             if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
             {
                 AddEditProduct editProduct = new AddEditProduct();
+                ProductModel model = DbRepository.GetProductById(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
                 editProduct.setMainForm(this);
                 editProduct.setMode(Mode.Edit);
                 editProduct.setId(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
-                editProduct.setCategoryId(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][1].ToString()));
+                editProduct.setCategoryId(model.CategoryNumber);
                 editProduct.setNameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][2].ToString());
                 editProduct.setCharacteristicsTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][3].ToString());
                 editProduct.Show();
@@ -532,10 +538,11 @@ namespace Project_ZLAGODA
             if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
             {
                 AddEditStoreProduct editStoreProduct = new AddEditStoreProduct();
+                StoreProductModel model = DbRepository.GetStoreProductById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
                 editStoreProduct.setMainForm(this);
                 editStoreProduct.setMode(Mode.Edit);
                 editStoreProduct.setUPCTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
-                editStoreProduct.setProductId(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][1].ToString()));
+                editStoreProduct.setProductId(model.ProductId);
                 editStoreProduct.setPriceTextBox(decimal.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][2].ToString()));
                 editStoreProduct.setPromotional(dataTable.Rows[dataGridView1.SelectedRows[0].Index][3].ToString() == "Promotional" ? true : false);
                 editStoreProduct.setQuantityTextBox(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][4].ToString()));

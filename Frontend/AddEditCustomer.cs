@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Project_ZLAGODA
 {
@@ -95,6 +96,15 @@ namespace Project_ZLAGODA
             if (mode == Mode.Add)
             {
                 //List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
+                try
+                {
+                    int.Parse(DiscountTextBox.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Discount is incorrect!", "Error");
+                    return;
+                }
                 CustomerModel model = new CustomerModel
                 {
                     CardNumber = CardNumberTextBox.Text,
@@ -114,6 +124,15 @@ namespace Project_ZLAGODA
             else if (mode == Mode.Edit)
             {
                 //MessageBox.Show(ProductComboBox.SelectedIndex + " " + products[ProductComboBox.SelectedIndex].Id, "Error");
+                try
+                {
+                    int.Parse(DiscountTextBox.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Discount is incorrect!", "Error");
+                    return;
+                }
                 CustomerModel model = new CustomerModel
                 {
                     CardNumber = CardNumberTextBox.Text,
@@ -129,6 +148,48 @@ namespace Project_ZLAGODA
                 DbRepository.UpdateCustomer(model);
                 main.ShowCustomers();
                 this.Close();
+            }
+        }
+
+        private void CardNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in CardNumberTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    CardNumberTextBox.Text = CardNumberTextBox.Text.Remove(CardNumberTextBox.Text.Length - 1);
+                    CardNumberTextBox.SelectionStart = CardNumberTextBox.Text.Length;
+                    CardNumberTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void PhoneNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in PhoneNumberTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9' || a == '+' || a == '-'))
+                {
+                    PhoneNumberTextBox.Text = PhoneNumberTextBox.Text.Remove(PhoneNumberTextBox.Text.Length - 1);
+                    PhoneNumberTextBox.SelectionStart = PhoneNumberTextBox.Text.Length;
+                    PhoneNumberTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void ZipCodeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in ZipCodeTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    ZipCodeTextBox.Text = ZipCodeTextBox.Text.Remove(ZipCodeTextBox.Text.Length - 1);
+                    ZipCodeTextBox.SelectionStart = ZipCodeTextBox.Text.Length;
+                    ZipCodeTextBox.SelectionLength = 0;
+                    return;
+                }
             }
         }
     }

@@ -86,6 +86,7 @@
             UPCTextBox.Name = "UPCTextBox";
             UPCTextBox.Size = new Size(145, 27);
             UPCTextBox.TabIndex = 9;
+            UPCTextBox.TextChanged += UPCTextBox_TextChanged;
             // 
             // ProductLabel
             // 
@@ -125,6 +126,7 @@
             PriceTextBox.Name = "PriceTextBox";
             PriceTextBox.Size = new Size(149, 27);
             PriceTextBox.TabIndex = 10;
+            PriceTextBox.TextChanged += PriceTextBox_TextChanged;
             // 
             // QuantityLabel
             // 
@@ -143,6 +145,7 @@
             QuantityTextBox.Name = "QuantityTextBox";
             QuantityTextBox.Size = new Size(149, 27);
             QuantityTextBox.TabIndex = 12;
+            QuantityTextBox.TextChanged += QuantityTextBox_TextChanged;
             // 
             // TypeLabel
             // 

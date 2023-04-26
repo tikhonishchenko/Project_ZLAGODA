@@ -28,9 +28,56 @@ namespace Project_ZLAGODA.Frontend
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int.Parse(QuantityTextBox.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Quantity is incorrect!", "Error");
+                return;
+            }
             StoreProductModel model = DbRepository.GetStoreProductById(UPCTextBox.Text);
+            if (model.UPC == null)
+            {
+                MessageBox.Show("No such UPC!", "Error");
+                return;
+            }
+            if (model.Quantity < int.Parse(QuantityTextBox.Text))
+            {
+                MessageBox.Show("Quantity is too big!", "Error");
+                return;
+            }
             main.AddSale(model.UPC, int.Parse(QuantityTextBox.Text), model.Price);
             this.Close();
+        }
+
+        private void UPCTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in UPCTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    UPCTextBox.Text = UPCTextBox.Text.Remove(UPCTextBox.Text.Length - 1);
+                    UPCTextBox.SelectionStart = UPCTextBox.Text.Length;
+                    UPCTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void QuantityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in QuantityTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    QuantityTextBox.Text = QuantityTextBox.Text.Remove(QuantityTextBox.Text.Length - 1);
+                    QuantityTextBox.SelectionStart = QuantityTextBox.Text.Length;
+                    QuantityTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
         }
     }
 }
