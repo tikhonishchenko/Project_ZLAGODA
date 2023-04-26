@@ -727,5 +727,10 @@ namespace Project_ZLAGODA
         {
             new PrintResultForm(dataGridView1).Show();
         }
+
+        private void TableComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowBtn_Click(sender, e);
+        }
     }
 }

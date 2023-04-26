@@ -39,5 +39,16 @@ namespace Project_ZLAGODA.Frontend
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string textHeader = "Check number: " + CheckNumberLabel.Text + "\n" +
+                "Cashier: " + CashierLabel.Text + "\n" +
+                "Card number: " + CardNumberLabel.Text + "\n" +
+                "Print date: " + PrintDateLabel.Text + "\n" +
+                "Total: " + TotalLabel.Text + "\n" +
+                "VAT: " + VATLabel.Text + "\n\n\n";
+            new PrintResultForm(dataGridView1, textHeader).Show();
+        }
     }
 }

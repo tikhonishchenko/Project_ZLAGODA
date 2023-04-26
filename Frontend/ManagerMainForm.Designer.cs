@@ -67,8 +67,9 @@
             TableComboBox.Location = new Point(0, 0);
             TableComboBox.Margin = new Padding(5);
             TableComboBox.Name = "TableComboBox";
-            TableComboBox.Size = new Size(723, 40);
+            TableComboBox.Size = new Size(675, 40);
             TableComboBox.TabIndex = 0;
+            TableComboBox.SelectedIndexChanged += TableComboBox_SelectedIndexChanged;
             // 
             // dataGridView1
             // 
@@ -126,7 +127,7 @@
             ShowBtn.Location = new Point(0, 0);
             ShowBtn.Margin = new Padding(5);
             ShowBtn.Name = "ShowBtn";
-            ShowBtn.Size = new Size(293, 45);
+            ShowBtn.Size = new Size(341, 45);
             ShowBtn.TabIndex = 5;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
@@ -148,7 +149,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(ShowBtn);
             splitContainer1.Size = new Size(1032, 45);
-            splitContainer1.SplitterDistance = 723;
+            splitContainer1.SplitterDistance = 675;
             splitContainer1.SplitterWidth = 16;
             splitContainer1.TabIndex = 6;
             // 

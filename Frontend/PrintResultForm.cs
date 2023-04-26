@@ -38,6 +38,41 @@ namespace Project_ZLAGODA.Frontend
             this.Controls.Add(pdfViewerControl);
         }
 
+        public PrintResultForm(DataGridView dataGridView, string header)
+        {
+            InitializeComponent();
+            Document document = new Document();
+            PdfWriter.GetInstance(document, new FileStream("ais.pdf", FileMode.Create));
+            document.Open();
+            PdfPTable table = new PdfPTable(dataGridView.Columns.Count);
+            //add text to the document
+            Paragraph paragraph = new Paragraph(header);
+            document.Add(paragraph);
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                table.AddCell(cell);
+            }
+
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    table.AddCell(cell.Value.ToString());
+                }
+            }
+
+            // Add the table to the document
+            document.Add(table);
+
+            // Close the document
+            document.Close();
+            PdfViewerControl pdfViewerControl = new PdfViewerControl();
+            pdfViewerControl.Load("ais.pdf");
+            pdfViewerControl.Dock = DockStyle.Fill;
+            this.Controls.Add(pdfViewerControl);
+        }
+
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 

@@ -626,7 +626,7 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT * FROM Store_Product WHERE id_product = (SELECT product_number FROM Product WHERE product_name = @ProductName)", connection);
+                SqliteCommand command = new("SELECT * FROM Store_Product WHERE id_product = (SELECT id_product FROM Product WHERE product_name = @ProductName)", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
                 SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
