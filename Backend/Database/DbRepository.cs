@@ -132,21 +132,21 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     return new EmployeeModel
                     {
-                        Id = reader.GetOrdinal("id_employee"),
-                        Surname = reader.GetString(reader.GetOrdinal("empl_surname")),
-                        Name = reader.GetString(reader.GetOrdinal("empl_name")),
-                        Patronymic = reader.IsDBNull(reader.GetOrdinal("empl_patronymic")) ? null : reader.GetString(reader.GetOrdinal("empl_patronymic")),
-                        Username = reader.GetString(reader.GetOrdinal("username")),
-                        PasswordHash = reader.GetFieldValue<byte[]>(reader.GetOrdinal("password_hash")),
-                        Salt = reader.GetFieldValue<byte[]>(reader.GetOrdinal("password_salt")),
-                        Role = reader.GetString(reader.GetOrdinal("empl_role")),
-                        Phone = reader.IsDBNull(reader.GetOrdinal("phone_number")) ? null : reader.GetString(reader.GetOrdinal("phone_number")),
-                        Salary = reader.GetDecimal(reader.GetOrdinal("salary")),
-                        DateOfEmployment = reader.GetDateTime(reader.GetOrdinal("date_of_start")),
-                        DateOfBirth = reader.GetDateTime(reader.GetOrdinal("date_of_birth")),
-                        City = reader.IsDBNull(reader.GetOrdinal("city")) ? null : reader.GetString(reader.GetOrdinal("city")),
-                        Street = reader.IsDBNull(reader.GetOrdinal("street")) ? null : reader.GetString(reader.GetOrdinal("street")),
-                        Zip = reader.IsDBNull(reader.GetOrdinal("zip_code")) ? null : reader.GetString(reader.GetOrdinal("zip_code")),
+                        Id = int.Parse(reader["id_employee"].ToString()),
+                        Surname = reader["empl_surname"].ToString(),
+                        Name = reader["empl_name"].ToString(),
+                        Patronymic = reader["empl_patronymic"].ToString(),
+                        Username = reader["username"].ToString(),
+                        PasswordHash = (byte[])reader["password_hash"],
+                        Salt = (byte[])reader["password_salt"],
+                        Role = reader["empl_role"].ToString(),
+                        Phone = reader["phone_number"].ToString(),
+                        Salary = decimal.Parse(reader["salary"].ToString()),
+                        DateOfEmployment = DateTime.Parse(reader["date_of_start"].ToString()),
+                        DateOfBirth = DateTime.Parse(reader["date_of_birth"].ToString()),
+                        City = reader["city"].ToString(),
+                        Street = reader["street"].ToString(),
+                        Zip = reader["zip_code"].ToString()
                     };
                 }
             }
@@ -1100,10 +1100,10 @@ namespace Project_ZLAGODA.Backend.Database
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    string UPC = reader["CheckNumber"].ToString();
+                    string UPC = reader["UPC"].ToString();
                     int check_number = int.Parse(reader["check_number"].ToString());
                     int product_number = int.Parse(reader["product_number"].ToString());
-                    int quantity = int.Parse(reader["quantity"].ToString());
+                    //int quantity = int.Parse(reader["quantity"].ToString());
                     decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     sales.Add(new SaleModel(UPC, check_number, product_number, selling_price));
                 }
