@@ -33,13 +33,15 @@
             SecondNameLabel = new Label();
             SecondNameComboBox = new ComboBox();
             DiscountLabel = new Label();
-            DiscountTextBox = new TextBox();
+            DiscountTextBox = new NumericUpDown();
             CategoryLabel = new Label();
             CategoryComboBox = new ComboBox();
             ProductNameLabel = new Label();
             ProductNameComboBox = new ComboBox();
             UPCLabel = new Label();
             UPCTextBox = new TextBox();
+            CheckNumberLabel = new Label();
+            CheckNumberTextBox = new TextBox();
             CashierLabel = new Label();
             CashierComboBox = new ComboBox();
             StartDateLabel = new Label();
@@ -47,9 +49,8 @@
             EndDateLabel = new Label();
             EndDateTimePicker = new DateTimePicker();
             ShowBtn = new Button();
-            CheckNumberLabel = new Label();
-            CheckNumberTextBox = new TextBox();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DiscountTextBox).BeginInit();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -127,11 +128,11 @@
             // 
             // DiscountTextBox
             // 
-            DiscountTextBox.Anchor = AnchorStyles.None;
+            DiscountTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DiscountTextBox.Location = new Point(3, 111);
             DiscountTextBox.Name = "DiscountTextBox";
-            DiscountTextBox.Size = new Size(398, 27);
-            DiscountTextBox.TabIndex = 15;
+            DiscountTextBox.Size = new Size(399, 27);
+            DiscountTextBox.TabIndex = 9;
             // 
             // CategoryLabel
             // 
@@ -187,9 +188,31 @@
             // 
             UPCTextBox.Anchor = AnchorStyles.None;
             UPCTextBox.Location = new Point(3, 272);
+            UPCTextBox.MaxLength = 13;
             UPCTextBox.Name = "UPCTextBox";
             UPCTextBox.Size = new Size(399, 27);
             UPCTextBox.TabIndex = 11;
+            UPCTextBox.TextChanged += UPCTextBox_TextChanged;
+            // 
+            // CheckNumberLabel
+            // 
+            CheckNumberLabel.Anchor = AnchorStyles.None;
+            CheckNumberLabel.AutoSize = true;
+            CheckNumberLabel.Location = new Point(151, 302);
+            CheckNumberLabel.Name = "CheckNumberLabel";
+            CheckNumberLabel.Size = new Size(103, 20);
+            CheckNumberLabel.TabIndex = 12;
+            CheckNumberLabel.Text = "Check number";
+            // 
+            // CheckNumberTextBox
+            // 
+            CheckNumberTextBox.Anchor = AnchorStyles.None;
+            CheckNumberTextBox.Location = new Point(3, 325);
+            CheckNumberTextBox.MaxLength = 13;
+            CheckNumberTextBox.Name = "CheckNumberTextBox";
+            CheckNumberTextBox.Size = new Size(399, 27);
+            CheckNumberTextBox.TabIndex = 13;
+            CheckNumberTextBox.TextChanged += CheckNumberTextBox_TextChanged;
             // 
             // CashierLabel
             // 
@@ -258,24 +281,6 @@
             ShowBtn.UseVisualStyleBackColor = true;
             ShowBtn.Click += ShowBtn_Click;
             // 
-            // CheckNumberLabel
-            // 
-            CheckNumberLabel.Anchor = AnchorStyles.None;
-            CheckNumberLabel.AutoSize = true;
-            CheckNumberLabel.Location = new Point(151, 302);
-            CheckNumberLabel.Name = "CheckNumberLabel";
-            CheckNumberLabel.Size = new Size(103, 20);
-            CheckNumberLabel.TabIndex = 12;
-            CheckNumberLabel.Text = "Check number";
-            // 
-            // CheckNumberTextBox
-            // 
-            CheckNumberTextBox.Anchor = AnchorStyles.None;
-            CheckNumberTextBox.Location = new Point(3, 325);
-            CheckNumberTextBox.Name = "CheckNumberTextBox";
-            CheckNumberTextBox.Size = new Size(399, 27);
-            CheckNumberTextBox.TabIndex = 13;
-            // 
             // SearchForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -286,6 +291,7 @@
             Text = "SearchForm";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DiscountTextBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -300,7 +306,6 @@
         private Label CategoryLabel;
         private ComboBox CategoryComboBox;
         private Label DiscountLabel;
-        private TextBox DiscountTextBox;
         private Label UPCLabel;
         private TextBox UPCTextBox;
         private Label CashierLabel;
@@ -313,5 +318,6 @@
         private ComboBox ProductNameComboBox;
         private Label CheckNumberLabel;
         private TextBox CheckNumberTextBox;
+        private NumericUpDown DiscountTextBox;
     }
 }

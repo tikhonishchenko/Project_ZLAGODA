@@ -317,6 +317,12 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[3]))
             {
+                StoreProductModel model = DbRepository.GetStoreProductById(UPCTextBox.Text);
+                if (model.UPC == null)
+                {
+                    MessageBox.Show("No such UPC!", "Error");
+                    return;
+                }
                 result = new SearchResultForm(Query.StoreProductByUPC);
                 result.isManager = isManager;
                 result.upc = UPCTextBox.Text;
@@ -427,8 +433,52 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[17]))
             {
+                SaleCheckModel model = DbRepository.GetSaleCheckByCheckNumber(int.Parse(CheckNumberTextBox.Text));
+                if (model == null)
+                {
+                    MessageBox.Show("No such check!", "Error");
+                    return;
+                }
+                if (model.CheckNumber == 0)
+                {
+                    MessageBox.Show("No such check!", "Error");
+                    return;
+                }
                 CheckInfoForm form = new CheckInfoForm(DbRepository.GetSaleCheckByCheckNumber(int.Parse(CheckNumberTextBox.Text)));
                 form.Show();
+            }
+        }
+
+        private void DiscountTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UPCTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in UPCTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    UPCTextBox.Text = UPCTextBox.Text.Remove(UPCTextBox.Text.Length - 1);
+                    UPCTextBox.SelectionStart = UPCTextBox.Text.Length;
+                    UPCTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void CheckNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in CheckNumberTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    CheckNumberTextBox.Text = CheckNumberTextBox.Text.Remove(CheckNumberTextBox.Text.Length - 1);
+                    CheckNumberTextBox.SelectionStart = CheckNumberTextBox.Text.Length;
+                    CheckNumberTextBox.SelectionLength = 0;
+                    return;
+                }
             }
         }
     }

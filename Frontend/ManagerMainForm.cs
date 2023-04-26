@@ -318,7 +318,15 @@ namespace Project_ZLAGODA
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
             dataTable.Columns.AddRange(columns);
-            List<SaleCheckModel> checks = DbRepository.GetSaleChecks();
+            List<SaleCheckModel> checks;
+            if (isManager)
+            {
+                checks = DbRepository.GetSaleChecks();
+            }
+            else
+            {
+                checks = DbRepository.GetSaleChecksByEmployeeId(employeeId.ToString());
+            }
             foreach (SaleCheckModel check in checks)
             {
                 EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
@@ -444,6 +452,10 @@ namespace Project_ZLAGODA
                 EditProduct();
             }
             else if (TableComboBox.Text == tables[5])
+            {
+                EditStoreProduct();
+            }
+            else if (TableComboBox.Text == tables[7])
             {
                 EditStoreProduct();
             }
@@ -580,6 +592,14 @@ namespace Project_ZLAGODA
             {
                 DeleteStoreProduct();
             }
+            else if (TableComboBox.Text == tables[6])
+            {
+                DeleteSaleCheck();
+            }
+            else if (TableComboBox.Text == tables[7])
+            {
+                DeleteStoreProduct();
+            }
         }
 
         private void DeleteEployee()
@@ -635,6 +655,18 @@ namespace Project_ZLAGODA
                 ShowStoreProducts();
             }
         }
+
+        private void DeleteSaleCheck()
+        {
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                DbRepository.DeleteSaleCheck(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                ShowSaleChecks();
+            }
+        }
+
         #endregion
 
         private void SearchBtn_Click(object sender, EventArgs e)
