@@ -188,7 +188,7 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = new DataTable();
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
             dataTable.Columns.AddRange(columns);
-            StoreProductModel product = DbRepository.GetStoreProduct(upc);
+            StoreProductModel product = DbRepository.GetStoreProductById(upc);
             if (product == null)
             {
                 MessageBox.Show("No such product!", "Error");
@@ -352,11 +352,11 @@ namespace Project_ZLAGODA.Frontend
             DataTable dataTable = dataGridView1.DataSource as DataTable;
             if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
             {
-                EmployeeModel model = DbRepository.GetEmployeeById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                EmployeeModel model = DbRepository.GetEmployeeById(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
                 AddEditEmployee editEmployee = new AddEditEmployee();
                 editEmployee.setMainForm(this);
                 editEmployee.setMode(Mode.Edit);
-                editEmployee.setId(int.Parse(model.Id));
+                editEmployee.setId(model.Id);
                 editEmployee.setFirstNameTextBox(model.Name);
                 editEmployee.setSecondNameTextBox(model.Surname);
                 editEmployee.setPatronymicTextBox(model.Patronymic);

@@ -18,16 +18,16 @@ namespace Project_ZLAGODA
     {
         string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)", "Чеки", "Товари у магазині (за назвою)" };
         SearchForm searchForm = null;
-        public string employeeId { get; set; }
+        public int employeeId { get; set; }
         public bool isManager { get; set; }
         public ManagerMainForm()
         {
             InitializeComponent();
             TableComboBox.Items.AddRange(tables);
-            employeeId = "1";
+            employeeId = 1;
         }
 
-        public ManagerMainForm(string employeeId, bool isManager)
+        public ManagerMainForm(int employeeId, bool isManager)
         {
             InitializeComponent();
             //TableComboBox.Items.AddRange(tables);
@@ -409,7 +409,7 @@ namespace Project_ZLAGODA
         private void AddSaleChecks()
         {
             AddSaleCheckForm addCheck = new AddSaleCheckForm();
-            addCheck.setEmployee(int.Parse(this.employeeId));
+            addCheck.setEmployee(this.employeeId);
         }
 
         #endregion
@@ -465,8 +465,8 @@ namespace Project_ZLAGODA
                 editEmployee.setCityTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][10].ToString());
                 editEmployee.setZipCodeTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][11].ToString());
                 editEmployee.setUsernameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][12].ToString());
-                editEmployee.setPasswordHash(DbRepository.GetEmployeeById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()).PasswordHash);
-                editEmployee.setSalt(DbRepository.GetEmployeeById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()).Salt);
+                editEmployee.setPasswordHash(DbRepository.GetEmployeeById(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString())).PasswordHash);
+                editEmployee.setSalt(DbRepository.GetEmployeeById(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString())).Salt);
                 editEmployee.Show();
             }
         }

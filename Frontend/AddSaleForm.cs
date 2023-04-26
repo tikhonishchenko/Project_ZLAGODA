@@ -28,7 +28,7 @@ namespace Project_ZLAGODA.Frontend
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
-            StoreProductModel model = DbRepository.GetStoreProduct(UPCTextBox.Text);
+            StoreProductModel model = DbRepository.GetStoreProductById(UPCTextBox.Text);
             main.AddSale(model.UPC, int.Parse(QuantityTextBox.Text), model.Price);
         }
     }

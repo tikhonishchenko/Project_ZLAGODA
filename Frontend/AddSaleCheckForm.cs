@@ -35,7 +35,7 @@ namespace Project_ZLAGODA.Frontend
 
         public void setEmployee(int employeeId)
         {
-            this.employee = DbRepository.GetEmployeeById(employeeId.ToString());
+            this.employee = DbRepository.GetEmployeeById(employeeId);
         }
 
         public void ShowSales()

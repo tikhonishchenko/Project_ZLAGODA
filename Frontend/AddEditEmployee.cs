@@ -152,16 +152,16 @@ namespace Project_ZLAGODA
                 List<EmployeeModel> employees = DbRepository.GetEmployees();
                 foreach (EmployeeModel employee in employees)
                 {
-                    if (int.Parse(employee.Id) > Id)
+                    if (employee.Id > Id)
                     {
-                        Id = int.Parse(employee.Id);
+                        Id = employee.Id;
                     }
                 }
                 Id++;
                 //MessageBox.Show(Id.ToString(), "Error");
                 EmployeeModel model = new EmployeeModel
                 {
-                    Id = this.Id.ToString(),
+                    Id = this.Id,
                     Name = FirstNameTextBox.Text,
                     Surname = SecondNameTextBox.Text,
                     Patronymic = PatronymicTextBox.Text,
@@ -186,7 +186,7 @@ namespace Project_ZLAGODA
                 //MessageBox.Show(ProductComboBox.SelectedIndex + " " + products[ProductComboBox.SelectedIndex].Id, "Error");
                 EmployeeModel model = new EmployeeModel
                 {
-                    Id = this.Id.ToString(),
+                    Id = this.Id,
                     Name = FirstNameTextBox.Text,
                     Surname = SecondNameTextBox.Text,
                     Patronymic = PatronymicTextBox.Text,

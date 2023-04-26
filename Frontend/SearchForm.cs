@@ -45,7 +45,7 @@ namespace Project_ZLAGODA
             "чек за номером"
         };
 
-        public string employeeId { get; set; }
+        public int employeeId { get; set; }
         public bool isManager { get; set; }
 
         public SearchForm()
@@ -53,10 +53,10 @@ namespace Project_ZLAGODA
             InitializeComponent();
             flowLayoutPanel1.Location = new Point(this.ClientSize.Width / 2 - flowLayoutPanel1.Size.Width / 2, this.ClientSize.Height / 2 - flowLayoutPanel1.Size.Height / 2);
             hideAll();
-            employeeId = "1";
+            employeeId = 1;
             isManager = true;
         }
-        public SearchForm(string employeeId, bool isManager)
+        public SearchForm(int employeeId, bool isManager)
         {
             InitializeComponent();
             this.employeeId = employeeId;
@@ -341,7 +341,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[8]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
-                result.CashierId = int.Parse(employees[CashierComboBox.SelectedIndex].Id);
+                result.CashierId = employees[CashierComboBox.SelectedIndex].Id;
                 result.startTime = StartDateTimePicker.Value;
                 result.endTime = EndDateTimePicker.Value;
                 result.Show();
@@ -355,7 +355,7 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[10]))
             {
-                MessageBox.Show("Total sum: " + DbRepository.GetSumOfSalesByEmployeeIdAndDates(employees[CashierComboBox.SelectedIndex].Id, StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
+                MessageBox.Show("Total sum: " + DbRepository.GetSumOfSalesByEmployeeIdAndDates(employees[CashierComboBox.SelectedIndex].Id.ToString(), StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
             }
             else if (QueryComboBox.Text.Equals(tables[11]))
             {
@@ -389,7 +389,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[15]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
-                result.CashierId = int.Parse(employeeId);
+                result.CashierId = employeeId;
                 result.startTime = StartDateTimePicker.Value;
                 result.endTime = EndDateTimePicker.Value;
                 result.Show();
@@ -398,7 +398,7 @@ namespace Project_ZLAGODA
             else if (QueryComboBox.Text.Equals(tables[16]))
             {
                 result = new SearchResultForm(Query.SaleCheckByCashierToday);
-                result.CashierId = int.Parse(employeeId);
+                result.CashierId = employeeId;
                 result.Show();
             }
             else if (QueryComboBox.Text.Equals(tables[17]))

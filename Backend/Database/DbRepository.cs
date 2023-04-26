@@ -159,25 +159,36 @@ namespace Project_ZLAGODA.Backend.Database
         /// </summary>
         /// <param name="surname"></param>
         /// <returns></returns>
-        public static EmployeeModel? GetEmployeeDataBySurname(string surname)
+        public static List<EmployeeModel> GetEmployeeDataBySurname(string surname)
         {
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT phone_number, city, street, zip_code FROM Employee WHERE empl_surname = @surname", connection);
+            SQLiteCommand command = new("SELECT * FROM Employee WHERE empl_surname = @surname", connection);
             _ = command.Parameters.AddWithValue("@surname", surname);
             SQLiteDataReader reader = command.ExecuteReader();
+            List<EmployeeModel> employees = new();
             while (reader.Read())
             {
-                return new EmployeeModel
+                employees.Add(new EmployeeModel
                 {
+                    Id = int.Parse(reader["id_employee"].ToString()),
+                    Surname = reader["empl_surname"].ToString(),
+                    Name = reader["empl_name"].ToString(),
+                    Patronymic = reader["empl_patronymic"].ToString(),
+                    Username = reader["username"].ToString(),
+                    PasswordHash = (byte[])reader["password_hash"],
+                    Salt = (byte[])reader["password_salt"],
+                    Role = reader["empl_role"].ToString(),
                     Phone = reader["phone_number"].ToString(),
+                    Salary = decimal.Parse(reader["salary"].ToString()),
+                    DateOfEmployment = DateTime.Parse(reader["date_of_start"].ToString()),
+                    DateOfBirth = DateTime.Parse(reader["date_of_birth"].ToString()),
                     City = reader["city"].ToString(),
                     Street = reader["street"].ToString(),
                     Zip = reader["zip_code"].ToString()
-                };
-
+                });
             }
-            return null;
+            return employees;
         }
 
         /// <summary>
