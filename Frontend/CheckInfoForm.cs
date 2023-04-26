@@ -34,7 +34,8 @@ namespace Project_ZLAGODA.Frontend
             dataTable.Columns.AddRange(columns);
             foreach (SaleModel sale in check.CheckItems)
             {
-                dataTable.Rows.Add(new Object[] { sale.UPC, "not realized", sale.ProductNumber, sale.Price });
+                ProductModel productModel = DbRepository.GetProductById(DbRepository.GetStoreProductById(sale.UPC).ProductId);
+                dataTable.Rows.Add(new Object[] { sale.UPC, productModel.ProductName, sale.ProductNumber, sale.Price });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
