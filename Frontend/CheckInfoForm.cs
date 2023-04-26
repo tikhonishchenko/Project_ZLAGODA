@@ -30,7 +30,6 @@ namespace Project_ZLAGODA.Frontend
             TotalLabel.Text = "Total: " + check.SumTotal;
             VATLabel.Text = "VAT: " + check.VAT;
             DataTable dataTable = new DataTable();
-            MessageBox.Show(check.CheckItems.Count().ToString());
             DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product"), new DataColumn("Quantity"), new DataColumn("Price") };
             dataTable.Columns.AddRange(columns);
             foreach (SaleModel sale in check.CheckItems)

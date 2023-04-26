@@ -563,7 +563,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -585,7 +585,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -610,7 +610,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -633,7 +633,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -721,7 +721,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -749,7 +749,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -777,7 +777,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -805,7 +805,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -833,7 +833,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime date = DateTime.Parse(reader["expiry_date"].ToString());
@@ -858,7 +858,7 @@ namespace Project_ZLAGODA.Backend.Database
                 {
                     string UPC = reader["UPC"].ToString();
                     int id_product = int.Parse(reader["id_product"].ToString());
-                    int selling_price = int.Parse(reader["selling_price"].ToString());
+                    decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
                     int quantity = int.Parse(reader["products_number"].ToString());
                     bool promotional_product = reader.GetBoolean(reader.GetOrdinal("promotional_product"));
                     DateTime expiryDate = DateTime.Parse(reader["expiry_date"].ToString());
@@ -949,7 +949,7 @@ namespace Project_ZLAGODA.Backend.Database
             using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqliteCommand command = new("SELECT * FROM Customer_Card WHERE id = @id", connection);
+                SqliteCommand command = new("SELECT * FROM Customer_Card WHERE card_number = @id", connection);
                 _ = command.Parameters.AddWithValue("@id", id);
                 SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -1131,8 +1131,24 @@ namespace Project_ZLAGODA.Backend.Database
             }
             return sales;
         }
+        private static int GetLastSaleCheckId()
+        {
+            int lastSaleCheckId = 0;
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT MAX(check_number) FROM Sales_Check", connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    lastSaleCheckId = int.Parse(reader["MAX(check_number)"].ToString());
+                }
+            }
+            return lastSaleCheckId;
+        }
         private static void AddSales(SaleCheckModel saleCheck)
         {
+            saleCheck.CheckNumber = GetLastSaleCheckId();
             foreach (SaleModel sale in saleCheck.CheckItems)
             {
                 if (sale.CheckNumber != saleCheck.CheckNumber)

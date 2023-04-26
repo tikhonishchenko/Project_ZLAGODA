@@ -65,8 +65,9 @@
             TableComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             TableComboBox.FormattingEnabled = true;
             TableComboBox.Location = new Point(0, 0);
+            TableComboBox.Margin = new Padding(5);
             TableComboBox.Name = "TableComboBox";
-            TableComboBox.Size = new Size(367, 28);
+            TableComboBox.Size = new Size(723, 40);
             TableComboBox.TabIndex = 0;
             // 
             // dataGridView1
@@ -77,19 +78,21 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Margin = new Padding(5);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(580, 450);
+            dataGridView1.Size = new Size(1032, 738);
             dataGridView1.TabIndex = 1;
             // 
             // AddBtn
             // 
-            AddBtn.Location = new Point(3, 3);
+            AddBtn.Location = new Point(5, 5);
+            AddBtn.Margin = new Padding(5);
             AddBtn.Name = "AddBtn";
-            AddBtn.Size = new Size(137, 29);
+            AddBtn.Size = new Size(223, 46);
             AddBtn.TabIndex = 2;
             AddBtn.Text = "Add";
             AddBtn.UseVisualStyleBackColor = true;
@@ -97,9 +100,10 @@
             // 
             // EditBtn
             // 
-            EditBtn.Location = new Point(3, 38);
+            EditBtn.Location = new Point(5, 61);
+            EditBtn.Margin = new Padding(5);
             EditBtn.Name = "EditBtn";
-            EditBtn.Size = new Size(137, 29);
+            EditBtn.Size = new Size(223, 46);
             EditBtn.TabIndex = 3;
             EditBtn.Text = "Edit";
             EditBtn.UseVisualStyleBackColor = true;
@@ -107,9 +111,10 @@
             // 
             // DeleteBtn
             // 
-            DeleteBtn.Location = new Point(3, 108);
+            DeleteBtn.Location = new Point(5, 173);
+            DeleteBtn.Margin = new Padding(5);
             DeleteBtn.Name = "DeleteBtn";
-            DeleteBtn.Size = new Size(137, 29);
+            DeleteBtn.Size = new Size(223, 46);
             DeleteBtn.TabIndex = 4;
             DeleteBtn.Text = "Delete";
             DeleteBtn.UseVisualStyleBackColor = true;
@@ -119,8 +124,9 @@
             // 
             ShowBtn.Dock = DockStyle.Fill;
             ShowBtn.Location = new Point(0, 0);
+            ShowBtn.Margin = new Padding(5);
             ShowBtn.Name = "ShowBtn";
-            ShowBtn.Size = new Size(203, 28);
+            ShowBtn.Size = new Size(293, 45);
             ShowBtn.TabIndex = 5;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
@@ -131,6 +137,7 @@
             splitContainer1.Dock = DockStyle.Top;
             splitContainer1.FixedPanel = FixedPanel.Panel2;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(5);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -140,9 +147,9 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(ShowBtn);
-            splitContainer1.Size = new Size(580, 28);
-            splitContainer1.SplitterDistance = 367;
-            splitContainer1.SplitterWidth = 10;
+            splitContainer1.Size = new Size(1032, 45);
+            splitContainer1.SplitterDistance = 723;
+            splitContainer1.SplitterWidth = 16;
             splitContainer1.TabIndex = 6;
             // 
             // flowLayoutPanel1
@@ -158,15 +165,17 @@
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Margin = new Padding(5);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(143, 490);
+            flowLayoutPanel1.Size = new Size(143, 784);
             flowLayoutPanel1.TabIndex = 7;
             // 
             // ShowProductsBtn
             // 
-            ShowProductsBtn.Location = new Point(3, 73);
+            ShowProductsBtn.Location = new Point(5, 117);
+            ShowProductsBtn.Margin = new Padding(5);
             ShowProductsBtn.Name = "ShowProductsBtn";
-            ShowProductsBtn.Size = new Size(137, 29);
+            ShowProductsBtn.Size = new Size(223, 46);
             ShowProductsBtn.TabIndex = 9;
             ShowProductsBtn.Text = "Show products";
             ShowProductsBtn.UseVisualStyleBackColor = true;
@@ -174,9 +183,10 @@
             // 
             // SearchBtn
             // 
-            SearchBtn.Location = new Point(3, 143);
+            SearchBtn.Location = new Point(5, 229);
+            SearchBtn.Margin = new Padding(5);
             SearchBtn.Name = "SearchBtn";
-            SearchBtn.Size = new Size(137, 29);
+            SearchBtn.Size = new Size(223, 46);
             SearchBtn.TabIndex = 8;
             SearchBtn.Text = "Search";
             SearchBtn.UseVisualStyleBackColor = true;
@@ -184,9 +194,10 @@
             // 
             // AboutMeBtn
             // 
-            AboutMeBtn.Location = new Point(3, 178);
+            AboutMeBtn.Location = new Point(5, 285);
+            AboutMeBtn.Margin = new Padding(5);
             AboutMeBtn.Name = "AboutMeBtn";
-            AboutMeBtn.Size = new Size(137, 29);
+            AboutMeBtn.Size = new Size(223, 46);
             AboutMeBtn.TabIndex = 6;
             AboutMeBtn.Text = "About me";
             AboutMeBtn.UseVisualStyleBackColor = true;
@@ -194,18 +205,21 @@
             // 
             // PrintBtn
             // 
-            PrintBtn.Location = new Point(3, 213);
+            PrintBtn.Location = new Point(5, 341);
+            PrintBtn.Margin = new Padding(5);
             PrintBtn.Name = "PrintBtn";
-            PrintBtn.Size = new Size(137, 29);
+            PrintBtn.Size = new Size(223, 46);
             PrintBtn.TabIndex = 7;
             PrintBtn.Text = "Print";
             PrintBtn.UseVisualStyleBackColor = true;
+            PrintBtn.Click += PrintBtn_Click;
             // 
             // ExitBtn
             // 
-            ExitBtn.Location = new Point(3, 248);
+            ExitBtn.Location = new Point(5, 397);
+            ExitBtn.Margin = new Padding(5);
             ExitBtn.Name = "ExitBtn";
-            ExitBtn.Size = new Size(137, 29);
+            ExitBtn.Size = new Size(223, 46);
             ExitBtn.TabIndex = 5;
             ExitBtn.Text = "Exit";
             ExitBtn.UseVisualStyleBackColor = true;
@@ -216,6 +230,7 @@
             splitContainer2.Dock = DockStyle.Fill;
             splitContainer2.FixedPanel = FixedPanel.Panel1;
             splitContainer2.Location = new Point(0, 0);
+            splitContainer2.Margin = new Padding(5);
             splitContainer2.Name = "splitContainer2";
             splitContainer2.Orientation = Orientation.Horizontal;
             // 
@@ -226,9 +241,9 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(dataGridView1);
-            splitContainer2.Size = new Size(580, 490);
+            splitContainer2.Size = new Size(1032, 784);
             splitContainer2.SplitterDistance = 30;
-            splitContainer2.SplitterWidth = 10;
+            splitContainer2.SplitterWidth = 16;
             splitContainer2.TabIndex = 8;
             // 
             // splitContainer3
@@ -236,6 +251,7 @@
             splitContainer3.Dock = DockStyle.Fill;
             splitContainer3.FixedPanel = FixedPanel.Panel1;
             splitContainer3.Location = new Point(0, 0);
+            splitContainer3.Margin = new Padding(5);
             splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
@@ -245,17 +261,18 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(splitContainer2);
-            splitContainer3.Size = new Size(733, 490);
+            splitContainer3.Size = new Size(1191, 784);
             splitContainer3.SplitterDistance = 143;
-            splitContainer3.SplitterWidth = 10;
+            splitContainer3.SplitterWidth = 16;
             splitContainer3.TabIndex = 9;
             // 
             // ManagerMainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(733, 490);
+            ClientSize = new Size(1191, 784);
             Controls.Add(splitContainer3);
+            Margin = new Padding(5);
             Name = "ManagerMainForm";
             Text = "ZLAGODA";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

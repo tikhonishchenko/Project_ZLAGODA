@@ -117,7 +117,8 @@ namespace Project_ZLAGODA.Frontend
                 CardNumber = CardNumberTextBox.Text,
                 PrintDate = DateTime.Now,
                 SumTotal = total,
-                VAT = total * 0.2M
+                VAT = total * 0.2M,
+                CheckItems = sales
             };
             DbRepository.AddSaleCheck(model);
             //main.ShowSaleChecks();

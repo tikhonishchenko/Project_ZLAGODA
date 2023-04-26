@@ -94,7 +94,7 @@ namespace Project_ZLAGODA
             }
             else if (TableComboBox.Text.Equals(tables[2]))
             {
-                
+
                 ShowProductsBtn.Hide();
                 ShowCustomers();
             }
@@ -682,6 +682,11 @@ namespace Project_ZLAGODA
                     checkInfo.Show();
                 }
             }
+        }
+
+        private void PrintBtn_Click(object sender, EventArgs e)
+        {
+            new PrintResultForm(dataGridView1).Show();
         }
     }
 }
