@@ -377,7 +377,7 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[10]))
             {
-                MessageBox.Show("Total sum: " + DbRepository.GetSumOfSalesByEmployeeIdAndDates(employees[CashierComboBox.SelectedIndex].Id.ToString(), StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
+                MessageBox.Show("Total sum: " + DbRepository.GetSumOfSalesByEmployeeIdAndDates(employees[CashierComboBox.SelectedIndex].Id, StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
             }
             else if (QueryComboBox.Text.Equals(tables[11]))
             {

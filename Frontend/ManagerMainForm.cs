@@ -685,7 +685,7 @@ namespace Project_ZLAGODA
                 DataTable dataTable = dataGridView1.DataSource as DataTable;
                 if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
                 {
-                    CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleChecks()[dataGridView1.SelectedRows[0].Index]);
+                    CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleCheckById(int.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString())));
                     checkInfo.Show();
                 }
             }
