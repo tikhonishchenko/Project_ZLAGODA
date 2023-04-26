@@ -158,6 +158,15 @@ namespace Project_ZLAGODA
                     }
                 }
                 Id++;
+                try
+                {
+                    decimal.Parse(SalaryTextBox.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Salary is incorrect!", "Error");
+                    return;
+                }
                 //MessageBox.Show(Id.ToString(), "Error");
                 EmployeeModel model = new EmployeeModel
                 {
@@ -184,6 +193,15 @@ namespace Project_ZLAGODA
             else if (mode == Mode.Edit)
             {
                 //MessageBox.Show(ProductComboBox.SelectedIndex + " " + products[ProductComboBox.SelectedIndex].Id, "Error");
+                try
+                {
+                    decimal.Parse(SalaryTextBox.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Salary is incorrect!", "Error");
+                    return;
+                }
                 EmployeeModel model = new EmployeeModel
                 {
                     Id = this.Id,
@@ -229,6 +247,48 @@ namespace Project_ZLAGODA
 
         private void PasswordLabel_Click(object sender, EventArgs e)
         {
+        }
+
+        private void PhoneNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in PhoneNumberTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9' || a == '+' || a == '-'))
+                {
+                    PhoneNumberTextBox.Text = PhoneNumberTextBox.Text.Remove(PhoneNumberTextBox.Text.Length - 1);
+                    PhoneNumberTextBox.SelectionStart = PhoneNumberTextBox.Text.Length;
+                    PhoneNumberTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void ZipCodeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in ZipCodeTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    ZipCodeTextBox.Text = ZipCodeTextBox.Text.Remove(ZipCodeTextBox.Text.Length - 1);
+                    ZipCodeTextBox.SelectionStart = ZipCodeTextBox.Text.Length;
+                    ZipCodeTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
+        }
+
+        private void SalaryTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in SalaryTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9' || a == '.' || a == ','))
+                {
+                    SalaryTextBox.Text = SalaryTextBox.Text.Remove(SalaryTextBox.Text.Length - 1);
+                    SalaryTextBox.SelectionStart = SalaryTextBox.Text.Length;
+                    SalaryTextBox.SelectionLength = 0;
+                    return;
+                }
+            }
         }
     }
 }

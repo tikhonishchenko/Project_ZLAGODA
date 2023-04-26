@@ -106,6 +106,15 @@ namespace Project_ZLAGODA.Frontend
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
+            if (CardNumberTextBox.Text.Length > 0)
+            {
+                CustomerModel customer = DbRepository.GetCustomerById(CardNumberTextBox.Text);
+                if (customer.CardNumber == null)
+                {
+                    MessageBox.Show("No such card number!", "Error");
+                    return;
+                }
+            }
             decimal total = 0;
             foreach (SaleModel m in sales)
             {
@@ -142,6 +151,20 @@ namespace Project_ZLAGODA.Frontend
                 ShowSales();
                 //DbRepository.DeleteCustomer(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
                 //ShowCustomers();
+            }
+        }
+
+        private void CardNumberTextBox_TextChanged(object sender, EventArgs e)
+        {
+            foreach (char a in CardNumberTextBox.Text)
+            {
+                if (!(a >= '0' && a <= '9'))
+                {
+                    CardNumberTextBox.Text = CardNumberTextBox.Text.Remove(CardNumberTextBox.Text.Length - 1);
+                    CardNumberTextBox.SelectionStart = CardNumberTextBox.Text.Length;
+                    CardNumberTextBox.SelectionLength = 0;
+                    return;
+                }
             }
         }
     }

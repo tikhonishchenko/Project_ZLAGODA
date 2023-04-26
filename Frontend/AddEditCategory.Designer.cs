@@ -63,6 +63,7 @@
             // 
             NameTextBox.Anchor = AnchorStyles.None;
             NameTextBox.Location = new Point(3, 23);
+            NameTextBox.MaxLength = 50;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(145, 27);
             NameTextBox.TabIndex = 9;
