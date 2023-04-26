@@ -42,6 +42,7 @@
             ExitBtn = new Button();
             splitContainer2 = new SplitContainer();
             splitContainer3 = new SplitContainer();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -65,7 +66,7 @@
             TableComboBox.FormattingEnabled = true;
             TableComboBox.Location = new Point(0, 0);
             TableComboBox.Name = "TableComboBox";
-            TableComboBox.Size = new Size(385, 28);
+            TableComboBox.Size = new Size(373, 28);
             TableComboBox.TabIndex = 0;
             // 
             // dataGridView1
@@ -106,7 +107,7 @@
             // 
             // DeleteBtn
             // 
-            DeleteBtn.Location = new Point(3, 73);
+            DeleteBtn.Location = new Point(3, 108);
             DeleteBtn.Name = "DeleteBtn";
             DeleteBtn.Size = new Size(137, 29);
             DeleteBtn.TabIndex = 4;
@@ -119,7 +120,7 @@
             ShowBtn.Dock = DockStyle.Fill;
             ShowBtn.Location = new Point(0, 0);
             ShowBtn.Name = "ShowBtn";
-            ShowBtn.Size = new Size(185, 28);
+            ShowBtn.Size = new Size(197, 28);
             ShowBtn.TabIndex = 5;
             ShowBtn.Text = "Show";
             ShowBtn.UseVisualStyleBackColor = true;
@@ -140,7 +141,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(ShowBtn);
             splitContainer1.Size = new Size(580, 28);
-            splitContainer1.SplitterDistance = 385;
+            splitContainer1.SplitterDistance = 373;
             splitContainer1.SplitterWidth = 10;
             splitContainer1.TabIndex = 6;
             // 
@@ -148,6 +149,7 @@
             // 
             flowLayoutPanel1.Controls.Add(AddBtn);
             flowLayoutPanel1.Controls.Add(EditBtn);
+            flowLayoutPanel1.Controls.Add(button1);
             flowLayoutPanel1.Controls.Add(DeleteBtn);
             flowLayoutPanel1.Controls.Add(SearchBtn);
             flowLayoutPanel1.Controls.Add(AboutMeBtn);
@@ -162,7 +164,7 @@
             // 
             // SearchBtn
             // 
-            SearchBtn.Location = new Point(3, 108);
+            SearchBtn.Location = new Point(3, 143);
             SearchBtn.Name = "SearchBtn";
             SearchBtn.Size = new Size(137, 29);
             SearchBtn.TabIndex = 8;
@@ -172,7 +174,7 @@
             // 
             // AboutMeBtn
             // 
-            AboutMeBtn.Location = new Point(3, 143);
+            AboutMeBtn.Location = new Point(3, 178);
             AboutMeBtn.Name = "AboutMeBtn";
             AboutMeBtn.Size = new Size(137, 29);
             AboutMeBtn.TabIndex = 6;
@@ -182,7 +184,7 @@
             // 
             // PrintBtn
             // 
-            PrintBtn.Location = new Point(3, 178);
+            PrintBtn.Location = new Point(3, 213);
             PrintBtn.Name = "PrintBtn";
             PrintBtn.Size = new Size(137, 29);
             PrintBtn.TabIndex = 7;
@@ -191,7 +193,7 @@
             // 
             // ExitBtn
             // 
-            ExitBtn.Location = new Point(3, 213);
+            ExitBtn.Location = new Point(3, 248);
             ExitBtn.Name = "ExitBtn";
             ExitBtn.Size = new Size(137, 29);
             ExitBtn.TabIndex = 5;
@@ -238,6 +240,16 @@
             splitContainer3.SplitterWidth = 10;
             splitContainer3.TabIndex = 9;
             // 
+            // button1
+            // 
+            button1.Location = new Point(3, 73);
+            button1.Name = "button1";
+            button1.Size = new Size(137, 29);
+            button1.TabIndex = 9;
+            button1.Text = "Show products";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // ManagerMainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -279,5 +291,6 @@
         private Button AboutMeBtn;
         private Button PrintBtn;
         private Button ExitBtn;
+        private Button button1;
     }
 }

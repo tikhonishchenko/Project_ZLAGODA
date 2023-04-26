@@ -12,16 +12,14 @@ namespace Project_ZLAGODA.Frontend
 {
     public interface ShowForm
     {
-        public void ShowEployeesBySurname();
+        public void ShowEmployees();
 
-        public void ShowCashiersBySurname();
+        public void ShowCustomers();
 
-        public void ShowCustomersBySurname();
+        public void ShowCategories();
 
-        public void ShowCategoriesByName();
+        public void ShowProducts();
 
-        public void ShowProductsByName();
-
-        public void ShowStoreProductsByQuantity();
+        public void ShowStoreProducts();
     }
 }

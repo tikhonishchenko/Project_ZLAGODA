@@ -66,7 +66,7 @@ namespace Project_ZLAGODA
                     CategoryName = NameTextBox.Text
                 };
                 DbRepository.AddCategory(model);
-                main.ShowCategoriesByName();
+                main.ShowCategories();
                 this.Close();
             }
             else if (mode == Mode.Edit)
@@ -77,7 +77,7 @@ namespace Project_ZLAGODA
                     CategoryName = NameTextBox.Text
                 };
                 DbRepository.UpdateCategory(model);
-                main.ShowCategoriesByName();
+                main.ShowCategories();
                 this.Close();
             }
         }

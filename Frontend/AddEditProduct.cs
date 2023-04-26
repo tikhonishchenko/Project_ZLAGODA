@@ -103,7 +103,7 @@ namespace Project_ZLAGODA
                     ProductCharacteristics = CharacteristicsTextBox.Text
                 };
                 DbRepository.AddProduct(model);
-                main.ShowProductsByName();
+                main.ShowProducts();
                 this.Close();
             }
             else if (mode == Mode.Edit)
@@ -116,7 +116,7 @@ namespace Project_ZLAGODA
                     ProductCharacteristics = CharacteristicsTextBox.Text
                 };
                 DbRepository.UpdateProduct(productModel);
-                main.ShowProductsByName();
+                main.ShowProducts();
                 this.Close();
             }
         }

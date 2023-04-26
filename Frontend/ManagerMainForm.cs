@@ -16,7 +16,7 @@ namespace Project_ZLAGODA
 {
     public partial class ManagerMainForm : Form, ShowForm
     {
-        string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)" };
+        string[] tables = new string[] { "Працівники (за прізвищем)", "Касири (за прізвищем)", "Постійні клієнти (за прізвищем)", "Категорії (за назвою)", "Товари (за назвою)", "Товари у магазині (за кількістю)", "Чеки" };
         SearchForm searchForm = null;
         public string managerId { get; set; }
         public ManagerMainForm()
@@ -32,25 +32,73 @@ namespace Project_ZLAGODA
         {
             if (TableComboBox.Text == tables[0])
             {
+                ShowEmployees();
+            }
+            else if (TableComboBox.Text == tables[1])
+            {
+                ShowEmployees();
+            }
+            else if (TableComboBox.Text == tables[2])
+            {
+                ShowCustomers();
+            }
+            else if (TableComboBox.Text == tables[3])
+            {
+                ShowCategories();
+            }
+            else if (TableComboBox.Text == tables[4])
+            {
+                ShowProducts();
+            }
+            else if (TableComboBox.Text == tables[5])
+            {
+                ShowStoreProducts();
+            }
+            else if (TableComboBox.Text.Equals(tables[6]))
+            {
+                ShowSaleChecks();
+            }
+        }
+
+        public void ShowEmployees()
+        {
+            if (TableComboBox.Text == tables[0])
+            {
                 ShowEployeesBySurname();
             }
             else if (TableComboBox.Text == tables[1])
             {
                 ShowCashiersBySurname();
             }
-            else if (TableComboBox.Text == tables[2])
+        }
+
+        public void ShowCustomers()
+        {
+            if (TableComboBox.Text == tables[2])
             {
                 ShowCustomersBySurname();
             }
-            else if (TableComboBox.Text == tables[3])
+        }
+
+        public void ShowCategories()
+        {
+            if (TableComboBox.Text == tables[3])
             {
                 ShowCategoriesByName();
             }
-            else if (TableComboBox.Text == tables[4])
+        }
+
+        public void ShowProducts()
+        {
+            if (TableComboBox.Text == tables[4])
             {
                 ShowProductsByName();
             }
-            else if (TableComboBox.Text == tables[5])
+        }
+
+        public void ShowStoreProducts()
+        {
+            if (TableComboBox.Text == tables[5])
             {
                 ShowStoreProductsByQuantity();
             }
@@ -58,25 +106,55 @@ namespace Project_ZLAGODA
 
         public void ShowEployeesBySurname()
         {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Role"), new DataColumn("Phone number"), new DataColumn("Salary"), new DataColumn("Employment date"), new DataColumn("Birth date"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Username") };
+            dataTable.Columns.AddRange(columns);
+            List<EmployeeModel> employees = DbRepository.GetEmployeesSortedBySurname();
+            foreach (EmployeeModel employee in employees)
+            {
+                dataTable.Rows.Add(new Object[] { employee.Id, employee.Name, employee.Surname, employee.Patronymic, employee.Role, employee.Phone, employee.Salary, employee.DateOfEmployment, employee.DateOfBirth, employee.Street, employee.City, employee.Zip, employee.Username });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         public void ShowCashiersBySurname()
         {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Role"), new DataColumn("Phone number"), new DataColumn("Salary"), new DataColumn("Employment date"), new DataColumn("Birth date"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Username") };
+            dataTable.Columns.AddRange(columns);
+            List<EmployeeModel> employees = DbRepository.GetEmployeesCashiersSortedBySurname();
+            foreach (EmployeeModel employee in employees)
+            {
+                dataTable.Rows.Add(new Object[] { employee.Id, employee.Name, employee.Surname, employee.Patronymic, employee.Role, employee.Phone, employee.Salary, employee.DateOfEmployment, employee.DateOfBirth, employee.Street, employee.City, employee.Zip, employee.Username });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         public void ShowCustomersBySurname()
         {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Card number"), new DataColumn("First name"), new DataColumn("Second name"), new DataColumn("Patronymic"), new DataColumn("Phone number"), new DataColumn("Address"), new DataColumn("City"), new DataColumn("Zip code"), new DataColumn("Discount") };
+            dataTable.Columns.AddRange(columns);
+            List<CustomerModel> customers = DbRepository.GetCustomersSorted();
+            foreach (CustomerModel customer in customers)
+            {
+                dataTable.Rows.Add(new Object[] { customer.CardNumber, customer.Name, customer.LastName, customer.Patronymic, customer.PhoneNumber, customer.Street, customer.City, customer.ZipCode, customer.Percent });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         public void ShowCategoriesByName()
         {
             DataTable dataTable = new DataTable();
-            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Name")};
+            DataColumn[] columns = { new DataColumn("Id"), new DataColumn("Name") };
             dataTable.Columns.AddRange(columns);
             List<CategoryModel> categories = DbRepository.GetCategoriesSorted();
             foreach (CategoryModel category in categories)
             {
-                dataTable.Rows.Add(new Object[] { category.Id, category.CategoryName});
+                dataTable.Rows.Add(new Object[] { category.Id, category.CategoryName });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -92,16 +170,41 @@ namespace Project_ZLAGODA
             {
                 dataTable.Rows.Add(new Object[] { product.Id, product.CategoryNumber, product.ProductName, product.ProductCharacteristics });
             }
+            //PersonList.ItemsSource = ViewModel.Persons;PersonList.Items.Refresh();
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         public void ShowStoreProductsByQuantity()
         {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("UPC"), new DataColumn("Product Id"), new DataColumn("Price"), new DataColumn("Type"), new DataColumn("Quantity"), new DataColumn("Expiry Date") };
+            dataTable.Columns.AddRange(columns);
+            List<StoreProductModel> products = DbRepository.GetStoreProductsSortedByQuantity();
+            foreach (StoreProductModel product in products)
+            {
+                dataTable.Rows.Add(new Object[] { product.UPC, product.ProductId, product.Price, product.IsPromotion ? "Promotional" : "Ordiry", product.Quantity, product.ExpiryDate });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+        }
+
+        public void ShowSaleChecks()
+        {
+            DataTable dataTable = new DataTable();
+            DataColumn[] columns = { new DataColumn("Check number"), new DataColumn("Cashier"), new DataColumn("Card number"), new DataColumn("Print date"), new DataColumn("Total"), new DataColumn("VAT") };
+            dataTable.Columns.AddRange(columns);
+            List<SaleCheckModel> checks = DbRepository.GetSaleChecks();
+            foreach (SaleCheckModel check in checks)
+            {
+                EmployeeModel employee = DbRepository.GetEmployeeById(check.EmployeeId);
+                dataTable.Rows.Add(new Object[] { check.CheckNumber, employee.Surname + " " + employee.Name + " " + employee.Patronymic, check.CardNumber, check.PrintDate.ToString(), check.SumTotal, check.VAT });
+            }
+            dataGridView1.DataSource = dataTable;
+            dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
         }
 
         #endregion
-
 
         #region Add
         private void AddBtn_Click(object sender, EventArgs e)
@@ -130,21 +233,35 @@ namespace Project_ZLAGODA
             {
                 AddStoreProduct();
             }
+            else if (TableComboBox.Text.Equals(tables[6]))
+            {
+                AddSaleChecks();
+            }
         }
 
         private void AddEployee()
         {
-            throw new NotImplementedException();
+            AddEditEmployee addEmployee = new AddEditEmployee();
+            addEmployee.setMainForm(this);
+            addEmployee.setMode(Mode.Add);
+            addEmployee.Show();
         }
 
         private void AddCashier()
         {
-            throw new NotImplementedException();
+            AddEditEmployee addEmployee = new AddEditEmployee();
+            addEmployee.setMainForm(this);
+            addEmployee.setMode(Mode.Add);
+            addEmployee.setRoleComboBox("Cashier");
+            addEmployee.Show();
         }
 
         private void AddCustomer()
         {
-            throw new NotImplementedException();
+            AddEditCustomer addCustomer = new AddEditCustomer();
+            addCustomer.setMainForm(this);
+            addCustomer.setMode(Mode.Add);
+            addCustomer.Show();
         }
 
         private void AddCategory()
@@ -164,8 +281,18 @@ namespace Project_ZLAGODA
 
         private void AddStoreProduct()
         {
-            throw new NotImplementedException();
+            AddEditStoreProduct addStoreProduct = new AddEditStoreProduct();
+            addStoreProduct.setMainForm(this);
+            addStoreProduct.setMode(Mode.Add);
+            addStoreProduct.Show();
         }
+
+        private void AddSaleChecks()
+        {
+            AddSaleCheckForm addCheck = new AddSaleCheckForm();
+            addCheck.setEmployee(int.Parse(this.managerId));
+        }
+
         #endregion
 
         #region Edit
@@ -177,7 +304,7 @@ namespace Project_ZLAGODA
             }
             else if (TableComboBox.Text == tables[1])
             {
-                EditCashier();
+                EditEployee();
             }
             else if (TableComboBox.Text == tables[2])
             {
@@ -199,17 +326,52 @@ namespace Project_ZLAGODA
 
         private void EditEployee()
         {
-            throw new NotImplementedException();
-        }
-
-        private void EditCashier()
-        {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                AddEditEmployee editEmployee = new AddEditEmployee();
+                editEmployee.setMainForm(this);
+                editEmployee.setMode(Mode.Edit);
+                editEmployee.setId(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
+                editEmployee.setFirstNameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][1].ToString());
+                editEmployee.setSecondNameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][2].ToString());
+                editEmployee.setPatronymicTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][3].ToString());
+                editEmployee.setRoleComboBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][4].ToString());
+                editEmployee.setPhoneNumberTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][5].ToString());
+                editEmployee.setSalaryTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][6].ToString());
+                editEmployee.setEmploymentDateTextBox(DateTime.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][7].ToString()));
+                editEmployee.setBirthDateTextBox(DateTime.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][8].ToString()));
+                editEmployee.setAddressTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][9].ToString());
+                editEmployee.setCityTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][10].ToString());
+                editEmployee.setZipCodeTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][11].ToString());
+                editEmployee.setUsernameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][12].ToString());
+                editEmployee.setPasswordHash(DbRepository.GetEmployeeById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()).PasswordHash);
+                editEmployee.setSalt(DbRepository.GetEmployeeById(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()).Salt);
+                editEmployee.Show();
+            }
         }
 
         private void EditCustomer()
         {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                AddEditCustomer editCustomer = new AddEditCustomer();
+                editCustomer.setMainForm(this);
+                editCustomer.setMode(Mode.Edit);
+                editCustomer.setCardNumberTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                editCustomer.setFirstNameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][1].ToString());
+                editCustomer.setSecondNameTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][2].ToString());
+                editCustomer.setPatronymicTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][3].ToString());
+                editCustomer.setPhoneNumberTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][4].ToString());
+                editCustomer.setAddressTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][5].ToString());
+                editCustomer.setCityTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][6].ToString());
+                editCustomer.setZipCodeTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][7].ToString());
+                editCustomer.setDiscountTextBox(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][8].ToString()));
+                editCustomer.Show();
+            }
         }
 
         private void EditCategory()
@@ -245,7 +407,21 @@ namespace Project_ZLAGODA
 
         private void EditStoreProduct()
         {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                AddEditStoreProduct editStoreProduct = new AddEditStoreProduct();
+                editStoreProduct.setMainForm(this);
+                editStoreProduct.setMode(Mode.Edit);
+                editStoreProduct.setUPCTextBox(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                editStoreProduct.setProductId(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][1].ToString()));
+                editStoreProduct.setPriceTextBox(decimal.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][2].ToString()));
+                editStoreProduct.setPromotional(dataTable.Rows[dataGridView1.SelectedRows[0].Index][3].ToString() == "Promotional" ? true : false);
+                editStoreProduct.setQuantityTextBox(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][4].ToString()));
+                editStoreProduct.setExpiryDate(DateTime.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][5].ToString()));
+                editStoreProduct.Show();
+            }
         }
 
         #endregion
@@ -259,7 +435,7 @@ namespace Project_ZLAGODA
             }
             else if (TableComboBox.Text == tables[1])
             {
-                DeleteCashier();
+                DeleteEployee();
             }
             else if (TableComboBox.Text == tables[2])
             {
@@ -281,17 +457,24 @@ namespace Project_ZLAGODA
 
         private void DeleteEployee()
         {
-            throw new NotImplementedException();
-        }
-
-        private void DeleteCashier()
-        {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                DbRepository.DeleteEmployee(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
+                ShowEmployees();
+            }
         }
 
         private void DeleteCustomer()
         {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                DbRepository.DeleteCustomer(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                ShowCustomers();
+            }
         }
 
         private void DeleteCategory()
@@ -301,7 +484,7 @@ namespace Project_ZLAGODA
             if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
             {
                 DbRepository.DeleteCategory(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
-                ShowCategoriesByName();
+                ShowCategories();
             }
         }
         private void DeleteProduct()
@@ -311,13 +494,19 @@ namespace Project_ZLAGODA
             if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
             {
                 DbRepository.DeleteProduct(int.Parse(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString()));
-                ShowProductsByName();
+                ShowProducts();
             }
         }
 
         private void DeleteStoreProduct()
         {
-            throw new NotImplementedException();
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                DbRepository.DeleteStoreProduct(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                ShowStoreProducts();
+            }
         }
         #endregion
 
@@ -359,6 +548,20 @@ namespace Project_ZLAGODA
                 "\nAddress: " + employee.Street +
                 "\nZip code: " + employee.Zip +
                 "\nUsername: " + employee.Username, "Info");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (TableComboBox.Text.Equals(tables[6]))
+            {
+                Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+                DataTable dataTable = dataGridView1.DataSource as DataTable;
+                if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+                {
+                    CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleChecks()[dataGridView1.SelectedRows[0].Index]);
+                    checkInfo.Show();
+                }
+            }
         }
     }
 }

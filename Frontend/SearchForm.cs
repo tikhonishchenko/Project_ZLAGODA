@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Project_ZLAGODA.Backend.Database;
+using Project_ZLAGODA.Backend.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,9 @@ namespace Project_ZLAGODA
 {
     public partial class SearchForm : Form
     {
+        List<EmployeeModel> employees;
+        List<CategoryModel> categories;
+
         public SearchForm()
         {
             InitializeComponent();
@@ -34,8 +39,8 @@ namespace Project_ZLAGODA
             CategoryComboBox.Hide();
             UPCLabel.Hide();
             UPCTextBox.Hide();
-            SellerLabel.Hide();
-            SellerComboBox.Hide();
+            CashierLabel.Hide();
+            CashierComboBox.Hide();
             StartDateLabel.Hide();
             StartDateTimePicker.Hide();
             EndDateLabel.Hide();
@@ -45,9 +50,22 @@ namespace Project_ZLAGODA
         private void QueryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             hideAll();
+            List<string> employeeSurnames;
             switch (QueryComboBox.SelectedIndex)
             {
                 case 0:
+                    employees = DbRepository.GetEmployeesSortedBySurname();
+                    employeeSurnames = new List<string>();
+                    foreach (EmployeeModel employee in employees)
+                    {
+                        employeeSurnames.Add(employee.Surname);
+                    }
+                    SecondNameComboBox.Items.Clear();
+                    SecondNameComboBox.Items.AddRange(employeeSurnames.ToArray());
+                    if (employeeSurnames.Count() > 0)
+                    {
+                        SecondNameComboBox.SelectedIndex = 0;
+                    }
                     SecondNameLabel.Show();
                     SecondNameComboBox.Show();
                     break;
@@ -56,16 +74,40 @@ namespace Project_ZLAGODA
                     DiscountTextBox.Show();
                     break;
                 case 2:
-                    CategoryComboBox.Show();
+                    categories = DbRepository.GetCategoriesSorted();
+                    List<string> categoryNames = new List<string>();
+                    foreach (CategoryModel category in categories)
+                    {
+                        categoryNames.Add(category.CategoryName);
+                    }
+                    CategoryComboBox.Items.Clear();
+                    CategoryComboBox.Items.AddRange(categoryNames.ToArray());
+                    if (categoryNames.Count() > 0)
+                    {
+                        CategoryComboBox.SelectedIndex = 0;
+                    }
                     CategoryLabel.Show();
+                    CategoryComboBox.Show();
                     break;
                 case 3:
                     UPCLabel.Show();
                     UPCTextBox.Show();
                     break;
                 case 8:
-                    SellerLabel.Show();
-                    SellerComboBox.Show();
+                    employees = DbRepository.GetEmployeesSortedBySurname();
+                    employeeSurnames = new List<string>();
+                    foreach (EmployeeModel employee in employees)
+                    {
+                        employeeSurnames.Add(employee.Surname + " " + employee.Name + " " + employee.Patronymic);
+                    }
+                    CashierComboBox.Items.Clear();
+                    CashierComboBox.Items.AddRange(employeeSurnames.ToArray());
+                    if (employeeSurnames.Count() > 0)
+                    {
+                        CashierComboBox.SelectedIndex = 0;
+                    }
+                    CashierLabel.Show();
+                    CashierComboBox.Show();
                     StartDateLabel.Show();
                     StartDateTimePicker.Show();
                     EndDateLabel.Show();
@@ -78,8 +120,20 @@ namespace Project_ZLAGODA
                     EndDateTimePicker.Show();
                     break;
                 case 10:
-                    SellerLabel.Show();
-                    SellerComboBox.Show();
+                    employees = DbRepository.GetEmployeesSortedBySurname();
+                    employeeSurnames = new List<string>();
+                    foreach (EmployeeModel employee in employees)
+                    {
+                        employeeSurnames.Add(employee.Surname + " " + employee.Name + " " + employee.Patronymic);
+                    }
+                    CashierComboBox.Items.Clear();
+                    CashierComboBox.Items.AddRange(employeeSurnames.ToArray());
+                    if (employeeSurnames.Count() > 0)
+                    {
+                        CashierComboBox.SelectedIndex = 0;
+                    }
+                    CashierLabel.Show();
+                    CashierComboBox.Show();
                     StartDateLabel.Show();
                     StartDateTimePicker.Show();
                     EndDateLabel.Show();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Project_ZLAGODA.Backend.Models
 {
     internal class ProductModel
     {
+        [DisplayName("First Name")]
         public int Id { get; set; }
         public int CategoryNumber { get; set; }
         public string ProductName { get; set; }
