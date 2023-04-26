@@ -1,20 +1,20 @@
-﻿using Project_ZLAGODA.Backend.Models;
+﻿using Microsoft.Data.Sqlite;
+using Project_ZLAGODA.Backend.Models;
 using Project_ZLAGODA.ViewModels;
-using System.Data.SQLite;
 using System.Diagnostics;
 
 namespace Project_ZLAGODA.Backend.Database
 {
     internal static class DbRepository
     {
-        private static readonly string connectionString = "Data Source=../../../MainDatabase.db;Version=3;";
+        private static readonly string connectionString = "Data Source=../../../MainDatabase.db;";
         #region Employee
         public static List<EmployeeModel> GetEmployees()
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee", connection);
-            SQLiteDataReader reader = command.ExecuteReader();
+            SqliteCommand command = new("SELECT * FROM Employee", connection);
+            SqliteDataReader reader = command.ExecuteReader();
             List<EmployeeModel> employees = new();
             while (reader.Read())
             {
@@ -46,10 +46,10 @@ namespace Project_ZLAGODA.Backend.Database
         /// <returns></returns>
         public static List<EmployeeModel> GetEmployeesSortedBySurname()
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee ORDER BY empl_surname", connection);
-            SQLiteDataReader reader = command.ExecuteReader();
+            SqliteCommand command = new("SELECT * FROM Employee ORDER BY empl_surname", connection);
+            SqliteDataReader reader = command.ExecuteReader();
             List<EmployeeModel> employees = new();
             while (reader.Read())
             {
@@ -82,10 +82,10 @@ namespace Project_ZLAGODA.Backend.Database
         /// <returns></returns>
         public static List<EmployeeModel> GetEmployeesCashiersSortedBySurname()
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee WHERE empl_role = 'Cashier' ORDER BY empl_surname", connection);
-            SQLiteDataReader reader = command.ExecuteReader();
+            SqliteCommand command = new("SELECT * FROM Employee WHERE empl_role = 'Cashier' ORDER BY empl_surname", connection);
+            SqliteDataReader reader = command.ExecuteReader();
             List<EmployeeModel> employees = new();
             while (reader.Read())
             {
@@ -118,11 +118,11 @@ namespace Project_ZLAGODA.Backend.Database
         /// <returns></returns>
         public static EmployeeModel? GetEmployee(string username, string password)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            using SQLiteCommand command = new("SELECT * FROM Employee WHERE username = @username", connection);
+            using SqliteCommand command = new("SELECT * FROM Employee WHERE username = @username", connection);
             _ = command.Parameters.AddWithValue("@username", username);
-            using SQLiteDataReader reader = command.ExecuteReader();
+            using SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 byte[] salt = (byte[])reader["password_salt"];
@@ -161,11 +161,11 @@ namespace Project_ZLAGODA.Backend.Database
         /// <returns></returns>
         public static List<EmployeeModel> GetEmployeeDataBySurname(string surname)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee WHERE empl_surname = @surname", connection);
+            SqliteCommand command = new("SELECT * FROM Employee WHERE empl_surname = @surname", connection);
             _ = command.Parameters.AddWithValue("@surname", surname);
-            SQLiteDataReader reader = command.ExecuteReader();
+            SqliteDataReader reader = command.ExecuteReader();
             List<EmployeeModel> employees = new();
             while (reader.Read())
             {
@@ -198,11 +198,11 @@ namespace Project_ZLAGODA.Backend.Database
         /// <returns></returns>
         public static EmployeeModel? GetEmployeeById(int idEmployee)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("SELECT * FROM Employee WHERE id_employee = @idEmployee", connection);
+            SqliteCommand command = new("SELECT * FROM Employee WHERE id_employee = @idEmployee", connection);
             _ = command.Parameters.AddWithValue("@idEmployee", idEmployee);
-            SQLiteDataReader reader = command.ExecuteReader();
+            SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 return new EmployeeModel
@@ -229,9 +229,9 @@ namespace Project_ZLAGODA.Backend.Database
         }
         public static void AddEmployee(EmployeeModel employee)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Employee (empl_surname, empl_name, empl_patronymic, username, password_hash, password_salt, empl_role, phone_number, salary, date_of_start, date_of_birth, city, street, zip_code) VALUES (@empl_surname, @empl_name, @empl_patronymic, @username, @password_hash, @password_salt, @empl_role, @phone_number, @salary, @date_of_start, @date_of_birth, @city, @street, @zip_code)", connection);
+            SqliteCommand command = new("INSERT INTO Employee (empl_surname, empl_name, empl_patronymic, username, password_hash, password_salt, empl_role, phone_number, salary, date_of_start, date_of_birth, city, street, zip_code) VALUES (@empl_surname, @empl_name, @empl_patronymic, @username, @password_hash, @password_salt, @empl_role, @phone_number, @salary, @date_of_start, @date_of_birth, @city, @street, @zip_code)", connection);
             _ = command.Parameters.AddWithValue("@empl_surname", employee.Surname);
             _ = command.Parameters.AddWithValue("@empl_name", employee.Name);
             _ = command.Parameters.AddWithValue("@empl_patronymic", employee.Patronymic);
@@ -250,9 +250,9 @@ namespace Project_ZLAGODA.Backend.Database
         }
         public static void UpdateEmployee(EmployeeModel employee)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Employee SET empl_surname = @empl_surname, empl_name = @empl_name, empl_patronymic = @empl_patronymic, username = @username, password_hash = @password_hash, password_salt = @password_salt, empl_role = @empl_role, phone_number = @phone_number, salary = @salary, date_of_start = @date_of_start, date_of_birth = @date_of_birth, city = @city, street = @street, zip_code = @zip_code WHERE id_employee = @id_employee", connection);
+            SqliteCommand command = new("UPDATE Employee SET empl_surname = @empl_surname, empl_name = @empl_name, empl_patronymic = @empl_patronymic, username = @username, password_hash = @password_hash, password_salt = @password_salt, empl_role = @empl_role, phone_number = @phone_number, salary = @salary, date_of_start = @date_of_start, date_of_birth = @date_of_birth, city = @city, street = @street, zip_code = @zip_code WHERE id_employee = @id_employee", connection);
             _ = command.Parameters.AddWithValue("@id_employee", employee.Id);
             _ = command.Parameters.AddWithValue("@empl_surname", employee.Surname);
             _ = command.Parameters.AddWithValue("@empl_name", employee.Name);
@@ -272,9 +272,9 @@ namespace Project_ZLAGODA.Backend.Database
         }
         public static void DeleteEmployee(int id)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Employee WHERE id_employee = @id_employee", connection);
+            SqliteCommand command = new("DELETE FROM Employee WHERE id_employee = @id_employee", connection);
             _ = command.Parameters.AddWithValue("@id_employee", id);
             _ = command.ExecuteNonQuery();
         }
@@ -303,11 +303,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<ProductModel> products = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Product", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Product", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["id_product"].ToString());
@@ -324,12 +324,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static ProductModel GetProductById(int id)
         {
             ProductModel product = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Product WHERE id_product = @id_product", connection);
+                SqliteCommand command = new("SELECT * FROM Product WHERE id_product = @id_product", connection);
                 _ = command.Parameters.AddWithValue("@id_product", id);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int categoryNumber = int.Parse(reader["category_number"].ToString());
@@ -349,11 +349,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<ProductModel> products = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Product ORDER BY product_name", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Product ORDER BY product_name", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["id_product"].ToString());
@@ -369,9 +369,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool AddProduct(ProductModel product)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Product (id_product, category_number, product_name, characteristics) VALUES (@Id, @CategoryNumber, @ProductName, @ProductCharacteristics)", connection);
+            SqliteCommand command = new("INSERT INTO Product (id_product, category_number, product_name, characteristics) VALUES (@Id, @CategoryNumber, @ProductName, @ProductCharacteristics)", connection);
             _ = command.Parameters.AddWithValue("@Id", product.Id);
             _ = command.Parameters.AddWithValue("@CategoryNumber", product.CategoryNumber);
             _ = command.Parameters.AddWithValue("@ProductName", product.ProductName);
@@ -383,9 +383,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool UpdateProduct(ProductModel product)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Product SET category_number = @CategoryNumber, product_name = @ProductName, characteristics = @ProductCharacteristics WHERE id_product = @Id", connection);
+            SqliteCommand command = new("UPDATE Product SET category_number = @CategoryNumber, product_name = @ProductName, characteristics = @ProductCharacteristics WHERE id_product = @Id", connection);
             _ = command.Parameters.AddWithValue("@Id", product.Id);
             _ = command.Parameters.AddWithValue("@CategoryNumber", product.CategoryNumber);
             _ = command.Parameters.AddWithValue("@ProductName", product.ProductName);
@@ -397,9 +397,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteProduct(int id)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Product WHERE id_product = @Id", connection);
+            SqliteCommand command = new("DELETE FROM Product WHERE id_product = @Id", connection);
             _ = command.Parameters.AddWithValue("@Id", id);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -410,12 +410,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<ProductModel> GetProductsByCategory(string categoryName)
         {
             List<ProductModel> products = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Product WHERE category_number = (SELECT category_number FROM Category WHERE category_name = @categoryName)", connection);
+                SqliteCommand command = new("SELECT * FROM Product WHERE category_number = (SELECT category_number FROM Category WHERE category_name = @categoryName)", connection);
                 _ = command.Parameters.AddWithValue("@categoryName", categoryName);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["id_product"].ToString());
@@ -432,12 +432,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<ProductModel> GetProductsByName(string productName)
         {
             List<ProductModel> products = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Product WHERE lower(product_name) LIKE @productName", connection);
+                SqliteCommand command = new("SELECT * FROM Product WHERE lower(product_name) LIKE @productName", connection);
                 _ = command.Parameters.AddWithValue("@productName", "%" + productName.ToLower() + "%");
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["id_product"].ToString());
@@ -457,11 +457,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<CategoryModel> categories = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Category", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Category", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["category_number"].ToString());
@@ -475,12 +475,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static CategoryModel GetCategoryById(int id)
         {
             CategoryModel category = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Category WHERE category_number = @Id", connection);
+                SqliteCommand command = new("SELECT * FROM Category WHERE category_number = @Id", connection);
                 _ = command.Parameters.AddWithValue("@Id", id);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int categoryId = int.Parse(reader["category_number"].ToString());
@@ -499,11 +499,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<CategoryModel> categories = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Category ORDER BY category_name", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Category ORDER BY category_name", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["category_number"].ToString());
@@ -516,9 +516,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool AddCategory(CategoryModel category)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Category (category_number, category_name) VALUES (@Id, @CategoryName)", connection);
+            SqliteCommand command = new("INSERT INTO Category (category_number, category_name) VALUES (@Id, @CategoryName)", connection);
             _ = command.Parameters.AddWithValue("@Id", category.Id);
             _ = command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
             int rowsAffected = command.ExecuteNonQuery();
@@ -528,9 +528,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool UpdateCategory(CategoryModel category)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Category SET category_name = @CategoryName WHERE category_number = @Id", connection);
+            SqliteCommand command = new("UPDATE Category SET category_name = @CategoryName WHERE category_number = @Id", connection);
             _ = command.Parameters.AddWithValue("@Id", category.Id);
             _ = command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
             int rowsAffected = command.ExecuteNonQuery();
@@ -540,9 +540,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteCategory(int id)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Category WHERE category_number = @Id", connection);
+            SqliteCommand command = new("DELETE FROM Category WHERE category_number = @Id", connection);
             _ = command.Parameters.AddWithValue("@Id", id);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -556,11 +556,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -579,12 +579,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static StoreProductModel GetStoreProductById(string uPC)
         {
             StoreProductModel storeProduct = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product WHERE UPC = @UPC", connection);
+                SqliteCommand command = new("SELECT * FROM Store_Product WHERE UPC = @UPC", connection);
                 _ = command.Parameters.AddWithValue("@UPC", uPC);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -602,12 +602,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<StoreProductModel> GetStoreProductsByProductName(string productName)
         {
             List<StoreProductModel> storeProducts = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product WHERE id_product = (SELECT product_number FROM Product WHERE product_name = @ProductName)", connection);
+                SqliteCommand command = new("SELECT * FROM Store_Product WHERE id_product = (SELECT product_number FROM Product WHERE product_name = @ProductName)", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -624,12 +624,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static decimal GetStoreProductPrice(string UPC)
         {
             decimal price = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT selling_price FROM Store_Product WHERE UPC = @UPC", connection);
+                SqliteCommand command = new("SELECT selling_price FROM Store_Product WHERE UPC = @UPC", connection);
                 _ = command.Parameters.AddWithValue("@UPC", UPC);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     price = decimal.Parse(reader["selling_price"].ToString());
@@ -640,12 +640,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static int GetStoreProductProductId(string UPC)
         {
             int productId = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT id_product FROM Store_Product WHERE UPC = @UPC", connection);
+                SqliteCommand command = new("SELECT id_product FROM Store_Product WHERE UPC = @UPC", connection);
                 _ = command.Parameters.AddWithValue("@UPC", UPC);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     productId = int.Parse(reader["id_product"].ToString());
@@ -656,12 +656,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static int GetStoreProductQuantity(string UPC)
         {
             int quantity = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT products_number FROM Store_Product WHERE UPC = @UPC", connection);
+                SqliteCommand command = new("SELECT products_number FROM Store_Product WHERE UPC = @UPC", connection);
                 _ = command.Parameters.AddWithValue("@UPC", UPC);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     quantity = int.Parse(reader["products_number"].ToString());
@@ -691,11 +691,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product sp ORDER BY sp.products_number", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product sp ORDER BY sp.products_number", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -719,11 +719,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product sp JOIN Product p on p.id_product = sp.id_product WHERE sp.promotional_product = true ORDER BY p.product_name", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product sp JOIN Product p on p.id_product = sp.id_product WHERE sp.promotional_product = true ORDER BY p.product_name", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -747,11 +747,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product sp WHERE sp.promotional_product = true ORDER BY sp.products_number", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product sp WHERE sp.promotional_product = true ORDER BY sp.products_number", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -775,11 +775,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product sp JOIN Product p on p.id_product = sp.id_product WHERE sp.promotional_product = false ORDER BY p.product_name", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product sp JOIN Product p on p.id_product = sp.id_product WHERE sp.promotional_product = false ORDER BY p.product_name", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -803,11 +803,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product sp WHERE sp.promotional_product = false ORDER BY sp.products_number", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Store_Product sp WHERE sp.promotional_product = false ORDER BY sp.products_number", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -827,12 +827,12 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<StoreProductModel> storeProducts = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Store_Product WHERE expiry_date < @date", connection);
+                SqliteCommand command = new("SELECT * FROM Store_Product WHERE expiry_date < @date", connection);
                 _ = command.Parameters.AddWithValue("@date", date);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -850,9 +850,9 @@ namespace Project_ZLAGODA.Backend.Database
         }
         public static bool AddStoreProduct(StoreProductModel storeProduct)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Store_Product (UPC,  id_product, selling_price, promotional_product, products_number, expiry_date) VALUES (@UPC,  @Id, @SellingPrice, @PromotionalProduct, @Quantity, @ExpiryDate)", connection);
+            SqliteCommand command = new("INSERT INTO Store_Product (UPC,  id_product, selling_price, promotional_product, products_number, expiry_date) VALUES (@UPC,  @Id, @SellingPrice, @PromotionalProduct, @Quantity, @ExpiryDate)", connection);
             _ = command.Parameters.AddWithValue("@UPC", storeProduct.UPC);
             _ = command.Parameters.AddWithValue("@Id", storeProduct.ProductId);
             _ = command.Parameters.AddWithValue("@SellingPrice", storeProduct.Price);
@@ -866,9 +866,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool UpdateStoreProduct(StoreProductModel storeProduct)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Store_Product SET selling_price = @SellingPrice, promotional_product = @PromotionalProduct, products_number = @Quantity, id_product = @productId, expiry_date = @ExpiryDate WHERE UPC = @UPC", connection);
+            SqliteCommand command = new("UPDATE Store_Product SET selling_price = @SellingPrice, promotional_product = @PromotionalProduct, products_number = @Quantity, id_product = @productId, expiry_date = @ExpiryDate WHERE UPC = @UPC", connection);
             _ = command.Parameters.AddWithValue("@UPC", storeProduct.UPC);
             _ = command.Parameters.AddWithValue("@SellingPrice", storeProduct.Price);
             _ = command.Parameters.AddWithValue("@PromotionalProduct", storeProduct.IsPromotion);
@@ -882,9 +882,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteStoreProduct(string UPC)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Store_Product WHERE UPC = @UPC", connection);
+            SqliteCommand command = new("DELETE FROM Store_Product WHERE UPC = @UPC", connection);
             _ = command.Parameters.AddWithValue("@UPC", UPC);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -898,11 +898,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<CustomerModel> customers = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Customer_Card", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Customer_Card", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string card_number = reader["card_number"].ToString();
@@ -925,12 +925,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static CustomerModel GetCustomerById(int id)
         {
             CustomerModel customer = new CustomerModel();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Customer_Card WHERE id = @id", connection);
+                SqliteCommand command = new("SELECT * FROM Customer_Card WHERE id = @id", connection);
                 _ = command.Parameters.AddWithValue("@id", id);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string card_number = reader["card_number"].ToString();
@@ -955,11 +955,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<CustomerModel> customers = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Customer_Card ORDER BY cust_surname", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Customer_Card ORDER BY cust_surname", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string card_number = reader["card_number"].ToString();
@@ -987,12 +987,12 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<CustomerModel> customers = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Customer_Card WHERE percent = @percent ORDER BY cust_surname", connection);
+                SqliteCommand command = new("SELECT * FROM Customer_Card WHERE percent = @percent ORDER BY cust_surname", connection);
                 _ = command.Parameters.AddWithValue("@percent", percentSearch);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string card_number = reader["card_number"].ToString();
@@ -1013,9 +1013,9 @@ namespace Project_ZLAGODA.Backend.Database
         }
         public static bool AddCustomer(CustomerModel customer)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Customer_Card (card_number, cust_surname, cust_name, cust_patronymic, phone_number, city, street, zip_code, percent) VALUES (@CardNumber, @Surname, @Name, @Patronymic, @PhoneNumber, @City, @Street, @ZipCode, @Percent)", connection);
+            SqliteCommand command = new("INSERT INTO Customer_Card (card_number, cust_surname, cust_name, cust_patronymic, phone_number, city, street, zip_code, percent) VALUES (@CardNumber, @Surname, @Name, @Patronymic, @PhoneNumber, @City, @Street, @ZipCode, @Percent)", connection);
             _ = command.Parameters.AddWithValue("@CardNumber", customer.CardNumber);
             _ = command.Parameters.AddWithValue("@Surname", customer.LastName);
             _ = command.Parameters.AddWithValue("@Name", customer.Name);
@@ -1032,9 +1032,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool UpdateCustomer(CustomerModel customer)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("UPDATE Customer_Card SET cust_surname = @Surname, cust_name = @Name, cust_patronymic = @Patronymic, phone_number = @PhoneNumber, city = @City, street = @Street, zip_code = @ZipCode, percent = @Percent WHERE card_number = @CardNumber", connection);
+            SqliteCommand command = new("UPDATE Customer_Card SET cust_surname = @Surname, cust_name = @Name, cust_patronymic = @Patronymic, phone_number = @PhoneNumber, city = @City, street = @Street, zip_code = @ZipCode, percent = @Percent WHERE card_number = @CardNumber", connection);
             _ = command.Parameters.AddWithValue("@CardNumber", customer.CardNumber);
             _ = command.Parameters.AddWithValue("@Surname", customer.LastName);
             _ = command.Parameters.AddWithValue("@Name", customer.Name);
@@ -1051,9 +1051,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteCustomer(string cardNumber)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Customer_Card WHERE card_number = @CardNumber", connection);
+            SqliteCommand command = new("DELETE FROM Customer_Card WHERE card_number = @CardNumber", connection);
             _ = command.Parameters.AddWithValue("@CardNumber", cardNumber);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -1063,12 +1063,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<CustomerModel> GetCustomersBySurname(string surnameSearch)
         {
             List<CustomerModel> customers = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Customer_Card WHERE cust_surname LIKE @Surname", connection);
+                SqliteCommand command = new("SELECT * FROM Customer_Card WHERE cust_surname LIKE @Surname", connection);
                 _ = command.Parameters.AddWithValue("@Surname", "%" + surnameSearch + "%");
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string card_number = reader["card_number"].ToString();
@@ -1092,12 +1092,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<SaleModel> GetSalesBySaleCheckId(int saleCheckId)
         {
             List<SaleModel> sales = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sale WHERE check_number = @CheckNumber", connection);
+                SqliteCommand command = new("SELECT * FROM Sale WHERE check_number = @CheckNumber", connection);
                 _ = command.Parameters.AddWithValue("@CheckNumber", saleCheckId);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     string UPC = reader["UPC"].ToString();
@@ -1112,7 +1112,6 @@ namespace Project_ZLAGODA.Backend.Database
         }
         private static void AddSales(SaleCheckModel saleCheck)
         {
-            saleCheck.CheckNumber = GetLastSaleCheckId() + 1;
             foreach (SaleModel sale in saleCheck.CheckItems)
             {
                 if (sale.CheckNumber != saleCheck.CheckNumber)
@@ -1127,11 +1126,11 @@ namespace Project_ZLAGODA.Backend.Database
         private static int GetLastSaleCheckId()
         {
             int lastSaleCheckId = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT MAX(check_number) FROM Sales_Check", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT MAX(check_number) FROM Sales_Check", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     lastSaleCheckId = int.Parse(reader["MAX(check_number)"].ToString());
@@ -1143,9 +1142,9 @@ namespace Project_ZLAGODA.Backend.Database
         public static bool AddSale(SaleModel sale)
         {
 
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Sale (UPC, check_number, product_number, selling_price) VALUES (@UPC, @CheckNumber, @ProductNumber,  @SellingPrice)", connection);
+            SqliteCommand command = new("INSERT INTO Sale (UPC, check_number, product_number, selling_price) VALUES (@UPC, @CheckNumber, @ProductNumber,  @SellingPrice)", connection);
             _ = command.Parameters.AddWithValue("@UPC", sale.UPC);
             _ = command.Parameters.AddWithValue("@CheckNumber", sale.CheckNumber);
             _ = command.Parameters.AddWithValue("@ProductNumber", sale.ProductNumber);
@@ -1165,9 +1164,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteSale(string checkNumber)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Sale WHERE check_number = @CheckNumber", connection);
+            SqliteCommand command = new("DELETE FROM Sale WHERE check_number = @CheckNumber", connection);
             _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -1182,11 +1181,11 @@ namespace Project_ZLAGODA.Backend.Database
         {
             List<SaleCheckModel> saleChecks = new();
 
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check", connection);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteCommand command = new("SELECT * FROM Sales_Check", connection);
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
@@ -1206,12 +1205,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static SaleCheckModel GetSaleCheckById(int checkNumber)
         {
             SaleCheckModel saleCheck = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
                 _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int id_employee = int.Parse(reader["id_employee"].ToString());
@@ -1228,9 +1227,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool AddSaleCheck(SaleCheckModel saleCheck)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Sales_Check (id_employee, card_number, print_date, sum_total, vat) VALUES (@IdEmployee, @CardNumber, @PrintDate, @SumTotal, @VAT)", connection);
+            SqliteCommand command = new("INSERT INTO Sales_Check (id_employee, card_number, print_date, sum_total, vat) VALUES (@IdEmployee, @CardNumber, @PrintDate, @SumTotal, @VAT)", connection);
             _ = command.Parameters.AddWithValue("@IdEmployee", saleCheck.EmployeeId);
             _ = command.Parameters.AddWithValue("@CardNumber", saleCheck.CardNumber);
             _ = command.Parameters.AddWithValue("@PrintDate", saleCheck.PrintDate);
@@ -1250,9 +1249,9 @@ namespace Project_ZLAGODA.Backend.Database
 
         public static bool DeleteSaleCheck(string checkNumber)
         {
-            using SQLiteConnection connection = new(connectionString);
+            using SqliteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("DELETE FROM Sales_Check WHERE check_number = @CheckNumber", connection);
+            SqliteCommand command = new("DELETE FROM Sales_Check WHERE check_number = @CheckNumber", connection);
             _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
             _ = DeleteSale(checkNumber);
             int rowsAffected = command.ExecuteNonQuery();
@@ -1264,14 +1263,14 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<SaleCheckModel> GetSaleChecksByEmployeeIdAndDates(string employeeId, DateTime startDate, DateTime endDate)
         {
             List<SaleCheckModel> saleChecks = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
@@ -1291,13 +1290,13 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<SaleCheckModel> GetSaleChecksByDates(DateTime startDate, DateTime endDate)
         {
             List<SaleCheckModel> saleChecks = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
@@ -1317,14 +1316,14 @@ namespace Project_ZLAGODA.Backend.Database
         public static decimal GetSumOfSalesByEmployeeIdAndDates(string employeeId, DateTime startDate, DateTime endDate)
         {
             decimal sum = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 try { 
                     sum = decimal.Parse(reader["sum(sum_total)"].ToString());
                 }
@@ -1340,13 +1339,13 @@ namespace Project_ZLAGODA.Backend.Database
         public static decimal GetSumOfSalesByDates(DateTime startDate, DateTime endDate)
         {
             decimal sum = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT sum(sum_total) FROM Sales_Check WHERE print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 sum = decimal.Parse(reader["sum(sum_total)"].ToString());
             }
             return sum;
@@ -1356,12 +1355,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static int GetQuantityOfSoldProductsByProductName(string productName)
         {
             int quantity = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT sum(product_number) FROM Sale as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product WHERE p.product_name = @ProductName", connection);
+                SqliteCommand command = new("SELECT sum(product_number) FROM Sale as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product WHERE p.product_name = @ProductName", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 try
                 {
                     quantity = int.Parse(reader["sum(quantity)"].ToString());
@@ -1378,14 +1377,14 @@ namespace Project_ZLAGODA.Backend.Database
         public static int GetQuantityOfSoldProductsByProductNameAndDates(string productName, DateTime startDate, DateTime endDate)
         {
             int quantity = 0;
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number JOIN Sales_Check as sc on sc.check_number = sale_check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number JOIN Sales_Check as sc on sc.check_number = sale_check_number WHERE p.product_name = @ProductName AND sc.print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
                 _ = command.Parameters.AddWithValue("@StartDate", startDate);
                 _ = command.Parameters.AddWithValue("@EndDate", endDate);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 try
                 {
                     quantity = int.Parse(reader["sum(quantity)"].ToString());
@@ -1402,14 +1401,14 @@ namespace Project_ZLAGODA.Backend.Database
         public static List<SaleCheckModel> GetSaleChecksByEmployeeIdToday(string employeeId)
         {
             List<SaleCheckModel> saleChecks = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE id_employee = @IdEmployee AND print_date BETWEEN @StartDate AND @EndDate", connection);
                 _ = command.Parameters.AddWithValue("@IdEmployee", employeeId);
                 _ = command.Parameters.AddWithValue("@StartDate", DateTime.Today);
                 _ = command.Parameters.AddWithValue("@EndDate", DateTime.Today.AddDays(1));
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());
@@ -1429,12 +1428,12 @@ namespace Project_ZLAGODA.Backend.Database
         public static SaleCheckModel GetSaleCheckByCheckNumber(int checkNumber)
         {
             SaleCheckModel saleCheck = new();
-            using (SQLiteConnection connection = new(connectionString))
+            using (SqliteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
+                SqliteCommand command = new("SELECT * FROM Sales_Check WHERE check_number = @CheckNumber", connection);
                 _ = command.Parameters.AddWithValue("@CheckNumber", checkNumber);
-                SQLiteDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
                     int check_number = int.Parse(reader["check_number"].ToString());

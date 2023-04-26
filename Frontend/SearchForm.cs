@@ -363,7 +363,7 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[12]))
             {
-                //DbRepository.GetQuantityOfSoldProductsByProductNameAndDates();
+                MessageBox.Show("Total sum: " + DbRepository.GetQuantityOfSoldProductsByProductNameAndDates(ProductNameComboBox.Text, StartDateTimePicker.Value, EndDateTimePicker.Value), "Info");
             }
             //"товари у магазині за назвою",13
             //"клієнти за прізвищем",14
@@ -372,11 +372,9 @@ namespace Project_ZLAGODA
             //"чек за номером"17
             else if (QueryComboBox.Text.Equals(tables[13]))
             {
-                //result = new SearchResultForm(Query.SaleCheckByCashierByPeriod);
-                //result.CashierId = int.Parse(employees[CashierComboBox.SelectedIndex].Id);
-                //result.startTime = StartDateTimePicker.Value;
-                //result.endTime = EndDateTimePicker.Value;
-                //result.Show();
+                result = new SearchResultForm(Query.ProductsByName);
+                result.ProductName = ProductNameComboBox.Text;
+                result.Show();
                 //DbRepository.GetProductsByName
             }
             else if (QueryComboBox.Text.Equals(tables[14]))

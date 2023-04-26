@@ -16,7 +16,7 @@ namespace Project_ZLAGODA.Frontend
     {
         int CheckNumber = 0;
         EmployeeModel employee;
-
+        ShowForm main;
         List<SaleModel> sales = new List<SaleModel>();
 
         public AddSaleCheckForm()
@@ -31,11 +31,19 @@ namespace Project_ZLAGODA.Frontend
                 }
             }
             CheckNumber++;
+            CheckNumberLabel.Text = "Check number: " + CheckNumber;
         }
 
         public void setEmployee(int employeeId)
         {
             this.employee = DbRepository.GetEmployeeById(employeeId);
+            if (employee == null) return;
+            CashierLabel.Text = "Cashier: " + employee.Surname + " " + employee.Name + " " + employee.Patronymic;
+        }
+
+        public void setMain(ShowForm main)
+        {
+            this.main = main;
         }
 
         public void ShowSales()
@@ -67,7 +75,13 @@ namespace Project_ZLAGODA.Frontend
 
         private void update()
         {
-
+            decimal total = 0;
+            foreach (SaleModel model in sales)
+            {
+                total += model.Price;
+            }
+            TotalLabel.Text = "Total: " + total;
+            VATLabel.Text = "VAT: " + (total * 0.2M);
         }
 
         private void AddProductBtn_Click(object sender, EventArgs e)
@@ -78,6 +92,46 @@ namespace Project_ZLAGODA.Frontend
         }
 
         private void DeleteProductBtn_Click(object sender, EventArgs e)
+        {
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                sales.RemoveAt(dataGridView1.SelectedRows[0].Index);
+                ShowSales();
+                //DbRepository.DeleteCustomer(dataTable.Rows[dataGridView1.SelectedRows[0].Index][0].ToString());
+                //ShowCustomers();
+            }
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            decimal total = 0;
+            foreach (SaleModel m in sales)
+            {
+                total += m.Price;
+            }
+            SaleCheckModel model = new SaleCheckModel
+            {
+                EmployeeId = this.employee.Id,
+                CardNumber = CardNumberTextBox.Text,
+                PrintDate = DateTime.Now,
+                SumTotal = total,
+                VAT = total * 0.2M
+            };
+            DbRepository.AddSaleCheck(model);
+            //main.ShowSaleChecks();
+            this.Close();
+        }
+
+        private void AddProductBtn_Click_1(object sender, EventArgs e)
+        {
+            AddSaleForm addSale = new AddSaleForm();
+            addSale.setMainForm(this);
+            addSale.Show();
+        }
+
+        private void DeleteProductBtn_Click_1(object sender, EventArgs e)
         {
             Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
             DataTable dataTable = dataGridView1.DataSource as DataTable;
