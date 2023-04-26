@@ -113,7 +113,6 @@ namespace Project_ZLAGODA.Frontend
             }
             SaleCheckModel model = new SaleCheckModel
             {
-                CheckNumber = this.CheckNumber,
                 EmployeeId = this.employee.Id,
                 CardNumber = CardNumberTextBox.Text,
                 PrintDate = DateTime.Now,
@@ -121,7 +120,7 @@ namespace Project_ZLAGODA.Frontend
                 VAT = total * 0.2M
             };
             DbRepository.AddSaleCheck(model);
-            main.ShowSaleChecks();
+            //main.ShowSaleChecks();
             this.Close();
         }
 
