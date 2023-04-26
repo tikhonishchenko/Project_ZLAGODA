@@ -36,6 +36,7 @@
             TotalLabel = new Label();
             VATLabel = new Label();
             dataGridView1 = new DataGridView();
+            PrintBtn = new Button();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -52,17 +53,18 @@
             flowLayoutPanel1.Controls.Add(TotalLabel);
             flowLayoutPanel1.Controls.Add(VATLabel);
             flowLayoutPanel1.Controls.Add(dataGridView1);
+            flowLayoutPanel1.Controls.Add(PrintBtn);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(26, 29);
+            flowLayoutPanel1.Location = new Point(23, 21);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(805, 530);
+            flowLayoutPanel1.Size = new Size(831, 558);
             flowLayoutPanel1.TabIndex = 11;
             // 
             // CheckNumberLabel
             // 
             CheckNumberLabel.Anchor = AnchorStyles.None;
             CheckNumberLabel.AutoSize = true;
-            CheckNumberLabel.Location = new Point(351, 0);
+            CheckNumberLabel.Location = new Point(364, 0);
             CheckNumberLabel.Name = "CheckNumberLabel";
             CheckNumberLabel.Size = new Size(103, 20);
             CheckNumberLabel.TabIndex = 9;
@@ -72,7 +74,7 @@
             // 
             CashierLabel.Anchor = AnchorStyles.None;
             CashierLabel.AutoSize = true;
-            CashierLabel.Location = new Point(374, 20);
+            CashierLabel.Location = new Point(387, 20);
             CashierLabel.Name = "CashierLabel";
             CashierLabel.Size = new Size(57, 20);
             CashierLabel.TabIndex = 10;
@@ -82,7 +84,7 @@
             // 
             CardNumberLabel.Anchor = AnchorStyles.None;
             CardNumberLabel.AutoSize = true;
-            CardNumberLabel.Location = new Point(355, 40);
+            CardNumberLabel.Location = new Point(368, 40);
             CardNumberLabel.Name = "CardNumberLabel";
             CardNumberLabel.Size = new Size(95, 20);
             CardNumberLabel.TabIndex = 12;
@@ -92,7 +94,7 @@
             // 
             PrintDateLabel.Anchor = AnchorStyles.None;
             PrintDateLabel.AutoSize = true;
-            PrintDateLabel.Location = new Point(366, 60);
+            PrintDateLabel.Location = new Point(379, 60);
             PrintDateLabel.Name = "PrintDateLabel";
             PrintDateLabel.Size = new Size(73, 20);
             PrintDateLabel.TabIndex = 7;
@@ -102,7 +104,7 @@
             // 
             TotalLabel.Anchor = AnchorStyles.None;
             TotalLabel.AutoSize = true;
-            TotalLabel.Location = new Point(381, 80);
+            TotalLabel.Location = new Point(394, 80);
             TotalLabel.Name = "TotalLabel";
             TotalLabel.Size = new Size(42, 20);
             TotalLabel.TabIndex = 15;
@@ -112,7 +114,7 @@
             // 
             VATLabel.Anchor = AnchorStyles.None;
             VATLabel.AutoSize = true;
-            VATLabel.Location = new Point(385, 100);
+            VATLabel.Location = new Point(398, 100);
             VATLabel.Name = "VATLabel";
             VATLabel.Size = new Size(34, 20);
             VATLabel.TabIndex = 14;
@@ -131,8 +133,18 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(799, 404);
+            dataGridView1.Size = new Size(825, 397);
             dataGridView1.TabIndex = 9;
+            // 
+            // PrintBtn
+            // 
+            PrintBtn.Anchor = AnchorStyles.None;
+            PrintBtn.Location = new Point(347, 526);
+            PrintBtn.Name = "PrintBtn";
+            PrintBtn.Size = new Size(137, 29);
+            PrintBtn.TabIndex = 12;
+            PrintBtn.Text = "Print";
+            PrintBtn.UseVisualStyleBackColor = true;
             // 
             // CheckInfoForm
             // 
@@ -159,5 +171,6 @@
         private Label TotalLabel;
         private Label VATLabel;
         private DataGridView dataGridView1;
+        private Button PrintBtn;
     }
 }
