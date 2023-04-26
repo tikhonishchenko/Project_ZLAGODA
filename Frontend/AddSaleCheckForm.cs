@@ -46,7 +46,7 @@ namespace Project_ZLAGODA.Frontend
             dataTable.Columns.AddRange(columns);
             foreach (SaleModel sale in sales)
             {
-                dataTable.Rows.Add(new Object[] { sale.UPC, "not realized", sale.Quantity, sale.Price });
+                dataTable.Rows.Add(new Object[] { sale.UPC, "not realized", sale.ProductNumber, sale.Price });
             }
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns.Cast<DataGridViewColumn>().ToList().ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
@@ -59,7 +59,6 @@ namespace Project_ZLAGODA.Frontend
                 UPC = upc,
                 CheckNumber = this.CheckNumber,
                 ProductNumber = quantity,
-                Quantity = quantity,
                 Price = price * quantity
             };
             sales.Add(sale);

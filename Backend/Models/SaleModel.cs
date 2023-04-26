@@ -13,19 +13,16 @@ namespace Project_ZLAGODA.Backend.Models
         public string UPC { get; set; }
         [DisplayName("Номер чека")]
         public int CheckNumber { get; set; }
-        [DisplayName("Номер товару")]
-        public int ProductNumber { get; set; }
         [DisplayName("Кількість")]
-        public int Quantity { get; set; }
+        public int ProductNumber { get; set; }
         [DisplayName("Ціна")]
         public decimal Price { get; set; }
 
-        public SaleModel(string uPC, int checkNumber, int productNumber, int quantity, decimal price)
+        public SaleModel(string uPC, int checkNumber, int productNumber, decimal price)
         {
             UPC = uPC;
             CheckNumber = checkNumber;
             ProductNumber = productNumber;
-            Quantity = quantity;
             Price = price;
         }
 
@@ -35,7 +32,7 @@ namespace Project_ZLAGODA.Backend.Models
 
         public override string ToString()
         {
-            return $"{UPC} {CheckNumber} {Quantity} {Price}";
+            return $"{UPC} {CheckNumber} {Price}";
         }
     }
 }

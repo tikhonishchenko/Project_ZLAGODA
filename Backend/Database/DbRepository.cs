@@ -669,7 +669,6 @@ namespace Project_ZLAGODA.Backend.Database
             }
             return quantity;
         }
-
         public static void SellStoreProduct(string UPC, int quantity)
         {
             StoreProductModel storeProduct = GetStoreProductById(UPC);
@@ -679,12 +678,7 @@ namespace Project_ZLAGODA.Backend.Database
                 throw new Exception("В магазині немає достатньо цього продукту.");
             }
 
-            if (storeProduct.Quantity == 0)
-            {
-                _ = DeleteStoreProduct(UPC);
-            }
-
-            if (storeProduct.Quantity > 0)
+            if (storeProduct.Quantity >= 0)
             {
                 _ = UpdateStoreProduct(storeProduct);
             }
@@ -1111,7 +1105,7 @@ namespace Project_ZLAGODA.Backend.Database
                     int product_number = int.Parse(reader["product_number"].ToString());
                     int quantity = int.Parse(reader["quantity"].ToString());
                     decimal selling_price = decimal.Parse(reader["selling_price"].ToString());
-                    sales.Add(new SaleModel(UPC, check_number, product_number, quantity, selling_price));
+                    sales.Add(new SaleModel(UPC, check_number, product_number, selling_price));
                 }
             }
             return sales;
@@ -1151,17 +1145,16 @@ namespace Project_ZLAGODA.Backend.Database
 
             using SQLiteConnection connection = new(connectionString);
             connection.Open();
-            SQLiteCommand command = new("INSERT INTO Sale (UPC, check_number, product_number, quantity, selling_price) VALUES (@UPC, @CheckNumber, @ProductNumber, @Quantity, @SellingPrice)", connection);
+            SQLiteCommand command = new("INSERT INTO Sale (UPC, check_number, product_number, selling_price) VALUES (@UPC, @CheckNumber, @ProductNumber,  @SellingPrice)", connection);
             _ = command.Parameters.AddWithValue("@UPC", sale.UPC);
             _ = command.Parameters.AddWithValue("@CheckNumber", sale.CheckNumber);
             _ = command.Parameters.AddWithValue("@ProductNumber", sale.ProductNumber);
-            _ = command.Parameters.AddWithValue("@Quantity", sale.Quantity);
             _ = command.Parameters.AddWithValue("@SellingPrice", sale.Price);
             int rowsAffected = command.ExecuteNonQuery();
 
             if (rowsAffected > 0)
             {
-                SellStoreProduct(sale.UPC, sale.Quantity);
+                SellStoreProduct(sale.UPC, sale.ProductNumber);
                 return true;
             }
             else
@@ -1366,7 +1359,7 @@ namespace Project_ZLAGODA.Backend.Database
             using (SQLiteConnection connection = new(connectionString))
             {
                 connection.Open();
-                SQLiteCommand command = new("SELECT sum(quantity) FROM Sale JOIN Product as p on p.id_product = product_number WHERE p.product_name = @ProductName", connection);
+                SQLiteCommand command = new("SELECT sum(product_number) FROM Sale as s JOIN Store_Product as sp on sp.UPC = s.UPC JOIN Product as p on p.id_product = sp.id_product WHERE p.product_name = @ProductName", connection);
                 _ = command.Parameters.AddWithValue("@ProductName", productName);
                 SQLiteDataReader reader = command.ExecuteReader();
                 try

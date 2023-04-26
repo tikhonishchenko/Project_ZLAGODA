@@ -115,7 +115,7 @@ namespace Project_ZLAGODA.ViewModels
             if(currentCheck.CheckItems.Any(x=>x.UPC==saleModel.UPC))
             {
                 var item = currentCheck.CheckItems.Where(x => x.UPC == saleModel.UPC).FirstOrDefault();
-                item.Quantity += saleModel.Quantity;
+                item.ProductNumber += saleModel.ProductNumber;
             }
             else
                 currentCheck.CheckItems.Add(saleModel);
@@ -124,7 +124,7 @@ namespace Project_ZLAGODA.ViewModels
         internal static void GenerateCheck()
         {
             currentCheck.EmployeeId = currentEmployee.Id;
-            currentCheck.SumTotal = currentCheck.CheckItems.Sum(x => x.Price*x.Quantity);
+            currentCheck.SumTotal = currentCheck.CheckItems.Sum(x => x.Price*x.ProductNumber);
             currentCheck.PrintDate = DateTime.Now;
             currentCheck.VAT = currentCheck.SumTotal * 0.2M;
             DbRepository.AddSaleCheck(currentCheck);
@@ -138,7 +138,7 @@ namespace Project_ZLAGODA.ViewModels
             
 
             if (currentCheck.CheckItems.Any(x => x.UPC == uPC))
-                quantityInStore -= currentCheck.CheckItems.Where(x => x.UPC == uPC).Sum(x => x.Quantity);
+                quantityInStore -= currentCheck.CheckItems.Where(x => x.UPC == uPC).Sum(x => x.ProductNumber);
             if (quantityInStore >= quantity)           
                 return true;         
             else

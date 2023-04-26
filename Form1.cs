@@ -127,8 +127,7 @@ namespace Project_ZLAGODA
                 {
                     UPC = UPC,
                     CheckNumber = 0,
-                    ProductNumber = DbRepository.GetStoreProductProductId(UPC),
-                    Quantity = quantity,
+                    ProductNumber = quantity,
                     Price = DbRepository.GetStoreProductPrice(UPC)
                 });
             }
