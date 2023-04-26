@@ -139,6 +139,7 @@ namespace Project_ZLAGODA
             {
                 if (isManager)
                 {
+                    AddBtn.Hide();
                     EditBtn.Hide();
                 }
                 else
@@ -725,7 +726,10 @@ namespace Project_ZLAGODA
 
         private void PrintBtn_Click(object sender, EventArgs e)
         {
-            new PrintResultForm(dataGridView1).Show();
+            if (dataGridView1.DataSource != null)
+            {
+                new PrintResultForm(dataGridView1).Show();
+            }
         }
     }
 }

@@ -608,13 +608,15 @@ namespace Project_ZLAGODA.Frontend
 
         private void ShowProductsBtn_Click(object sender, EventArgs e)
         {
-            //Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            //DataTable dataTable = dataGridView1.DataSource as DataTable;
-            //if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
-            //{
-            //    CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleChecks()[dataGridView1.SelectedRows[0].Index]);
-            //    checkInfo.Show();
-            //}
+            
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            DataTable dataTable = dataGridView1.DataSource as DataTable;
+            if (selectedRowCount == 1 && dataGridView1.SelectedRows[0].Index < dataTable.Rows.Count)
+            {
+                CheckInfoForm checkInfo = new CheckInfoForm(DbRepository.GetSaleCheckById(int.Parse(dataGridView1.SelectedRows[0].Cells[0].Value.ToString())));
+                checkInfo.Show();
+            }
+            
         }
     }
 }

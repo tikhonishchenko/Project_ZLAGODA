@@ -433,6 +433,15 @@ namespace Project_ZLAGODA
             }
             else if (QueryComboBox.Text.Equals(tables[17]))
             {
+                try
+                {
+                    int.Parse(CheckNumberTextBox.Text);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Check number is incorrect!", "Error");
+                    return;
+                }
                 SaleCheckModel model = DbRepository.GetSaleCheckByCheckNumber(int.Parse(CheckNumberTextBox.Text));
                 if (model == null)
                 {
