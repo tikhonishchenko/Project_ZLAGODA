@@ -38,8 +38,8 @@
             CategoryComboBox = new ComboBox();
             UPCLabel = new Label();
             UPCTextBox = new TextBox();
-            SellerLabel = new Label();
-            SellerComboBox = new ComboBox();
+            CashierLabel = new Label();
+            CashierComboBox = new ComboBox();
             StartDateLabel = new Label();
             StartDateTimePicker = new DateTimePicker();
             EndDateLabel = new Label();
@@ -62,8 +62,8 @@
             flowLayoutPanel1.Controls.Add(CategoryComboBox);
             flowLayoutPanel1.Controls.Add(UPCLabel);
             flowLayoutPanel1.Controls.Add(UPCTextBox);
-            flowLayoutPanel1.Controls.Add(SellerLabel);
-            flowLayoutPanel1.Controls.Add(SellerComboBox);
+            flowLayoutPanel1.Controls.Add(CashierLabel);
+            flowLayoutPanel1.Controls.Add(CashierComboBox);
             flowLayoutPanel1.Controls.Add(StartDateLabel);
             flowLayoutPanel1.Controls.Add(StartDateTimePicker);
             flowLayoutPanel1.Controls.Add(EndDateLabel);
@@ -164,25 +164,25 @@
             UPCTextBox.Size = new Size(399, 27);
             UPCTextBox.TabIndex = 11;
             // 
-            // SellerLabel
+            // CashierLabel
             // 
-            SellerLabel.Anchor = AnchorStyles.None;
-            SellerLabel.AutoSize = true;
-            SellerLabel.Location = new Point(179, 248);
-            SellerLabel.Name = "SellerLabel";
-            SellerLabel.Size = new Size(46, 20);
-            SellerLabel.TabIndex = 10;
-            SellerLabel.Text = "Seller";
+            CashierLabel.Anchor = AnchorStyles.None;
+            CashierLabel.AutoSize = true;
+            CashierLabel.Location = new Point(174, 248);
+            CashierLabel.Name = "CashierLabel";
+            CashierLabel.Size = new Size(57, 20);
+            CashierLabel.TabIndex = 10;
+            CashierLabel.Text = "Cashier";
             // 
-            // SellerComboBox
+            // CashierComboBox
             // 
-            SellerComboBox.Anchor = AnchorStyles.None;
-            SellerComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            SellerComboBox.FormattingEnabled = true;
-            SellerComboBox.Location = new Point(3, 271);
-            SellerComboBox.Name = "SellerComboBox";
-            SellerComboBox.Size = new Size(399, 28);
-            SellerComboBox.TabIndex = 11;
+            CashierComboBox.Anchor = AnchorStyles.None;
+            CashierComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            CashierComboBox.FormattingEnabled = true;
+            CashierComboBox.Location = new Point(3, 271);
+            CashierComboBox.Name = "CashierComboBox";
+            CashierComboBox.Size = new Size(399, 28);
+            CashierComboBox.TabIndex = 11;
             // 
             // StartDateLabel
             // 
@@ -257,8 +257,8 @@
         private TextBox DiscountTextBox;
         private Label UPCLabel;
         private TextBox UPCTextBox;
-        private Label SellerLabel;
-        private ComboBox SellerComboBox;
+        private Label CashierLabel;
+        private ComboBox CashierComboBox;
         private Label StartDateLabel;
         private DateTimePicker StartDateTimePicker;
         private Label EndDateLabel;

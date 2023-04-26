@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
-            ProductLabel = new Label();
-            ProductComboBox = new ComboBox();
             UPCLabel = new Label();
             UPCTextBox = new TextBox();
+            ProductLabel = new Label();
+            ProductComboBox = new ComboBox();
             PriceLabel = new Label();
             PriceTextBox = new TextBox();
-            AddEditBtn = new Button();
             QuantityLabel = new Label();
             QuantityTextBox = new TextBox();
             TypeLabel = new Label();
             TypeComboBox = new ComboBox();
+            ExpiryDateLabel = new Label();
+            ExpiryDateTimePicker = new DateTimePicker();
+            AddEditBtn = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -58,12 +60,32 @@
             flowLayoutPanel1.Controls.Add(QuantityTextBox);
             flowLayoutPanel1.Controls.Add(TypeLabel);
             flowLayoutPanel1.Controls.Add(TypeComboBox);
+            flowLayoutPanel1.Controls.Add(ExpiryDateLabel);
+            flowLayoutPanel1.Controls.Add(ExpiryDateTimePicker);
             flowLayoutPanel1.Controls.Add(AddEditBtn);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(72, 77);
+            flowLayoutPanel1.Location = new Point(89, 52);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(157, 302);
+            flowLayoutPanel1.Size = new Size(157, 355);
             flowLayoutPanel1.TabIndex = 7;
+            // 
+            // UPCLabel
+            // 
+            UPCLabel.Anchor = AnchorStyles.None;
+            UPCLabel.AutoSize = true;
+            UPCLabel.Location = new Point(60, 0);
+            UPCLabel.Name = "UPCLabel";
+            UPCLabel.Size = new Size(36, 20);
+            UPCLabel.TabIndex = 7;
+            UPCLabel.Text = "UPC";
+            // 
+            // UPCTextBox
+            // 
+            UPCTextBox.Anchor = AnchorStyles.None;
+            UPCTextBox.Location = new Point(6, 23);
+            UPCTextBox.Name = "UPCTextBox";
+            UPCTextBox.Size = new Size(145, 27);
+            UPCTextBox.TabIndex = 9;
             // 
             // ProductLabel
             // 
@@ -86,24 +108,6 @@
             ProductComboBox.TabIndex = 7;
             ProductComboBox.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
             // 
-            // UPCLabel
-            // 
-            UPCLabel.Anchor = AnchorStyles.None;
-            UPCLabel.AutoSize = true;
-            UPCLabel.Location = new Point(60, 0);
-            UPCLabel.Name = "UPCLabel";
-            UPCLabel.Size = new Size(36, 20);
-            UPCLabel.TabIndex = 7;
-            UPCLabel.Text = "UPC";
-            // 
-            // UPCTextBox
-            // 
-            UPCTextBox.Anchor = AnchorStyles.None;
-            UPCTextBox.Location = new Point(6, 23);
-            UPCTextBox.Name = "UPCTextBox";
-            UPCTextBox.Size = new Size(145, 27);
-            UPCTextBox.TabIndex = 9;
-            // 
             // PriceLabel
             // 
             PriceLabel.Anchor = AnchorStyles.None;
@@ -121,16 +125,6 @@
             PriceTextBox.Name = "PriceTextBox";
             PriceTextBox.Size = new Size(149, 27);
             PriceTextBox.TabIndex = 10;
-            // 
-            // AddEditBtn
-            // 
-            AddEditBtn.Anchor = AnchorStyles.None;
-            AddEditBtn.Location = new Point(31, 270);
-            AddEditBtn.Name = "AddEditBtn";
-            AddEditBtn.Size = new Size(94, 29);
-            AddEditBtn.TabIndex = 7;
-            AddEditBtn.Text = "Add/Edit";
-            AddEditBtn.UseVisualStyleBackColor = true;
             // 
             // QuantityLabel
             // 
@@ -171,6 +165,36 @@
             TypeComboBox.Size = new Size(151, 28);
             TypeComboBox.TabIndex = 9;
             // 
+            // ExpiryDateLabel
+            // 
+            ExpiryDateLabel.Anchor = AnchorStyles.None;
+            ExpiryDateLabel.AutoSize = true;
+            ExpiryDateLabel.Location = new Point(37, 267);
+            ExpiryDateLabel.Name = "ExpiryDateLabel";
+            ExpiryDateLabel.Size = new Size(83, 20);
+            ExpiryDateLabel.TabIndex = 21;
+            ExpiryDateLabel.Text = "Expiry date";
+            // 
+            // ExpiryDateTimePicker
+            // 
+            ExpiryDateTimePicker.Anchor = AnchorStyles.None;
+            ExpiryDateTimePicker.Format = DateTimePickerFormat.Short;
+            ExpiryDateTimePicker.Location = new Point(4, 290);
+            ExpiryDateTimePicker.Name = "ExpiryDateTimePicker";
+            ExpiryDateTimePicker.Size = new Size(148, 27);
+            ExpiryDateTimePicker.TabIndex = 22;
+            // 
+            // AddEditBtn
+            // 
+            AddEditBtn.Anchor = AnchorStyles.None;
+            AddEditBtn.Location = new Point(31, 323);
+            AddEditBtn.Name = "AddEditBtn";
+            AddEditBtn.Size = new Size(94, 29);
+            AddEditBtn.TabIndex = 7;
+            AddEditBtn.Text = "Add/Edit";
+            AddEditBtn.UseVisualStyleBackColor = true;
+            AddEditBtn.Click += AddEditBtn_Click;
+            // 
             // AddEditStoreProduct
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -199,5 +223,7 @@
         private TextBox QuantityTextBox;
         private Label TypeLabel;
         private ComboBox TypeComboBox;
+        private Label ExpiryDateLabel;
+        private DateTimePicker ExpiryDateTimePicker;
     }
 }

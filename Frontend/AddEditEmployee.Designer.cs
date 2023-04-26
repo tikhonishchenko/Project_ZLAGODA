@@ -35,15 +35,8 @@
             SecondNameTextBox = new TextBox();
             PatronymicLabel = new Label();
             PatronymicTextBox = new TextBox();
-            AddressLabel = new Label();
-            AddressTextBox = new TextBox();
-            CityLabel = new Label();
-            CityTextBox = new TextBox();
-            ZipCodeLabel = new Label();
-            ZipCodeTextBox = new TextBox();
-            AddEditBtn = new Button();
-            RoleComboBox = new ComboBox();
             RoleLabel = new Label();
+            RoleComboBox = new ComboBox();
             PhoneNumberLabel = new Label();
             PhoneNumberTextBox = new TextBox();
             SalaryLabel = new Label();
@@ -52,11 +45,20 @@
             EmploymentDateTimePicker = new DateTimePicker();
             BirthDateLabel = new Label();
             BirthDateTimePicker = new DateTimePicker();
+            AddressLabel = new Label();
+            AddressTextBox = new TextBox();
+            CityLabel = new Label();
+            CityTextBox = new TextBox();
+            ZipCodeLabel = new Label();
+            ZipCodeTextBox = new TextBox();
             UsernameLabel = new Label();
             UsernameTextbox = new TextBox();
             PasswordLabel = new Label();
-            PasswordTextbox = new TextBox();
+            PasswordTextBox = new TextBox();
+            RepeatPasswordLabel = new Label();
+            RepeatPasswordTextBox = new TextBox();
             ChangePasswordBtn = new Button();
+            AddEditBtn = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -90,13 +92,15 @@
             flowLayoutPanel1.Controls.Add(UsernameLabel);
             flowLayoutPanel1.Controls.Add(UsernameTextbox);
             flowLayoutPanel1.Controls.Add(PasswordLabel);
-            flowLayoutPanel1.Controls.Add(PasswordTextbox);
+            flowLayoutPanel1.Controls.Add(PasswordTextBox);
+            flowLayoutPanel1.Controls.Add(RepeatPasswordLabel);
+            flowLayoutPanel1.Controls.Add(RepeatPasswordTextBox);
             flowLayoutPanel1.Controls.Add(ChangePasswordBtn);
             flowLayoutPanel1.Controls.Add(AddEditBtn);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(222, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(157, 760);
+            flowLayoutPanel1.Size = new Size(157, 813);
             flowLayoutPanel1.TabIndex = 8;
             // 
             // NameLabel
@@ -153,69 +157,15 @@
             PatronymicTextBox.Size = new Size(145, 27);
             PatronymicTextBox.TabIndex = 11;
             // 
-            // AddressLabel
+            // RoleLabel
             // 
-            AddressLabel.Anchor = AnchorStyles.None;
-            AddressLabel.AutoSize = true;
-            AddressLabel.Location = new Point(47, 425);
-            AddressLabel.Name = "AddressLabel";
-            AddressLabel.Size = new Size(62, 20);
-            AddressLabel.TabIndex = 18;
-            AddressLabel.Text = "Address";
-            // 
-            // AddressTextBox
-            // 
-            AddressTextBox.Anchor = AnchorStyles.None;
-            AddressTextBox.Location = new Point(6, 448);
-            AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new Size(145, 27);
-            AddressTextBox.TabIndex = 19;
-            // 
-            // CityLabel
-            // 
-            CityLabel.Anchor = AnchorStyles.None;
-            CityLabel.AutoSize = true;
-            CityLabel.Location = new Point(61, 478);
-            CityLabel.Name = "CityLabel";
-            CityLabel.Size = new Size(34, 20);
-            CityLabel.TabIndex = 16;
-            CityLabel.Text = "City";
-            // 
-            // CityTextBox
-            // 
-            CityTextBox.Anchor = AnchorStyles.None;
-            CityTextBox.Location = new Point(6, 501);
-            CityTextBox.Name = "CityTextBox";
-            CityTextBox.Size = new Size(145, 27);
-            CityTextBox.TabIndex = 17;
-            // 
-            // ZipCodeLabel
-            // 
-            ZipCodeLabel.Anchor = AnchorStyles.None;
-            ZipCodeLabel.AutoSize = true;
-            ZipCodeLabel.Location = new Point(44, 531);
-            ZipCodeLabel.Name = "ZipCodeLabel";
-            ZipCodeLabel.Size = new Size(68, 20);
-            ZipCodeLabel.TabIndex = 14;
-            ZipCodeLabel.Text = "Zip code";
-            // 
-            // ZipCodeTextBox
-            // 
-            ZipCodeTextBox.Anchor = AnchorStyles.None;
-            ZipCodeTextBox.Location = new Point(6, 554);
-            ZipCodeTextBox.Name = "ZipCodeTextBox";
-            ZipCodeTextBox.Size = new Size(145, 27);
-            ZipCodeTextBox.TabIndex = 15;
-            // 
-            // AddEditBtn
-            // 
-            AddEditBtn.Anchor = AnchorStyles.None;
-            AddEditBtn.Location = new Point(31, 728);
-            AddEditBtn.Name = "AddEditBtn";
-            AddEditBtn.Size = new Size(94, 29);
-            AddEditBtn.TabIndex = 7;
-            AddEditBtn.Text = "Add/Edit";
-            AddEditBtn.UseVisualStyleBackColor = true;
+            RoleLabel.Anchor = AnchorStyles.None;
+            RoleLabel.AutoSize = true;
+            RoleLabel.Location = new Point(59, 159);
+            RoleLabel.Name = "RoleLabel";
+            RoleLabel.Size = new Size(39, 20);
+            RoleLabel.TabIndex = 20;
+            RoleLabel.Text = "Role";
             // 
             // RoleComboBox
             // 
@@ -227,16 +177,6 @@
             RoleComboBox.Name = "RoleComboBox";
             RoleComboBox.Size = new Size(151, 28);
             RoleComboBox.TabIndex = 9;
-            // 
-            // RoleLabel
-            // 
-            RoleLabel.Anchor = AnchorStyles.None;
-            RoleLabel.AutoSize = true;
-            RoleLabel.Location = new Point(59, 159);
-            RoleLabel.Name = "RoleLabel";
-            RoleLabel.Size = new Size(39, 20);
-            RoleLabel.TabIndex = 20;
-            RoleLabel.Text = "Role";
             // 
             // PhoneNumberLabel
             // 
@@ -310,6 +250,60 @@
             BirthDateTimePicker.Size = new Size(148, 27);
             BirthDateTimePicker.TabIndex = 21;
             // 
+            // AddressLabel
+            // 
+            AddressLabel.Anchor = AnchorStyles.None;
+            AddressLabel.AutoSize = true;
+            AddressLabel.Location = new Point(47, 425);
+            AddressLabel.Name = "AddressLabel";
+            AddressLabel.Size = new Size(62, 20);
+            AddressLabel.TabIndex = 18;
+            AddressLabel.Text = "Address";
+            // 
+            // AddressTextBox
+            // 
+            AddressTextBox.Anchor = AnchorStyles.None;
+            AddressTextBox.Location = new Point(6, 448);
+            AddressTextBox.Name = "AddressTextBox";
+            AddressTextBox.Size = new Size(145, 27);
+            AddressTextBox.TabIndex = 19;
+            // 
+            // CityLabel
+            // 
+            CityLabel.Anchor = AnchorStyles.None;
+            CityLabel.AutoSize = true;
+            CityLabel.Location = new Point(61, 478);
+            CityLabel.Name = "CityLabel";
+            CityLabel.Size = new Size(34, 20);
+            CityLabel.TabIndex = 16;
+            CityLabel.Text = "City";
+            // 
+            // CityTextBox
+            // 
+            CityTextBox.Anchor = AnchorStyles.None;
+            CityTextBox.Location = new Point(6, 501);
+            CityTextBox.Name = "CityTextBox";
+            CityTextBox.Size = new Size(145, 27);
+            CityTextBox.TabIndex = 17;
+            // 
+            // ZipCodeLabel
+            // 
+            ZipCodeLabel.Anchor = AnchorStyles.None;
+            ZipCodeLabel.AutoSize = true;
+            ZipCodeLabel.Location = new Point(44, 531);
+            ZipCodeLabel.Name = "ZipCodeLabel";
+            ZipCodeLabel.Size = new Size(68, 20);
+            ZipCodeLabel.TabIndex = 14;
+            ZipCodeLabel.Text = "Zip code";
+            // 
+            // ZipCodeTextBox
+            // 
+            ZipCodeTextBox.Anchor = AnchorStyles.None;
+            ZipCodeTextBox.Location = new Point(6, 554);
+            ZipCodeTextBox.Name = "ZipCodeTextBox";
+            ZipCodeTextBox.Size = new Size(145, 27);
+            ZipCodeTextBox.TabIndex = 15;
+            // 
             // UsernameLabel
             // 
             UsernameLabel.Anchor = AnchorStyles.None;
@@ -341,35 +335,73 @@
             PasswordLabel.Size = new Size(70, 20);
             PasswordLabel.TabIndex = 10;
             PasswordLabel.Text = "Password";
+            PasswordLabel.Click += PasswordLabel_Click;
             // 
-            // PasswordTextbox
+            // PasswordTextBox
             // 
-            PasswordTextbox.Anchor = AnchorStyles.None;
-            PasswordTextbox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            PasswordTextbox.Location = new Point(6, 660);
-            PasswordTextbox.MaxLength = 16;
-            PasswordTextbox.Name = "PasswordTextbox";
-            PasswordTextbox.PasswordChar = '*';
-            PasswordTextbox.Size = new Size(145, 27);
-            PasswordTextbox.TabIndex = 12;
+            PasswordTextBox.Anchor = AnchorStyles.None;
+            PasswordTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            PasswordTextBox.Location = new Point(6, 660);
+            PasswordTextBox.MaxLength = 16;
+            PasswordTextBox.Name = "PasswordTextBox";
+            PasswordTextBox.PasswordChar = '*';
+            PasswordTextBox.Size = new Size(145, 27);
+            PasswordTextBox.TabIndex = 12;
+            PasswordTextBox.TextChanged += PasswordTextBox_TextChanged;
+            // 
+            // RepeatPasswordLabel
+            // 
+            RepeatPasswordLabel.Anchor = AnchorStyles.None;
+            RepeatPasswordLabel.AutoSize = true;
+            RepeatPasswordLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            RepeatPasswordLabel.Location = new Point(17, 690);
+            RepeatPasswordLabel.Name = "RepeatPasswordLabel";
+            RepeatPasswordLabel.Size = new Size(123, 20);
+            RepeatPasswordLabel.TabIndex = 13;
+            RepeatPasswordLabel.Text = "Repeat password";
+            RepeatPasswordLabel.Click += RepeatPasswordLabel_Click;
+            // 
+            // RepeatPasswordTextBox
+            // 
+            RepeatPasswordTextBox.Anchor = AnchorStyles.None;
+            RepeatPasswordTextBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            RepeatPasswordTextBox.Location = new Point(6, 713);
+            RepeatPasswordTextBox.MaxLength = 16;
+            RepeatPasswordTextBox.Name = "RepeatPasswordTextBox";
+            RepeatPasswordTextBox.PasswordChar = '*';
+            RepeatPasswordTextBox.Size = new Size(145, 27);
+            RepeatPasswordTextBox.TabIndex = 14;
+            RepeatPasswordTextBox.TextChanged += RepeatPasswordTextBox_TextChanged;
             // 
             // ChangePasswordBtn
             // 
             ChangePasswordBtn.Anchor = AnchorStyles.None;
-            ChangePasswordBtn.Location = new Point(10, 693);
+            ChangePasswordBtn.Location = new Point(10, 746);
             ChangePasswordBtn.Name = "ChangePasswordBtn";
             ChangePasswordBtn.Size = new Size(136, 29);
             ChangePasswordBtn.TabIndex = 9;
             ChangePasswordBtn.Text = "Change password";
             ChangePasswordBtn.UseVisualStyleBackColor = true;
+            ChangePasswordBtn.Click += ChangePasswordBtn_Click;
             // 
-            // AddEditEployee
+            // AddEditBtn
+            // 
+            AddEditBtn.Anchor = AnchorStyles.None;
+            AddEditBtn.Location = new Point(31, 781);
+            AddEditBtn.Name = "AddEditBtn";
+            AddEditBtn.Size = new Size(94, 29);
+            AddEditBtn.TabIndex = 7;
+            AddEditBtn.Text = "Add/Edit";
+            AddEditBtn.UseVisualStyleBackColor = true;
+            AddEditBtn.Click += AddEditBtn_Click;
+            // 
+            // AddEditEmployee
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(625, 842);
             Controls.Add(flowLayoutPanel1);
-            Name = "AddEditEployee";
+            Name = "AddEditEmployee";
             Text = "AddEditEployee";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -406,7 +438,9 @@
         private Label UsernameLabel;
         private TextBox UsernameTextbox;
         private Label PasswordLabel;
-        private TextBox PasswordTextbox;
+        private TextBox PasswordTextBox;
         private Button ChangePasswordBtn;
+        private Label RepeatPasswordLabel;
+        private TextBox RepeatPasswordTextBox;
     }
 }

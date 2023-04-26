@@ -37,6 +37,8 @@
             SecondNameTextBox = new TextBox();
             PatronymicLabel = new Label();
             PatronymicTextBox = new TextBox();
+            PhoneNumberLabel = new Label();
+            PhoneNumberTextBox = new TextBox();
             AddressLabel = new Label();
             AddressTextBox = new TextBox();
             CityLabel = new Label();
@@ -46,8 +48,6 @@
             DiscountLabel = new Label();
             DiscountTextBox = new TextBox();
             AddEditBtn = new Button();
-            PhoneNumberLabel = new Label();
-            PhoneNumberTextBox = new TextBox();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -154,6 +154,24 @@
             PatronymicTextBox.Size = new Size(145, 27);
             PatronymicTextBox.TabIndex = 11;
             // 
+            // PhoneNumberLabel
+            // 
+            PhoneNumberLabel.Anchor = AnchorStyles.None;
+            PhoneNumberLabel.AutoSize = true;
+            PhoneNumberLabel.Location = new Point(23, 212);
+            PhoneNumberLabel.Name = "PhoneNumberLabel";
+            PhoneNumberLabel.Size = new Size(105, 20);
+            PhoneNumberLabel.TabIndex = 12;
+            PhoneNumberLabel.Text = "Phone number";
+            // 
+            // PhoneNumberTextBox
+            // 
+            PhoneNumberTextBox.Anchor = AnchorStyles.None;
+            PhoneNumberTextBox.Location = new Point(3, 235);
+            PhoneNumberTextBox.Name = "PhoneNumberTextBox";
+            PhoneNumberTextBox.Size = new Size(145, 27);
+            PhoneNumberTextBox.TabIndex = 13;
+            // 
             // AddressLabel
             // 
             AddressLabel.Anchor = AnchorStyles.None;
@@ -235,24 +253,7 @@
             AddEditBtn.TabIndex = 7;
             AddEditBtn.Text = "Add/Edit";
             AddEditBtn.UseVisualStyleBackColor = true;
-            // 
-            // PhoneNumberLabel
-            // 
-            PhoneNumberLabel.Anchor = AnchorStyles.None;
-            PhoneNumberLabel.AutoSize = true;
-            PhoneNumberLabel.Location = new Point(23, 212);
-            PhoneNumberLabel.Name = "PhoneNumberLabel";
-            PhoneNumberLabel.Size = new Size(105, 20);
-            PhoneNumberLabel.TabIndex = 12;
-            PhoneNumberLabel.Text = "Phone number";
-            // 
-            // PhoneNumberTextBox
-            // 
-            PhoneNumberTextBox.Anchor = AnchorStyles.None;
-            PhoneNumberTextBox.Location = new Point(3, 235);
-            PhoneNumberTextBox.Name = "PhoneNumberTextBox";
-            PhoneNumberTextBox.Size = new Size(145, 27);
-            PhoneNumberTextBox.TabIndex = 13;
+            AddEditBtn.Click += AddEditBtn_Click;
             // 
             // AddEditCustomer
             // 

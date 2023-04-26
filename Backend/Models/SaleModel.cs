@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project_ZLAGODA.Backend.Models
 {
-    internal class SaleModel
+    public class SaleModel
     {
         [DisplayName("UPC")]
         public string UPC { get; set; }

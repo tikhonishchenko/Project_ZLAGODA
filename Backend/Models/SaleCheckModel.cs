@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project_ZLAGODA.Backend.Models
 {
-    internal class SaleCheckModel
+    public class SaleCheckModel
     {
         [DisplayName("Номер чеку")]
         public int CheckNumber { get; set; }
