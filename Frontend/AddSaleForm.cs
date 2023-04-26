@@ -30,6 +30,7 @@ namespace Project_ZLAGODA.Frontend
         {
             StoreProductModel model = DbRepository.GetStoreProductById(UPCTextBox.Text);
             main.AddSale(model.UPC, int.Parse(QuantityTextBox.Text), model.Price);
+            this.Close();
         }
     }
 }

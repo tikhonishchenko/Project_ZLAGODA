@@ -30,6 +30,7 @@ namespace Project_ZLAGODA
         {
             //MessageBox.Show("Unknown username or password!", "Error");
             EmployeeModel model = DbRepository.GetEmployee(UsernameTextbox.Text, PasswordTextbox.Text);//"kovalchuk_olena", "12345"
+            MessageBox.Show(model.Id.ToString());
             if (model == null)
             {
                 MessageBox.Show("Unknown username or password!", "Error");

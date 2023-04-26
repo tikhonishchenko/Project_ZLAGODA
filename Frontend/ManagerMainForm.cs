@@ -410,6 +410,7 @@ namespace Project_ZLAGODA
         {
             AddSaleCheckForm addCheck = new AddSaleCheckForm();
             addCheck.setEmployee(this.employeeId);
+            addCheck.Show();
         }
 
         #endregion

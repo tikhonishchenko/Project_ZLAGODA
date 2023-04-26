@@ -33,7 +33,6 @@
             CashierLabel = new Label();
             CardNumberLabel = new Label();
             CardNumberTextBox = new TextBox();
-            PrintDateLabel = new Label();
             TotalLabel = new Label();
             VATLabel = new Label();
             dataGridView1 = new DataGridView();
@@ -55,7 +54,6 @@
             flowLayoutPanel1.Controls.Add(CashierLabel);
             flowLayoutPanel1.Controls.Add(CardNumberLabel);
             flowLayoutPanel1.Controls.Add(CardNumberTextBox);
-            flowLayoutPanel1.Controls.Add(PrintDateLabel);
             flowLayoutPanel1.Controls.Add(TotalLabel);
             flowLayoutPanel1.Controls.Add(VATLabel);
             flowLayoutPanel1.Controls.Add(dataGridView1);
@@ -64,7 +62,7 @@
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(38, 25);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(805, 558);
+            flowLayoutPanel1.Size = new Size(805, 538);
             flowLayoutPanel1.TabIndex = 10;
             // 
             // CheckNumberLabel
@@ -106,21 +104,11 @@
             CardNumberTextBox.Size = new Size(195, 27);
             CardNumberTextBox.TabIndex = 13;
             // 
-            // PrintDateLabel
-            // 
-            PrintDateLabel.Anchor = AnchorStyles.None;
-            PrintDateLabel.AutoSize = true;
-            PrintDateLabel.Location = new Point(366, 93);
-            PrintDateLabel.Name = "PrintDateLabel";
-            PrintDateLabel.Size = new Size(73, 20);
-            PrintDateLabel.TabIndex = 7;
-            PrintDateLabel.Text = "Print date";
-            // 
             // TotalLabel
             // 
             TotalLabel.Anchor = AnchorStyles.None;
             TotalLabel.AutoSize = true;
-            TotalLabel.Location = new Point(381, 113);
+            TotalLabel.Location = new Point(381, 93);
             TotalLabel.Name = "TotalLabel";
             TotalLabel.Size = new Size(42, 20);
             TotalLabel.TabIndex = 15;
@@ -130,7 +118,7 @@
             // 
             VATLabel.Anchor = AnchorStyles.None;
             VATLabel.AutoSize = true;
-            VATLabel.Location = new Point(385, 133);
+            VATLabel.Location = new Point(385, 113);
             VATLabel.Name = "VATLabel";
             VATLabel.Size = new Size(34, 20);
             VATLabel.TabIndex = 14;
@@ -143,7 +131,7 @@
             dataGridView1.Anchor = AnchorStyles.None;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(3, 156);
+            dataGridView1.Location = new Point(3, 136);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
@@ -159,7 +147,7 @@
             flowLayoutPanel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             flowLayoutPanel2.Controls.Add(AddProductBtn);
             flowLayoutPanel2.Controls.Add(DeleteProductBtn);
-            flowLayoutPanel2.Location = new Point(272, 480);
+            flowLayoutPanel2.Location = new Point(272, 460);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(260, 35);
             flowLayoutPanel2.TabIndex = 16;
@@ -172,6 +160,7 @@
             AddProductBtn.TabIndex = 0;
             AddProductBtn.Text = "Add product";
             AddProductBtn.UseVisualStyleBackColor = true;
+            AddProductBtn.Click += AddProductBtn_Click_1;
             // 
             // DeleteProductBtn
             // 
@@ -181,24 +170,26 @@
             DeleteProductBtn.TabIndex = 1;
             DeleteProductBtn.Text = "Delete product";
             DeleteProductBtn.UseVisualStyleBackColor = true;
+            DeleteProductBtn.Click += DeleteProductBtn_Click_1;
             // 
             // AddBtn
             // 
             AddBtn.Anchor = AnchorStyles.None;
-            AddBtn.Location = new Point(355, 521);
+            AddBtn.Location = new Point(355, 501);
             AddBtn.Name = "AddBtn";
             AddBtn.Size = new Size(94, 34);
             AddBtn.TabIndex = 7;
             AddBtn.Text = "Add";
             AddBtn.UseVisualStyleBackColor = true;
+            AddBtn.Click += AddBtn_Click;
             // 
-            // Form1
+            // AddSaleCheckForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(880, 609);
             Controls.Add(flowLayoutPanel1);
-            Name = "Form1";
+            Name = "AddSaleCheckForm";
             Text = "Form1";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -215,7 +206,6 @@
         private Label CashierLabel;
         private Label CardNumberLabel;
         private TextBox CardNumberTextBox;
-        private Label PrintDateLabel;
         private Label TotalLabel;
         private Label VATLabel;
         private DataGridView dataGridView1;
