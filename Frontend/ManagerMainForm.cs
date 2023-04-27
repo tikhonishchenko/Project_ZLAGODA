@@ -746,5 +746,18 @@ namespace Project_ZLAGODA
         {
             DbRepository.Query2();
         }
+
+        private void Query1Btn_Click(object sender, EventArgs e)
+        {
+            Query1Form f = new Query1Form();
+            f.Show();
+        }
+
+        private void Query2Btn_Click(object sender, EventArgs e)
+        {
+            List<Query2Model> models = DbRepository.ShevchenkoQuery2();
+            QueryResultForm form = new QueryResultForm(models);
+            form.Show();
+        }
     }
 }
