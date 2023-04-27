@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Project_ZLAGODA.Backend.Models;
 using Project_ZLAGODA.ViewModels;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Project_ZLAGODA.Backend.Database
@@ -1500,5 +1501,79 @@ namespace Project_ZLAGODA.Backend.Database
         }
 
         #endregion
+
+        public static List<Query2Model> ShevchenkoQuery2()
+        {
+            List<Query2Model> res = new List<Query2Model>();
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT c.category_number, c.category_name, SUM(sp.products_number) " +
+                                            "AS store_products_quantity " +
+                                            "FROM Category c " +
+                                            "JOIN Product p ON c.category_number = p.category_number " +
+                                            "JOIN Store_Product sp ON p.id_product = sp.id_product " +
+                                            "GROUP BY c.category_number", connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int category_number = int.Parse(reader["category_number"].ToString());
+                    string category_name = reader["category_name"].ToString();
+                    int store_products_quantity = int.Parse(reader["store_products_quantity"].ToString());
+                    res.Add(new Query2Model(category_number, category_name, store_products_quantity));
+                }
+            }
+            return res;
+        }
+
+        public static List<Query1Model> ShevchenkoQuery1(string productName)
+        {
+            List<Query1Model> res = new List<Query1Model>();
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT DISTINCT p.id_product, p.product_name, c.category_name, p.characteristics " +
+                    "FROM Sale s " +
+                    "JOIN Store_Product sp ON sp.UPC = s.UPC " +
+                    "JOIN Product p ON p.id_product = sp.id_product " +
+                    "JOIN Category c ON c.category_number = p.category_number " +
+                    "WHERE NOT EXISTS " +
+                    "( " +
+                    "SELECT *  " +
+                    "FROM Sale ss " +
+                    "JOIN Store_Product spp ON spp.UPC = ss.UPC " +
+                    "JOIN Product pp ON pp.id_product = spp.id_product " +
+                    "WHERE pp.product_name = @productName " +
+                    "AND NOT EXISTS " +
+                    "( " +
+                    "SELECT * " +
+                    "FROM Sale sss " +
+                    "JOIN Store_Product sppp ON sppp.UPC = sss.UPC " +
+                    "JOIN Product ppp ON ppp.id_product = sppp.id_product " +
+                    "WHERE sss.check_number = ss.check_number " +
+                    "AND ppp.id_product = p.id_product " +
+                    ") " +
+                    ")" +
+                    "AND EXISTS " +
+                    "( " +
+                    "SELECT *  " +
+                    "FROM Sale ssss " +
+                    "JOIN Store_Product spppp ON spppp.UPC = ssss.UPC " +
+                    "JOIN Product pppp ON pppp.id_product = spppp.id_product " +
+                    "WHERE pppp.product_name = @productName " +
+                    ")", connection);
+                _ = command.Parameters.AddWithValue("@productName", productName);
+                SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id_product = int.Parse(reader["id_product"].ToString());
+                    string product_name = reader["product_name"].ToString();
+                    string category_name = reader["category_name"].ToString();
+                    string characteristics = reader["characteristics"].ToString();
+                    res.Add(new Query1Model(id_product, product_name, category_name, characteristics));
+                }
+            }
+            return res;
+        }
     }
 }
