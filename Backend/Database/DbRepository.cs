@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using Project_ZLAGODA.Backend.Models;
+using Project_ZLAGODA.Frontend;
 using Project_ZLAGODA.ViewModels;
 using System.Diagnostics;
 
@@ -8,6 +9,7 @@ namespace Project_ZLAGODA.Backend.Database
     internal static class DbRepository
     {
         private static readonly string connectionString = "Data Source=../../../MainDatabase.db;";
+
         #region Employee
         public static List<EmployeeModel> GetEmployees()
         {
@@ -1497,6 +1499,50 @@ namespace Project_ZLAGODA.Backend.Database
                 }
             }
             return saleCheck;
+        }
+
+        #endregion
+
+
+        #region Test
+
+        public static void Query1()
+        {
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT Category.category_name, AVG(Store_Product.selling_price) AS average_price FROM Category JOIN Product ON Category.category_number = Product.category_number JOIN Store_Product ON Product.id_product = Store_Product.id_product JOIN Sale ON Store_Product.UPC = Sale.UPC JOIN Sales_Check ON Sale.check_number = Sales_Check.check_number WHERE Sales_Check.print_date BETWEEN '2023-04-01' AND '2023-05-15' GROUP BY Category.category_name;", connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                List<string> category_name = new();
+                List<decimal> average_price = new();
+                while (reader.Read())
+                {
+                    category_name.Add(reader["category_name"].ToString());
+                    average_price.Add(decimal.Parse(reader["average_price"].ToString()));
+                }
+
+                new DataGridForm(category_name, average_price).Show();
+            }
+        }
+
+        public static void Query2()
+        {
+            using (SqliteConnection connection = new(connectionString))
+            {
+                connection.Open();
+                SqliteCommand command = new("SELECT Product.product_name, SUM(Store_Product.products_number) AS total_quantity, SUM(Store_Product.selling_price * Store_Product.products_number) AS total_value FROM Product JOIN Store_Product ON Product.id_product = Store_Product.id_product WHERE NOT EXISTS ( SELECT * FROM Sale WHERE Sale.UPC = Store_Product.UPC ) AND Product.id_product NOT IN ( SELECT Store_Product.id_product FROM Store_Product WHERE Store_Product.id_product NOT IN ( SELECT Sale.product_number FROM Sale ) ) GROUP BY Product.product_name; ", connection);
+                SqliteDataReader reader = command.ExecuteReader();
+                List<string> product_name = new();
+                List<int> total_quantity = new();
+                List<decimal> total_value = new();
+                while (reader.Read())
+                {
+                    product_name.Add(reader["product_name"].ToString());
+                    total_quantity.Add(int.Parse(reader["total_quantity"].ToString()));
+                    total_value.Add(decimal.Parse(reader["total_value"].ToString()));
+                }
+                new DataGridForm(product_name, total_quantity, total_value).Show();
+            }
         }
 
         #endregion

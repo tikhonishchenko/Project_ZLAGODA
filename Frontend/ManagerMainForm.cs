@@ -736,5 +736,15 @@ namespace Project_ZLAGODA
         {
             ShowBtn_Click(sender, e);
         }
+
+        private void buttonQuery1_Click(object sender, EventArgs e)
+        {
+            DbRepository.Query1();
+        }
+
+        private void buttonQuery2_Click(object sender, EventArgs e)
+        {
+            DbRepository.Query2();
+        }
     }
 }
