@@ -175,7 +175,7 @@
             RoleComboBox.Anchor = AnchorStyles.None;
             RoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             RoleComboBox.FormattingEnabled = true;
-            RoleComboBox.Items.AddRange(new object[] { "Manager", "Seller" });
+            RoleComboBox.Items.AddRange(new object[] { "Manager", "Cashier" });
             RoleComboBox.Location = new Point(3, 182);
             RoleComboBox.Name = "RoleComboBox";
             RoleComboBox.Size = new Size(151, 28);
