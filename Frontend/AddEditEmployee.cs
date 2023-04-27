@@ -140,6 +140,14 @@ namespace Project_ZLAGODA
         {
             if (mode == Mode.Add)
             {
+                //check if date of birth is 18 years ago
+                DateTime now = DateTime.Now;
+                DateTime eighteenYearsAgo = now.AddYears(-18);
+                if (BirthDateTimePicker.Value > eighteenYearsAgo)
+                {
+                    MessageBox.Show("Employee must be at least 18 years old!", "Error");
+                    return;
+                }
                 //List<StoreProductModel> storeProducts = DbRepository.GetStoreProducts();
                 if (!PasswordTextBox.Text.Equals(RepeatPasswordTextBox.Text))
                 {
@@ -167,6 +175,8 @@ namespace Project_ZLAGODA
                     MessageBox.Show("Salary is incorrect!", "Error");
                     return;
                 }
+
+
                 //MessageBox.Show(Id.ToString(), "Error");
                 EmployeeModel model = new EmployeeModel
                 {
@@ -193,6 +203,14 @@ namespace Project_ZLAGODA
             else if (mode == Mode.Edit)
             {
                 //MessageBox.Show(ProductComboBox.SelectedIndex + " " + products[ProductComboBox.SelectedIndex].Id, "Error");
+                //check if date of birth is 18 years ago
+                DateTime now = DateTime.Now;
+                DateTime eighteenYearsAgo = now.AddYears(-18);
+                if (BirthDateTimePicker.Value > eighteenYearsAgo)
+                {
+                    MessageBox.Show("Employee must be at least 18 years old!", "Error");
+                    return;
+                }
                 try
                 {
                     decimal.Parse(SalaryTextBox.Text);
